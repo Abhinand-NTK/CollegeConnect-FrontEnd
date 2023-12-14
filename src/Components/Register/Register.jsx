@@ -2,21 +2,24 @@ import React from 'react';
 import Layout from '../Layout/Layout';
 
 
-const Register = () => {
+const Register = ({ content }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         // Add your form submission logic here
     };
 
-    return (
+    console.log("This is the props sending form the role pag",content)
+
+    return (    
         <>
-            <Layout title='| Register | Register Window' content='Register'>
-                <section className="bg-gray-50 dark:bg-gray-900">
-                    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+            <Layout title={`| Register | ${content}`} content={content} >
+                <section className="bg-indigo-950 dark:bg-gray-900">
+                    <div className="flex flex-col items-center justify-center px-6 mt-20 py-8 mx-auto md:h-screen lg:py-0">
                         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                     Create an account
+                                    {content}
                                 </h1>
                                 <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                                     <div>
@@ -77,7 +80,7 @@ const Register = () => {
                                         Create an account
                                     </button>
                                     <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                        Already have an account? <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
+                                        Already have an account? <a href="/" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
                                     </p>
                                 </form>
                             </div>

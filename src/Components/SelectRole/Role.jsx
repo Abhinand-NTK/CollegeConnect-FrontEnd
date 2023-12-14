@@ -1,23 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Layout from '../Layout/Layout'
 import { NavLink } from 'react-router-dom'
+
+
 const Role = () => {
+    const [selectedRole, setSelectedRole] = useState('');
     return (
         <>
-            <Layout title='Role' content='Select Role'>
+            <Layout title='Role' content="selecting the role of user">
 
-                <div className='flex flex-col justify-center items-center min-h-screen' >
-                    <h1 className=' mb-6'>Who Are u !</h1>
-                    <NavLink to="/your-route" className="mb-4 w-80 px-4 py-2 bg-blue-500 text-white">
-                        Your NavLink Text
+                <div className='bg-indigo-950 flex flex-col justify-center items-center min-h-screen' >
+                    <h5 className='text-white mb-6'>Who Are u !</h5>
+                    <NavLink onClick={() => setSelectedRole('A/c')}
+                        to="/collegregister" className="mb-4 w-80 px-4 py-2 bg-white text-black font-bold flex items-center justify-center">
+                        College Admin
                     </NavLink>
 
-                    <NavLink to="/your-route" className="w-80 mb-4 px-4 py-2 bg-blue-500 text-white">
-                        Your NavLink Text
-                    </NavLink>
-
-                    <NavLink to="/your-route" className="w-80 px-4 mb-4 py-2 bg-blue-500 text-white">
-                        Your NavLink Text
+                    <NavLink onClick={() => setSelectedRole('T/s')}
+                        to="/signup" className="mt-4 mb-6 w-80 px-4 py-2 bg-white text-black font-bold flex items-center justify-center">
+                        Student/Teacher
                     </NavLink>
                 </div>
 

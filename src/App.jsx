@@ -5,6 +5,9 @@ import store from './app/store'
 import { Provider } from 'react-redux'
 import Register from './Components/Register/Register'
 import Role from './Components/SelectRole/Role'
+import RegisterCollege from './Components/Register/RegisterCollege'
+
+
 
 
 
@@ -19,6 +22,7 @@ function App() {
             <Route path='/' element={<Login/>}></Route>
             <Route path='/signup' element={<Register/>}></Route>
             <Route path='/role' element={<Role/>}></Route>
+            <Route path='/collegregister' element={<RegisterCollege/>}></Route>
           </Routes>
         </Router>
       </Provider>
