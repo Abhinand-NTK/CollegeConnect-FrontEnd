@@ -13,6 +13,8 @@ import { AdminUsers } from './Components/AdminUsers/AdminUsers'
 import UsersDashboard from './Components/ResusableComponets/UsersDashboard'
 import UserProfileCard from './Components/ResusableComponets/UsersProfileCard'
 import AddUserData from './Components/ResusableComponets/AddUserData'
+import UsersDataList from './Components/ResusableComponets/UsersDataList'
+
 
 
 
@@ -36,6 +38,7 @@ function App() {
             <Route path='/users/profilecard' element={<UserProfileCard/>}></Route>
             <Route path='/users/addstudent' element={<AddUserData/>}></Route>
             <Route path='/users/addteacher' element={<AddUserData/>}></Route>
+            <Route path='/users/usersdata' element={<UsersDataList/>}></Route>
           </Routes>
         </Router>
       </Provider>
