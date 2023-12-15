@@ -10,12 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.18",
+    "@material-tailwind/react": "^2.1.7",
     "@reduxjs/toolkit": "^2.0.1",
+    "apexcharts": "^3.44.2",
     "axios": "^1.6.2",
     "helmet": "^7.1.0",
     "react": "^18.2.0",
+    "react-apexcharts": "^1.4.1",
     "react-dom": "^18.2.0",
     "react-redux": "^9.0.4",
+    "react-spring": "^9.7.3",
     "toast": "^0.5.4"
   },
   "devDependencies": {

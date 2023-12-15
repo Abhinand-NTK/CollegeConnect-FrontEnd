@@ -1,15 +1,10 @@
 import React from 'react';
 import Layout from '../Layout/Layout';
-
-
 const Register = ({ content }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Add your form submission logic here
     };
-
     console.log("This is the props sending form the role pag",content)
-
     return (    
         <>
             <Layout title={`| Register | ${content}`} content={content} >
@@ -91,5 +86,4 @@ const Register = ({ content }) => {
         </>
     );
 };
-
 export default Register;

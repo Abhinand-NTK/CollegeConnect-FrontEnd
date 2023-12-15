@@ -7,7 +7,7 @@ const Role = () => {
     const [selectedRole, setSelectedRole] = useState('');
     return (
         <>
-            <Layout title='Role' content="selecting the role of user">
+            <Layout title='Role' content="selecting the role of userx   ">
 
                 <div className='bg-indigo-950 flex flex-col justify-center items-center min-h-screen' >
                     <h5 className='text-white mb-6'>Who Are u !</h5>
