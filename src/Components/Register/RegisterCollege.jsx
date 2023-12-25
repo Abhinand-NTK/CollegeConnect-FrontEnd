@@ -1,16 +1,59 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../Layout/Layout';
 import axios from 'axios';
+import validator from 'validator';
+
+
 
 const RegisterCollege = () => {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Add your form submission logic here
-    };
 
     const [colleges, setColleges] = useState([]);
     const [state, setState] = useState('kerala');
     const [states, setStates] = useState([]);
+    const [error, setError] = useState('')
+
+
+    const [formData, setFormData] = useState({
+        collegename: '',
+        state: '',
+        email: '',
+    })
+
+    const [errors, setErrors] = useState({
+        collegename: '',
+        state: '',
+        email: '',
+    })
+
+    const selectState = async (state) => {
+        const selectedState = state;
+        setState(selectedState);
+        const collegesResponse = await axios.get(`http://localhost:3000/colleges/state/?states=${selectedState}`);
+        setColleges(collegesResponse.data);
+    };
+
+
+    const handleSubmit = (event) => {
+
+        // Extract the name and value from the form element
+        const { name, value } = event.target;
+
+        // Call selectState with the value of the selected state
+        if (name === 'state') {
+            selectState(event.target.value);
+        }
+
+        event.preventDefault();
+        setFormData({ ...formData, [event.target.name]: event.target.value });
+        setErrors({ ...errors, [event.target.name]: '' });
+    };
+
+    const handleCollegeChange = (event) => {
+        const collegeName = event.target.value;
+        setFormData({ ...formData, collegename: collegeName });
+        setErrors({ ...errors, collegename: '' });
+      };
+
 
     const fetchTotalColleges = async () => {
         try {
@@ -23,16 +66,61 @@ const RegisterCollege = () => {
         }
     };
 
-    const selectState = async (e) => {
-        const selectedState = e.target.value;
-        setState(selectedState);
-        const collegesResponse = await axios.get(`http://localhost:3000/colleges/state/?states=${selectedState}`);
-        setColleges(collegesResponse.data);
-    };
 
     useEffect(() => {
         fetchTotalColleges();
-    }, []);
+    }, [state]);
+
+
+
+
+
+    const validateForm = () => {
+        const { email } = formData;
+        const newErrors = {};
+
+        if (!validator.isEmail(email)) {
+            newErrors.email = 'Please Enter a valid Email Address';
+        }
+
+        
+
+        console.log(newErrors);
+
+        setError(newErrors); // Assuming you have a state variable for errors
+
+        return Object.keys(newErrors).length === 0;
+    };
+
+
+
+    const RegisterCollege = () => {
+        if (validateForm()) {
+
+            console.log("This is the form data", formData)
+            try {
+                const response = axios.post('http://127.0.0.1:8000/api/superadmin/register/ ',formData)
+                console.log("_____________________________________________________")
+                console.log("_____________________________________________________")
+                console.log("_____________________________________________________")
+                console.log("The responcse after the reqeust is the below",response)
+                console.log("_____________________________________________________")
+                console.log("_____________________________________________________")
+                console.log("_____________________________________________________")
+                console.log("_____________________________________________________")
+            }
+            catch (error) {
+                console.log("Eroor Occuring while sending the data", error)
+            }
+            console.log("The validation is completed and can move for the futher stepsps")
+        }
+
+    }
+
+
+
+
+
 
     return (
         <Layout title="| Register |" content="content">
@@ -50,7 +138,7 @@ const RegisterCollege = () => {
                                         className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                                         name="state"
                                         id="state"
-                                        onChange={selectState}
+                                        onChange={handleSubmit}
                                     >
                                         {states.map((state) => (
                                             <option key={state} value={state}>
@@ -63,11 +151,12 @@ const RegisterCollege = () => {
                                     <label htmlFor="college" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select College Name</label>
                                     <select
                                         className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                                        name="college"
+                                        name="collegename"
                                         id="college"
+                                        onChange={handleCollegeChange}
                                     >
                                         {colleges.map((college) => (
-                                            <option key={college} value={college}>
+                                            <option key={college} value={college[2]}>
                                                 {college[2]}
                                             </option>
                                         ))}
@@ -81,30 +170,35 @@ const RegisterCollege = () => {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="name@company.com"
                                         required
+                                        onChange={handleSubmit}
                                     />
                                 </div>
-                                <div>
+                                {/* <div>
                                     <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
                                     <input
                                         type="password"
                                         name="password"
                                         id="password"
+                                        autoComplete="password" 
                                         placeholder="••••••••"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         required
+                                        onChange={handleSubmit}
                                     />
                                 </div>
                                 <div>
                                     <label htmlFor="confirm-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
                                     <input
                                         type="password"
-                                        name="confirm-password"
+                                        name="confirm_password"
                                         id="confirm-password"
+                                        autoComplete="confirm-password" 
                                         placeholder="••••••••"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         required
+                                        onChange={handleSubmit}
                                     />
-                                </div>
+                                </div> */}
                                 <div className="flex items-start">
                                     <div className="flex items-center h-5">
                                         <input
@@ -125,6 +219,7 @@ const RegisterCollege = () => {
                                 </div>
                                 <button
                                     type="submit"
+                                    onClick={RegisterCollege}
                                     className="w-full text-white bg-indigo-950 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                                 >
                                     Create an account

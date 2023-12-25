@@ -16,12 +16,14 @@
     "apexcharts": "^3.44.2",
     "axios": "^1.6.2",
     "helmet": "^7.1.0",
+    "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
     "react-dom": "^18.2.0",
     "react-redux": "^9.0.4",
     "react-spring": "^9.7.3",
-    "toast": "^0.5.4"
+    "toast": "^0.5.4",
+    "validator": "^13.11.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
