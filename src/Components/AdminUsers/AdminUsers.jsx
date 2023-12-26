@@ -1,126 +1,134 @@
 
+import { cloneElement, useEffect, useState } from "react";
 import Layout from "../Layout/Layout";
+import { userService } from "../../services/authservices";
+
 
 
 export function AdminUsers() {
+
+  const [CollgesDetails, setCollgesDetails] = useState([]);
+
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await userService.getcollegedata();
+        console.log("Checking________",data)
+        setCollgesDetails(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log("Showing the user page--", CollgesDetails);
+
+  const handleSendEmail = async (id) => {
+    console.log("Clickeddddd")
+    try {
+      const response = await userService.sendEmailForConfirmation(id);
+      const data = await userService.getcollegedata();
+        console.log("Checking________",data)
+        setCollgesDetails(data);
+      console.log(response.data);  // Assuming the server returns useful data
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+  const handleBlockCollge = async ()=>{
+    try{
+      const response = await userService.blockCollege(id);
+
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
+
+
   return (
     <Layout>
       <section className="p-32">
-      <div className="flex flex-col">
-      <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-          <div className="overflow-hidden">
-            <table
-              className="min-w-full border text-center text-sm font-light dark:border-neutral-500">
-              <thead className="border-b bg-indigo-950 text-white font-medium dark:border-neutral-500">
-                <tr>
-                  <th
-                    scope="col"
-                    className="border-r px-6 py-4 dark:border-neutral-500">
-                    #
-                  </th>
-                  <th
-                    scope="col"
-                    className="border-r px-6 py-4 dark:border-neutral-500">
-                    First
-                  </th>
-                  <th
-                    scope="col"
-                    className="border-r px-6 py-4 dark:border-neutral-500">
-                    Last
-                  </th>
-                  <th scope="col" className="px-6 py-4">Handle</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b dark:border-neutral-500">
-                  <td
-                    className="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">
-                    1
-                  </td>
-                  <td
-                    className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
-                    Mark
-                  </td>
-                  <td
-                    className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
-                    Otto
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">@mdo</td>
-                </tr>
-                <tr className="border-b dark:border-neutral-500">
-                  <td
-                    className="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">
-                    2
-                  </td>
-                  <td
-                    className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
-                    Jacob
-                  </td>
-                  <td
-                    className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
-                    Thornton
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">@fat</td>
-                </tr>
-                <tr className="border-b dark:border-neutral-500">
-                  <td
-                    className="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">
-                    3
-                  </td>
-                  <td
-                    colSpan={2}
-                    className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
-                    Larry the Bird
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">@twitter</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-        {/* <div className="flex flex-col">
-        <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-            <div className="overflow-hidden">
-              <table className="min-w-full text-center text-sm font-light">
-                <thead
-                  className="border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900">
-                  <tr>
-                    <th scope="col" className=" px-6 py-4">#</th>
-                    <th scope="col" className=" px-6 py-4">First</th>
-                    <th scope="col" className=" px-6 py-4">Last</th>
-                    <th scope="col" className=" px-6 py-4">Handle</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b dark:border-neutral-500">
-                    <td className="whitespace-nowrap  px-6 py-4 font-medium">1</td>
-                    <td className="whitespace-nowrap  px-6 py-4">Mark</td>
-                    <td className="whitespace-nowrap  px-6 py-4">Otto</td>
-                    <td className="whitespace-nowrap  px-6 py-4">@mdo</td>
-                  </tr>
-                  <tr className="border-b dark:border-neutral-500">
-                    <td className="whitespace-nowrap  px-6 py-4 font-medium">2</td>
-                    <td className="whitespace-nowrap  px-6 py-4 ">Jacob</td>
-                    <td className="whitespace-nowrap  px-6 py-4">Thornton</td>
-                    <td className="whitespace-nowrap  px-6 py-4">@fat</td>
-                  </tr>
-                  <tr className="border-b dark:border-neutral-500">
-                    <td className="whitespace-nowrap  px-6 py-4 font-medium">3</td>
-                    <td colSpan={2} className="whitespace-nowrap  px-6 py-4">
-                      Larry the Bird
-                    </td>
-                    <td className="whitespace-nowrap  px-6 py-4">@twitter</td>
-                  </tr>
-                </tbody>
-              </table>
+        <div className="flex flex-col">
+          <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+              <div className="overflow-hidden">
+                <table
+                  className="min-w-full border text-center text-sm font-light dark:border-neutral-500">
+                  <thead className="border-b bg-indigo-950 text-white font-medium dark:border-neutral-500">
+                    <tr>
+                      <th
+                        scope="col"
+                        className="border-r px-6 py-4 dark:border-neutral-500">
+                        No
+                      </th>
+                      <th
+                        scope="col"
+                        className="border-r px-6 py-4 dark:border-neutral-500">
+                        College Name
+                      </th>
+                      <th
+                        scope="col"
+                        className="border-r px-6 py-4 dark:border-neutral-500">
+                        State
+                      </th>
+                      <th
+                        scope="col"
+                        className="border-r px-6 py-4 dark:border-neutral-500">
+                        Email
+                      </th>
+                      <th scope="col" className="border-r px-6 py-4 dark:border-neutral-500">Activation Status</th>
+                      <th scope="col" className="border-r px-6 py-4 dark:border-neutral-500">Verification Status</th>
+                      <th scope="col" className="border-r px-6 py-4 dark:border-neutral-500">Response mail Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    {CollgesDetails.map((college, index) => (
+                      <tr key={index} className="border-b dark:border-neutral-500">
+                        <td className="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">
+                          {index + 1}
+                        </td>
+                        <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                          {college.collegename}
+                        </td>
+                        <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                          {college.state}
+                        </td>
+                        <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                          {college.email}
+                        </td>
+                        <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                          {college.is_activate ? (<button className="bg-red-600 text-white rounded-lg font-extrabold h-8 w-28">Block</button>) 
+                          : (<button onClick={handleBlockCollge} className="bg-green-600 text-white rounded-lg font-extrabold h-8 w-28">Activate</button>)}
+                        </td>
+                        <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                          cd
+                        </td>
+                        <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                          {college.Verfication_email_status ? (
+                            (<div className="bg-blue-600 text-white rounded-lg font-extrabold h-8 w-28">Updated</div>)
+                          ) : (
+                            <button className="bg-green-600 text-white rounded-lg font-extrabold h-8 w-28" onClick={() => handleSendEmail(college.id)}>Send Email</button>
+                          )}
+                        </td>
+
+                      </tr>
+                    ))}
+
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
-      </div> */}
+
       </section>
     </Layout>
   );

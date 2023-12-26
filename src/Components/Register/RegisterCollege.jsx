@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../Layout/Layout';
 import axios from 'axios';
 import validator from 'validator';
+import { userService } from '../../services/authservices';
 
 
 
@@ -83,8 +84,6 @@ const RegisterCollege = () => {
             newErrors.email = 'Please Enter a valid Email Address';
         }
 
-        
-
         console.log(newErrors);
 
         setError(newErrors); // Assuming you have a state variable for errors
@@ -93,32 +92,15 @@ const RegisterCollege = () => {
     };
 
 
-
-    const RegisterCollege = () => {
-        if (validateForm()) {
-
-            console.log("This is the form data", formData)
-            try {
-                const response = axios.post('http://127.0.0.1:8000/api/superadmin/register/ ',formData)
-                console.log("_____________________________________________________")
-                console.log("_____________________________________________________")
-                console.log("_____________________________________________________")
-                console.log("The responcse after the reqeust is the below",response)
-                console.log("_____________________________________________________")
-                console.log("_____________________________________________________")
-                console.log("_____________________________________________________")
-                console.log("_____________________________________________________")
-            }
-            catch (error) {
-                console.log("Eroor Occuring while sending the data", error)
-            }
-            console.log("The validation is completed and can move for the futher stepsps")
+    const handleRegisterCollege = async ()=>{
+        console.log("reqeust is send")
+        try{
+           const response =  await userService.registerCollege(formData);
         }
-
+        catch(error){
+            console.log(error)
+        }
     }
-
-
-
 
 
 
@@ -219,7 +201,7 @@ const RegisterCollege = () => {
                                 </div>
                                 <button
                                     type="submit"
-                                    onClick={RegisterCollege}
+                                    onClick={handleRegisterCollege}
                                     className="w-full text-white bg-indigo-950 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                                 >
                                     Create an account
