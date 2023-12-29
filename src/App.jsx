@@ -16,6 +16,9 @@ import AddUserData from './Components/ResusableComponets/AddUserData'
 import UsersDataList from './Components/ResusableComponets/UsersDataList'
 import OtpVerification from './Components/OtpVerfication/OtpVerification'
 import PrivateRoute from './Routes/PrivateRoute'
+import CollegeAdminLandingPage from './Components/CollegeAdmin/CollegeAdminLandingPage'
+import Intiate from './Components/Payment/Intiate'
+Intiate
 
 function App() {
   const [count, setCount] = useState(0)
@@ -32,11 +35,13 @@ function App() {
           <Route path='/menu' element={<Menu />}></Route>
           <Route path='/dashboard' element={<DashBoard />}></Route>
           <Route path='/users/dashboard' element={<UsersDashboard />}></Route>
+          <Route path='/users/landing' element={<CollegeAdminLandingPage />}></Route>
           <Route path='/users/profilecard' element={<UserProfileCard />}></Route>
           <Route path='/users/addstudent' element={<AddUserData />}></Route>
           <Route path='/users/addteacher' element={<AddUserData />}></Route>
           <Route path='/users/usersdata' element={<UsersDataList />}></Route>
           <Route path='/users/otpverification' element={<OtpVerification />}></Route>
+          <Route path='/users/checkout' element={<Intiate />}></Route>
           <Route element={<PrivateRoute />}>
             <Route path='/admin/users' element={<AdminUsers />} />
           </Route>

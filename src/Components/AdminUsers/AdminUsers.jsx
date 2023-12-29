@@ -34,16 +34,17 @@ export function AdminUsers() {
       const data = await userService.getcollegedata();
         console.log("Checking________",data)
         setCollgesDetails(data);
-      console.log(response.data);  // Assuming the server returns useful data
     } catch (error) {
       console.error(error);
     }
   };
 
 
-  const handleBlockCollge = async ()=>{
+  const handleBlockCollge = async (id)=>{
     try{
       const response = await userService.blockCollege(id);
+      setCollgesDetails(response.data.data);
+      console.log(response.data.data)
 
     }
     catch(error){
@@ -105,8 +106,8 @@ export function AdminUsers() {
                           {college.email}
                         </td>
                         <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
-                          {college.is_activate ? (<button className="bg-red-600 text-white rounded-lg font-extrabold h-8 w-28">Block</button>) 
-                          : (<button onClick={handleBlockCollge} className="bg-green-600 text-white rounded-lg font-extrabold h-8 w-28">Activate</button>)}
+                          {college.is_activate ? (<button onClick={() => handleBlockCollge(college.id)} className="bg-red-600 text-white rounded-lg font-extrabold h-8 w-28">Block</button>) 
+                          : (<button onClick={() => handleBlockCollge(college.id)} className="bg-green-600 text-white rounded-lg font-extrabold h-8 w-28">Activate</button>)}
                         </td>
                         <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
                           cd

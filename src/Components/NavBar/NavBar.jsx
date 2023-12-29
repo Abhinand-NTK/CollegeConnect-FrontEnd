@@ -3,6 +3,11 @@ import React, { useState } from 'react'
 
 const Navbar = () => {
 
+    // const options_For_SuperUser = ['Logout']
+    // const options_For_admin = []
+    // const options_For_staff = []
+    // const options_For_student = []
+
     const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
     const toggleNavbar = () => {
@@ -12,8 +17,8 @@ const Navbar = () => {
         <nav className="border-gray-200 fixed top-0 w-screen bg-gray-50 dark:bg-gray-800 dark:border-gray-700 bg-white z-50">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
-                    <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
-                    <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                    <img src="https://guru.cr/images/5149436.png" className="h-8" alt="Flowbite Logo" />
+                    <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Student Connect</span>
                 </a>
                 <div className='relative'>
                     <button
@@ -32,9 +37,11 @@ const Navbar = () => {
                     <div className={`absolute top-10 right-0 w-full ${isNavbarOpen ? 'flex justify-end' : 'hidden'}`} id="navbar-hamburger">
                         <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
                             <li>
-                                <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" aria-current="page">Home</a>
+                                <a href="#" className="block py-2 px-3 text-gray-900 rounded
+                                 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700
+                                 dark:hover:text-white"  aria-current="page">Logout</a>
                             </li>
-                            <li>
+                            {/* <li>
                                 <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Services</a>
                             </li>
                             <li>
@@ -42,9 +49,9 @@ const Navbar = () => {
                             </li>
                             <li>
                                 <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Contact</a>
-                            </li>
-                            </ul >
-                        </div >
+                            </li> */}
+                        </ul >
+                    </div >
                 </div>
             </div >
         </nav >

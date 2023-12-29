@@ -54,7 +54,7 @@ export const userService = {
       const token = response.data.access;
       localStorage.setItem('Token', response.data.access);
       localStorage.setItem('Token_R', response.data.refresh);
-      console.log(decodedToken,"This is the info frm token---");
+      console.log(decodedToken, "This is the info frm token---");
       console.log(response.status);
     } catch (error) {
       console.error("Error is:", error.response.status);
@@ -67,8 +67,8 @@ export const userService = {
       if (storedToken) {
         const decodedToken = jwtDecode(storedToken);
         id = decodedToken.user_id;
-        console.log(decodedToken,"This is the info frm token---");
-        
+        console.log(decodedToken, "This is the info frm token---");
+
       }
 
       const response = await axios.get(`${BASE_URL}superadmin/active_user/${id}/`, {
@@ -112,7 +112,7 @@ export const userService = {
           'Content-Type': 'application/json',
         },
       });
-      console.log("This is the data from the backend",response)
+      console.log("This is the data from the backend", response)
       return response.data
 
     } catch (error) {
@@ -138,38 +138,50 @@ export const userService = {
       }
     }
   },
-  sendEmailForConfirmation: async(id)=>{
+  sendEmailForConfirmation: async (id) => {
     try {
       const storedToken = localStorage.getItem('Token');
-      const response = await axios.post(`${BASE_URL}superadmin/activation_mail/`,{ id },
+      const response = await axios.post(`${BASE_URL}superadmin/activation_mail/`, { id },
         {
-            headers: {
-                Authorization: `Bearer ${storedToken}`,
-                'Content-Type': 'application/json',
-            },
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            'Content-Type': 'application/json',
+          },
         }
-    );
+      );
       return response;
     } catch (error) {
       throw error;
     }
   },
-  registerCollege : async(formData)=>{
-    try{
-      const response = await axios.post(`${BASE_URL}superadmin/register/`,formData);
+  registerCollege: async (formData) => {
+    try {
+      const response = await axios.post(`${BASE_URL}superadmin/register/`, formData);
       return response
     }
-    catch(error){
+    catch (error) {
       console.log(error)
     }
   },
-  blockCollege : async(id)=> {
-    try{
-      response = await axios.put(`${BASE_URL}superadmin/register`,{id});
+  blockCollege: async (id) => {
+    try {
+      const storedToken = localStorage.getItem('Token');
+      const response = await axios.patch(
+        `${BASE_URL}superadmin/register_update/${id}/`,
+        {}, 
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.log(error);
     }
-    catch(error){
-      console.log(error)
-    }
-  }
+}
+
+
 
 };

@@ -8,13 +8,14 @@ import { loginUser } from './AuthThunk';
 import { userService } from '../../services/authservices';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const AdminLogin = () => {
-  
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const To = localStorage.getItem('Token')
+  const [error, setErr] = useState('');
   const handleSubmit = (event) => {
     event.preventDefault();
   };
@@ -28,18 +29,33 @@ const AdminLogin = () => {
   };
 
   const login = async () => {
-      dispatch(loginUser(user))
-      navigate('/admin/users')
-  }
-  useEffect(() => {
-
-    userService.getuserdata()
-  }, []); 
-
-
-
-
+    dispatch(loginUser(user));
+    const Token = localStorage.getItem('Token');
+    const decoded = jwtDecode(Token);
   
+    if (decoded && decoded.is_super_admin) {
+      navigate('/admin/users');
+    } else {
+      if (!decoded.is_super_admin) {
+          toast.error('Login Permission is Restricted !!', {
+          style: {
+            marginTop: '100px',
+          }
+        });
+      } else {
+        toast.error('Invalid Credentials!!', {
+          style: {
+            marginTop: '100px',
+          }
+        });
+      }
+  
+      setErr('Login Permission is Restricted !!');
+    }
+  };
+  
+
+
   return (
     <>
       <Layout title='Auth | Login | Login Dashboard' content='Login Dashboard page'>

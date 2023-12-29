@@ -6,14 +6,21 @@ import { NavLink } from 'react-router-dom'
 
 
 const UsersDashboard = () => {
-    const [studentUserWindows, setstudentUserWindows] = useState(['Profile', 'Subjects','Attendence','Assignments','Blog','Analysis','Video Meetings'])
-    const [teacherUserWindows, setteacherUserWindows] = useState(['Profile', 'Subjects',,'Blog','Video Meetings'])
-    const [adminUserWindows, setAdminUserWindows] = useState([['Add Studnet','/users/addstudent'], ['Add Teacher','/users/addteacher'],['Manage U I','/users/manageui'],['Set Vision & Mission','/users/vision&mission']])
+    const [studentUserWindows, setstudentUserWindows] = useState(['Profile', 'Subjects', 'Attendence', 'Assignments', 'Blog', 'Analysis', 'Video Meetings'])
+    const [teacherUserWindows, setteacherUserWindows] = useState(['Profile', 'Subjects', , 'Blog', 'Video Meetings'])
+    const [adminUserWindows, setAdminUserWindows] = useState([['Add Course', '/users/addstudent'],
+                                                              ['Add Staff', '/users/addstudent'],
+                                                              ['Add Subject', '/users/addstudent'],
+                                                              ['Add Studnet', '/users/addstudent'],
+                                                              ['Add Session', '/users/addstudent'], 
+                                                              ['Assign Teacher', '/users/addteacher'], 
+                                                              ['Manage U I', '/users/manageui'], 
+                                                              ['Set Vision & Mission', '/users/vision&mission']])
     return (
         <div>
             <Layout>
                 <section className='bg-indigo-950 p-4 md:p-10 lg:p-16 mt-8 md:mt-12 h-auto md:h-[800px]'>
-                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-28 md:mt-8'>
+                    <div className='grid grid-cols-1 ml-24 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-28 md:mt-8'>
                         {
                             adminUserWindows.map((s) => (
                                 <div key={s} className='flex font-bold text-lg items-center justify-center bg-white p-4 md:p-6 h-24 rounded-xl mt-5'>
