@@ -1,6 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../Layout/Layout'
 import { NavLink } from 'react-router-dom'
+import { jwtDecode } from 'jwt-decode'
+import { Menu } from '@material-tailwind/react'
+
+
 
 
 
@@ -8,21 +12,45 @@ import { NavLink } from 'react-router-dom'
 const UsersDashboard = () => {
     const [studentUserWindows, setstudentUserWindows] = useState(['Profile', 'Subjects', 'Attendence', 'Assignments', 'Blog', 'Analysis', 'Video Meetings'])
     const [teacherUserWindows, setteacherUserWindows] = useState(['Profile', 'Subjects', , 'Blog', 'Video Meetings'])
-    const [adminUserWindows, setAdminUserWindows] = useState([['Add Course', '/users/addstudent'],
-                                                              ['Add Staff', '/users/addstudent'],
-                                                              ['Add Subject', '/users/addstudent'],
-                                                              ['Add Studnet', '/users/addstudent'],
-                                                              ['Add Session', '/users/addstudent'], 
-                                                              ['Assign Teacher', '/users/addteacher'], 
-                                                              ['Manage U I', '/users/manageui'], 
-                                                              ['Set Vision & Mission', '/users/vision&mission']])
+    const [adminUserWindows, setAdminUserWindows] = useState([
+    ['Add Course', '/users/admin/addcourse'],
+    ['Add Staff', '/users/admin/addstaff'],
+    ['Add Subject', '/users/admin/addsubject'],
+    ['Add Studnet', '/users/admin/addstudent'],
+    ['Add Session', '/users/admin/addsession'], 
+    ['Assign Principal', '/users/addteacher'], 
+    ['Manage U I', '/users/manageui'], 
+    ['Set Vision & Mission', '/users/vision&mission']])
+
+    
+    
+    const [menu, setMenu] = useState([]);
+    
+    useEffect(() => {
+        const token = localStorage.getItem('Token');
+        const decoded =jwtDecode(token)
+        console.log(jwtDecode(token))
+
+
+        if (decoded.user_type === "1") {
+            setMenu(adminUserWindows);
+        } 
+        if (decoded.user_type === "2") {
+            setMenu(adminUserWindows);
+        } 
+        if (decoded.user_type === "3") {
+            setMenu(adminUserWindows);
+        } 
+    }, [adminUserWindows, teacherUserWindows, studentUserWindows]);
+
+   
     return (
         <div>
-            <Layout>
+            <Layout></Layout>
                 <section className='bg-indigo-950 p-4 md:p-10 lg:p-16 mt-8 md:mt-12 h-auto md:h-[800px]'>
                     <div className='grid grid-cols-1 ml-24 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-28 md:mt-8'>
                         {
-                            adminUserWindows.map((s) => (
+                            menu.map((s) => (
                                 <div key={s} className='flex font-bold text-lg items-center justify-center bg-white p-4 md:p-6 h-24 rounded-xl mt-5'>
                                     <NavLink to={s[1]}>
                                         {s[0]}
@@ -57,7 +85,6 @@ const UsersDashboard = () => {
                         </div> */}
                     </div>
                 </section>
-            </Layout>
         </div>
     )
 }

@@ -2,13 +2,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loginUser } from "./AuthThunk";
 
-
-
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
-    role:false,
+    role:'',
     isLoggedIn: false,
     loading: false,
     error: null,
@@ -18,6 +16,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.user = null;
       localStorage.removeItem('Token');
+      localStorage.removeItem('Token_R');
     },
   },
   extraReducers: (builder) => {
@@ -45,4 +44,6 @@ const authSlice = createSlice({
 
 export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
 export default authSlice.reducer;
-
+export const selectuser = ((state)=>state.user.user)
+export const loading = ((state)=>state.user.loading)
+export const is_logged = ((state)=>state.user.isLoggedIn)

@@ -123,6 +123,12 @@ const CollegeAdminLandingPage = () => {
                             >
                                 Subscribe Now →
                             </button>
+                            <button
+                            onClick={()=>{Navigate('/admin/manage')}}
+                                className="text-lg font-bold text-white underline hover:text-gray-300"
+                            >
+                                DashBoard →
+                            </button>
                         </div>
                     </div>
                 </div>

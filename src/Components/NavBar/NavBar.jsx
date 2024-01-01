@@ -1,4 +1,9 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../features/Login/AuthSlice';
+import { useNavigate } from 'react-router-dom';
+
+
 
 
 const Navbar = () => {
@@ -7,6 +12,14 @@ const Navbar = () => {
     // const options_For_admin = []
     // const options_For_staff = []
     // const options_For_student = []
+    const dispath = useDispatch()
+    const navigate = useNavigate()
+    
+
+    const logout_session = ()=>{
+        dispath(logout())
+        navigate('/')
+    }
 
     const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
@@ -39,7 +52,7 @@ const Navbar = () => {
                             <li>
                                 <a href="#" className="block py-2 px-3 text-gray-900 rounded
                                  hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700
-                                 dark:hover:text-white"  aria-current="page">Logout</a>
+                                 dark:hover:text-white" onClick={logout_session}  aria-current="page">Logout</a>
                             </li>
                             {/* <li>
                                 <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Services</a>

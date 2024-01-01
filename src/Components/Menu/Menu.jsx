@@ -40,8 +40,24 @@ const Menu = () => {
         className="bg-transparent p-6 text-white rounded-md absolute top-16  left-4 right-5 h-[500px] z-40"
       >
         {/* Content inside the animated window */}
-        <h2 className="text-xl font-bold mb-4 z-40">Your Animated Window Content</h2>
-        <p>This is some content inside the animated window.</p>
+        <div className='w-48 mt-3 p-2  bg-indigo-950 opacity-90 text-white text-center text-sm font-semibold rounded-md shadow-md hover:shadow-lg cursor-pointer transition-transform transform hover:scale-105'>
+          Add Course
+        </div>
+        <div className='w-48 mt-3 p-2  bg-indigo-950 opacity-90 text-white text-center text-sm font-semibold rounded-md shadow-md hover:shadow-lg cursor-pointer transition-transform transform hover:scale-105'>
+          Add Staff
+        </div>
+        <div className='w-48 mt-3 p-2  bg-indigo-950 opacity-90 text-white text-center text-sm font-semibold rounded-md shadow-md hover:shadow-lg cursor-pointer transition-transform transform hover:scale-105'>
+          Add Student
+        </div>
+        <div className='w-48 mt-3 p-2  bg-indigo-950 opacity-90 text-white text-center text-sm font-semibold rounded-md shadow-md hover:shadow-lg cursor-pointer transition-transform transform hover:scale-105'>
+          Add Session
+        </div>
+        <div className='w-48 mt-3 p-2  bg-indigo-950 opacity-90 text-white text-center text-sm font-semibold rounded-md shadow-md hover:shadow-lg cursor-pointer transition-transform transform hover:scale-105'>
+          Assign Principal
+        </div>
+
+        {/* <h2 className="text-xl font-bold mb-4 z-40">Your Animated Window Content</h2>
+        <p>This is some content inside the animated window.</p> */}
       </animated.div>
     </div>
   );

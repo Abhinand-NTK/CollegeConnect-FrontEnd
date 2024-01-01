@@ -2,9 +2,20 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import Navbar from '../NavBar/Navbar';
 import Menu from '../Menu/Menu';
+import { useLocation } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+jwtDecode
+
 
 
 const Layout = ({ children, title, content }) => {
+  const location = useLocation()
+  const token = localStorage.getItem('Token')
+  let decodedToken = ''
+  if (token){
+     decodedToken = jwtDecode(token)
+  }
+  
   return (
     <div>
       <Helmet>
@@ -12,7 +23,7 @@ const Layout = ({ children, title, content }) => {
         <meta name='description' content={content} />
       </Helmet>
       <Navbar />
-      <Menu/>
+       { decodedToken  ? <Menu/> : '' }
       <div className='container'>
         {children}
       </div>

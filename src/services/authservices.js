@@ -185,3 +185,13 @@ export const userService = {
 
 
 };
+
+
+
+export const CollgeAdminServices = {
+
+  login: async (userData) => {
+    axiosInstance.post(`${BASE_URL}`)
+  }
+
+}

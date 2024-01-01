@@ -8,11 +8,12 @@ export const loginUser = createAsyncThunk(
     try {
       // Make your API call here
       const response = await userService.login(credentials);
-      return response;
       console.log(response)
+      return response;
     } catch (error) {
       // Reject the promise with the error message
       return rejectWithValue(error.message);
     }
   }
 );
+

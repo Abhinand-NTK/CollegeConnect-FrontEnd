@@ -31,8 +31,10 @@ const Login = () => {
     const Token = localStorage.getItem('Token');
     const decoded = jwtDecode(Token);
 
-    if (decoded && ! decoded.is_super_admin) {
-      Navigate('/users/dashboard');
+    console.log('Token is this',decoded)
+
+    if (decoded && ! decoded.is_super_admin && decoded.user_type == "1") {
+      Navigate('/admin/landing');
     } else if(user&&!decoded.is_super_admin) {
       toast.error('Login Permission is Restricted !!', {
         style: {
@@ -48,7 +50,8 @@ const Login = () => {
     <>
     <Layout title='Auth | Login | Login Dashboard' content='Login Dashboard page'>
       <div>
-        <section className="mt-10 bg-indigo-950		 dark:bg-gray-900 background decoration-black">
+      {/* bg-slate-900	 */}
+        <section className="mt-10 bg-indigo-950 dark:bg-gray-900 background decoration-black">
           <div className="flex flex-col items-center justify-center  md:h-screen sm:py-0">
             <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
               <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
