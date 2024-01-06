@@ -112,7 +112,6 @@ export const userService = {
           'Content-Type': 'application/json',
         },
       });
-      console.log("This is the data from the backend", response)
       return response.data
 
     } catch (error) {
@@ -168,7 +167,7 @@ export const userService = {
       const storedToken = localStorage.getItem('Token');
       const response = await axios.patch(
         `${BASE_URL}superadmin/register_update/${id}/`,
-        {}, 
+        {},
         {
           headers: {
             Authorization: `Bearer ${storedToken}`,
@@ -180,8 +179,176 @@ export const userService = {
     } catch (error) {
       console.log(error);
     }
-}
+  },
+  gettingIdOfUser: () => {
+    const token = localStorage.getItem('Token');
+    const data_user = jwtDecode(token);
+    return data_user.user_id;
+  }
 
 
 
 };
+
+
+export const CollgeAdminServices = {
+
+
+  AddCourse: async (formData) => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}collegeadmin/addcourse/`, formData);
+      return response; // Return the data if needed
+    } catch (error) {
+      console.error('Error adding course:', error);
+      throw error; // Throw the error for the calling function to handle
+    }
+  }
+  ,
+  GetCourse: async () => {
+    const token = localStorage.getItem('Token');
+    const data_user = jwtDecode(token);
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}collegeadmin/getallcourse/?id=${data_user.user_id}`)
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  editCourse: async (formData) => {
+    const token = localStorage.getItem('Token');
+    const data_user = jwtDecode(token);
+    try {
+      const response = await axiosInstance.patch(
+        `${BASE_URL}collegeadmin/editcourse/${data_user.user_id}/`,
+        formData
+      );
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  AddStaff: async (formData) => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}collegeadmin/addstaff/`, formData);
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  getStaffDetails: async () => {
+    const token = localStorage.getItem('Token');
+    const data_user = jwtDecode(token);
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}collegeadmin/getallstaff/?id=${data_user.user_id}`)
+      return response.data
+    }
+    catch (error) {
+      console.log(error)
+    }
+  },
+  editStaff: async (formData) => {
+    const token = localStorage.getItem('Token');
+    const data_user = jwtDecode(token);
+    try {
+      const response = await axiosInstance.patch(
+        `${BASE_URL}collegeadmin/editstaffdetails/${data_user.user_id}/`,
+        formData
+      );
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+
+  },
+  addSubject: async (formData) => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}collegeadmin/addsubject/`, formData)
+      return response
+    }
+    catch (error) {
+      console.log(error)
+    }
+  },
+  editSubject: async (formData) => {
+    const token = localStorage.getItem('Token');
+    const data_user = jwtDecode(token);
+    try {
+      const response = await axiosInstance.patch(
+        `${BASE_URL}collegeadmin/editsubject/${data_user.user_id}/`,
+        formData
+      );
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+
+  },
+  getSubject: async () => {
+    const token = localStorage.getItem('Token');
+    const data_user = jwtDecode(token);
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}collegeadmin/listsubject/?id=${data_user.user_id}`)
+      return response.data
+    }
+    catch (error) {
+      console.log(error)
+    }
+  },
+  addSession: async (formData) => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}collegeadmin/addsession/`, formData)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  getSession: async () => {
+    const token = localStorage.getItem('Token');
+    const data_user = jwtDecode(token);
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}collegeadmin/getsession/?id=${data_user.user_id}`)
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  editSession: async (formData) => {
+    const token = localStorage.getItem('Token');
+    const data_user = jwtDecode(token);
+    try {
+      const response = await axiosInstance.patch(`${BASE_URL}collegeadmin/editsession/${data_user.user_id}/`, formData)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  addStudent: async (formData) => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}collegeadmin/addstudent/`, formData)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  editStudent: async (formData) => {
+    const token = localStorage.getItem('Token');
+    const data_user = jwtDecode(token);
+    try {
+      const response = await axiosInstance.put(`${BASE_URL}collegeadmin/editstudent/${data_user.user_id}/`, formData)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  getStudent: async () => {
+    const token = localStorage.getItem('Token');
+    const data_user = jwtDecode(token);
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}collegeadmin/getstudent/?id=${data_user.user_id}`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
