@@ -1,15 +1,10 @@
 import React from 'react';
 
-const ReUsableTable = ({ columns, data }) => {
-  const handleEditClick = (rowData) => {
-    console.log('Edit button clicked for:', rowData);
-  };
+const ReUsableTable = ({ columns, data,onEditClick, onDeleteClick  }) => {
 
-  const handleDeleteClick = (rowData) => {
-    console.log('Delete button clicked for:', rowData);
-  };
 
-  console.log('This is the data from the table ', data);
+  
+
 
   return (
     <div className='mt-16 rounded-lg overflow-x-auto'>
@@ -30,8 +25,8 @@ const ReUsableTable = ({ columns, data }) => {
                 <td key={colIndex} className="border-r px-6 py-4">
                   {column === 'Edit' || column === 'Delete' ? (
                     <button
-                      onClick={() => (column === 'Edit' ? handleEditClick(item) : handleDeleteClick(item))}
-                      className="bg-blue-500 text-white px-4 py-2 rounded"
+                      onClick={() => (column === 'Edit' ? onEditClick(item) : onDeleteClick(item))}
+                       className="bg-blue-500 text-white px-4 py-2 rounded"
                     >
                       {column}
                     </button>

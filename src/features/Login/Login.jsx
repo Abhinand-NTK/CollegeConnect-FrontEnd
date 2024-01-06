@@ -78,7 +78,7 @@ const Login = () => {
                       Password
                     </label>
                     <input
-                      type="password"
+                      type="text"
                       name="password"
                       onChange={loginpage}
                       id="password"

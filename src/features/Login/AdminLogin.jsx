@@ -43,7 +43,7 @@ const AdminLogin = () => {
       const decoded = jwtDecode(Token);
 
       if (decoded && decoded.is_super_admin) {
-        navigate('/admin/landing');
+        navigate('/admin/users');
       } else if (decoded && !decoded.is_super_admin) {
         toast.error('Login Permission is Restricted !!', {
           style: {

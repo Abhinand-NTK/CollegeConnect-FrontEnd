@@ -16,7 +16,7 @@ const UsersDashboard = () => {
     ['Add Course', '/users/admin/addcourse'],
     ['Add Staff', '/users/admin/addstaff'],
     ['Add Subject', '/users/admin/addsubject'],
-    ['Add Studnet', '/users/admin/addstudent'],
+    ['Add Student', '/users/admin/addstudent'],
     ['Add Session', '/users/admin/addsession'], 
     ['Assign Principal', '/users/addteacher'], 
     ['Manage U I', '/users/manageui'], 
