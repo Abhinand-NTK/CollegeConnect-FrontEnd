@@ -186,8 +186,6 @@ export const userService = {
     return data_user.user_id;
   }
 
-
-
 };
 
 
@@ -228,6 +226,7 @@ export const CollgeAdminServices = {
     }
   },
   AddStaff: async (formData) => {
+
     try {
       const response = await axiosInstance.post(`${BASE_URL}collegeadmin/addstaff/`, formData);
       return response
@@ -261,6 +260,8 @@ export const CollgeAdminServices = {
 
   },
   addSubject: async (formData) => {
+    console.log("This is the details to send to the staff creation",formData)
+
     try {
       const response = await axiosInstance.post(`${BASE_URL}collegeadmin/addsubject/`, formData)
       return response
@@ -345,6 +346,14 @@ export const CollgeAdminServices = {
     const data_user = jwtDecode(token);
     try {
       const response = await axiosInstance.get(`${BASE_URL}collegeadmin/getstudent/?id=${data_user.user_id}`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  createUser: async(formData)=>{
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}collegeadmin/createAccounforuser/`,formData)
       return response
     } catch (error) {
       console.log(error)

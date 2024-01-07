@@ -118,7 +118,7 @@ const AddSubject = () => {
   return (
     <div className='h-screen'>
       <Layout />
-      <div className='bg-indigo-950 h-screen flex flex-col'>
+      <div className='bg-white h-screen flex flex-col'>
         {showForm &&
           <Modal isOpen={true} onClose={closeModal}>
             <div className='sm:w-[400px] md:w-[700px] h-96 overflow-y-scroll overflow-hidden scrollbar-hide '>

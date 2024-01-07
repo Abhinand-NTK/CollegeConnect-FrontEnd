@@ -1,16 +1,68 @@
+// import React from 'react';
+
+// const ReUsableTable = ({ columns, data, onEditClick, onDeleteClick,onCreateUserClick }) => {
+
+
+
+
+
+//   return (
+//     <div className='mt-16  overflow-x-auto'>
+//       <table className="min-w-full border text-center text-sm font-light dark:border-neutral-500">
+//         <thead className="border-b bg-indigo-950 text-white font-medium dark:border-neutral-500">
+//           <tr className='border-b dark:border-neutral-500'>
+//             {columns.map((column, index) => (
+//               <th key={index} scope="col" className={`border-r px-6 py-4 dark:border-neutral-500`}>
+//                 {column}
+//               </th>
+//             ))}
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {data.map((item, rowIndex) => (
+//             <tr key={rowIndex} className='border-b dark:border-neutral-500'>
+//               {columns.map((column, colIndex) => (
+//                 <td key={colIndex} className="border-r px-6 py-4">
+//                   {column === 'Edit' || column === 'Delete' || column === 'CreateAccount' || column === 'Block' ? (
+//                     <button
+//                       onClick={() => {
+//                         if (column === 'Edit') {
+//                           onEditClick(item);
+//                         } else if (column === 'Delete') {
+//                           onDeleteClick(item);
+//                         } else if (column === 'CreateAccount') {
+//                           onCreateUserClick(item); // Call your function here
+//                         } else {
+//                           // Handle other cases as needed
+//                         }
+//                       }}
+//                       className="bg-blue-500 text-white px-4 py-2 rounded"
+//                     >
+//                       {column}
+//                     </button>
+//                   ) : (
+//                     item[column.toLowerCase()]
+//                   )}
+//                 </td>
+//               ))}
+//             </tr>
+//           ))}
+//         </tbody>
+//       </table>
+//     </div>
+//   );
+// };
+
+// export default ReUsableTable;
+
 import React from 'react';
 
-const ReUsableTable = ({ columns, data,onEditClick, onDeleteClick  }) => {
-
-
-  
-
-
+const ReUsableTable = ({ columns, data, onEditClick, onDeleteClick, onCreateUserClick }) => {
   return (
-    <div className='mt-16 rounded-lg overflow-x-auto'>
-      <table className="border-collapse w-full bg-white">
-        <thead className="border-b text-black font-medium dark:border-neutral-500">
-          <tr>
+    <div className='mt-16  overflow-x-auto'>
+      <table className="min-w-full border text-center text-sm font-light dark:border-neutral-500">
+        <thead className="border-b bg-indigo-950 text-white font-medium dark:border-neutral-500">
+          <tr className='border-b dark:border-neutral-500'>
             {columns.map((column, index) => (
               <th key={index} scope="col" className={`border-r px-6 py-4 dark:border-neutral-500`}>
                 {column}
@@ -20,16 +72,31 @@ const ReUsableTable = ({ columns, data,onEditClick, onDeleteClick  }) => {
         </thead>
         <tbody>
           {data.map((item, rowIndex) => (
-            <tr key={rowIndex}>
+            <tr key={rowIndex} className='border-b dark:border-neutral-500'>
               {columns.map((column, colIndex) => (
                 <td key={colIndex} className="border-r px-6 py-4">
-                  {column === 'Edit' || column === 'Delete' ? (
-                    <button
-                      onClick={() => (column === 'Edit' ? onEditClick(item) : onDeleteClick(item))}
-                       className="bg-blue-500 text-white px-4 py-2 rounded"
-                    >
-                      {column}
-                    </button>
+                  {column === 'Edit' || column === 'Delete' || column === 'CreateAccount' || column === 'Block' ? (
+                    // Conditionally render "Created" button if email_sent is true
+                    item['email_sent'] && column === 'CreateAccount' ? (
+                      <button
+                        onClick={() => {
+                          onCreateUserClick(item); // Call your function here
+                        }}
+                        className="bg-green-500 text-white px-4 py-2 rounded"
+                      >
+                        Created
+                      </button>
+                    ) : (
+                      // Render "Create Account" button if email_sent is false
+                      <button
+                        onClick={() => {
+                          onCreateUserClick(item); // Call your function here
+                        }}
+                        className="bg-blue-500 text-white px-4 py-2 rounded"
+                      >
+                        {column}
+                      </button>
+                    )
                   ) : (
                     item[column.toLowerCase()]
                   )}

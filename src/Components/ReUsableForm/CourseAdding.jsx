@@ -118,7 +118,7 @@ const CousreAdding = () => {
   return (
     <div className='h-screen'>
       <Layout />
-      <div className='bg-indigo-950 h-screen flex flex-col'>
+      <div className='bg-white h-screen flex flex-col'>
 
         {showForm &&
           <Modal isOpen={true} onClose={closeModal}>

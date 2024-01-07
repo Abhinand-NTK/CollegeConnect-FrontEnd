@@ -4,6 +4,7 @@ import ReUsableTable from '../ReUsableTable/ReUsableTable';
 import Layout from '../Layout/Layout';
 import Modal from '../Modal/Modal';
 import { CollgeAdminServices } from '../../services/authservices';
+import toast from 'react-hot-toast';
 
 
 
@@ -11,10 +12,10 @@ import { CollgeAdminServices } from '../../services/authservices';
 const AddStudnet = () => {
 
 
-  const fieldNames = ['first_name', 'last_name', 'age', 'course', 'session',
+  const fieldNames = ['email', 'first_name', 'last_name', 'age', 'course', 'session',
     'city', 'state', 'zip_code', 'address ', 'phone_number'];
-  const tableColumns = ['first_name', 'last_name', 'age', 'course',
-    'session', 'city', 'state', 'zip_code', 'address ', 'phone_number', 'Edit', 'Delete',
+  const tableColumns = ['email', 'first_name', 'last_name', 'age', 'course',
+    'session', 'city', 'state', 'zip_code', 'address ', 'phone_number', 'Edit', 'Block', 'CreateAccount'
   ];
 
 
@@ -33,9 +34,12 @@ const AddStudnet = () => {
 
       const student = students.map((student) => student.student_details)
 
+      console.log(student)
+
       // Create table data dynamically based on the courses
       const newTableData = student.map((student, index) => ({
         no: index + 1,
+        email: student.email,
         first_name: student.first_name,
         last_name: student.last_name,
         age: student.age,
@@ -47,6 +51,7 @@ const AddStudnet = () => {
         phone_number: student.phone_number,
         delete: student.id,  // Set the 'id' as the delete value
         edit: student.id,
+        email_sent: student.email_sent,
         course: students[index].course_details.coursename,   // Set the 'id' as the edit value
         session: students[index].session_details.start_year + " to  " + students[index].session_details.start_year,   // Set the 'id' as the edit value
       }));
@@ -102,6 +107,29 @@ const AddStudnet = () => {
     console.log('Delete button clicked for:', rowData);
   };
 
+  const handleClickCreateStudentAccount = async (formData) => {
+    try {
+      const response = await CollgeAdminServices.createUser(formData)
+      console.log("This is the user data", response)
+      if (response.status === 200) {
+        // Show success toast message
+        toast.success('Your College is registered Successfully', {
+          style: {
+            marginTop: '100px',
+          },
+          autoClose: 6000, // Set the duration for which the toast is visible (in milliseconds)
+        });
+      } else {
+        // Show a generic error toast message if the response status is not 200
+        toast.error('Failed to create user account. Please try again.');
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error('An error occurred while creating the user account.');
+    }
+
+  }
+
   const handleViewForm = () => {
     setShowForm(!showForm);
   };
@@ -119,7 +147,7 @@ const AddStudnet = () => {
   return (
     <div className='h-screen'>
       <Layout />
-      <div className='bg-indigo-950 h-screen flex flex-col'>
+      <div className='bg-white h-screen flex flex-col'>
         {showForm &&
           <Modal isOpen={true} onClose={closeModal}>
             <div className='sm:w-[400px] md:w-[700px] h-96 overflow-y-scroll overflow-hidden scrollbar-hide '>
@@ -141,7 +169,7 @@ const AddStudnet = () => {
             className='text-white w-40 bg-green-500 rounded-lg font-bold h-12 transform transition-transform hover:scale-105 flex-shrink-0'>
             Add Student
           </button>
-          <ReUsableTable className='w-[100px]' columns={tableColumns} data={tableData} onEditClick={handleEditClick} onDeleteClick={handleDeleteClick} />
+          <ReUsableTable className='w-[100px]' columns={tableColumns} data={tableData} onEditClick={handleEditClick} onDeleteClick={handleDeleteClick} onCreateUserClick={handleClickCreateStudentAccount} />
         </div>
       </div>
     </div>
