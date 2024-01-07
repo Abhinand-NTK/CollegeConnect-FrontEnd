@@ -44,6 +44,7 @@ const AddStaff = () => {
         city: staff.city,
         state: staff.state,
         address: staff.address,
+        email_sent: staff.email_sent,
         phone_number: staff.phone_number,
         delete: staff.id,  // Set the 'id' as the delete value
         edit: staff.id,    // Set the 'id' as the edit value

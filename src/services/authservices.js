@@ -273,6 +273,8 @@ export const CollgeAdminServices = {
   editSubject: async (formData) => {
     const token = localStorage.getItem('Token');
     const data_user = jwtDecode(token);
+
+    console.log(formData)
     try {
       const response = await axiosInstance.patch(
         `${BASE_URL}collegeadmin/editsubject/${data_user.user_id}/`,

@@ -66,7 +66,8 @@ const ReUsableForm = ({ fieldNames, onSubmit, data, setdata }) => {
         ...prevData,
         [name]: value,
         id: id,
-      }));
+      })
+      );
     } else {
       setFormData((prevData) => ({
         ...prevData,

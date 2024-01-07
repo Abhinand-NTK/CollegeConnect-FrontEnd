@@ -9,8 +9,8 @@ import { CollgeAdminServices } from '../../services/authservices';
 
 
 const AddSubject = () => {
-  const fieldNames = ['name', 'staff', 'course'];
-  const tableColumns = ['No', 'name', 'staff', 'course', 'Delete', 'Edit'];
+  const fieldNames = ['name', 'staff', 'semseter','course'];
+  const tableColumns = ['No', 'name', 'staff','semseter', 'course', 'Delete', 'Edit'];
 
   const [tableData, setTableData] = useState([]);
 
@@ -24,11 +24,13 @@ const AddSubject = () => {
       // Assuming the response contains an array of courses with 'id' and 'coursename' properties
       const subjects = response;
       // Create table data dynamically based on the courses
+      console.log(subjects)
       const newTableData = subjects.map((subject, index) => ({
         no: index + 1,
         name: subject.name,
-        staff: subject.staff,
-        course: subject.course,
+        staff: subject.staff_name,
+        semseter: subject.semseter,
+        course: subject.course_name,
         delete: subject.id,  // Set the 'id' as the delete value
         edit: subject.id,    // Set the 'id' as the edit value
       }));
