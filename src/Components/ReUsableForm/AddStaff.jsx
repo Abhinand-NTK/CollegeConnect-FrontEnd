@@ -4,16 +4,17 @@ import ReUsableTable from '../ReUsableTable/ReUsableTable';
 import Layout from '../Layout/Layout';
 import Modal from '../Modal/Modal';
 import { CollgeAdminServices } from '../../services/authservices';
+import toast from 'react-hot-toast';
 
 
 
 
 const AddStaff = () => {
-  const fieldNames = ['first_name', 'last_name', 'age',
+  const fieldNames = ['email', 'first_name', 'last_name', 'age',
     'city', 'state', 'zip_code', 'address ', 'phone_number',
   ];
-  const tableColumns = ['first_name', 'last_name', 'age',
-    'city', 'state', 'zip_code', 'address ', 'phone_number', 'Delete', 'Edit'
+  const tableColumns = ['email', 'first_name', 'last_name', 'age',
+    'city', 'state', 'zip_code', 'address ', 'phone_number', 'Edit', 'Block', 'CreateAccount'
   ];
   // State to manage the table data
   const [tableData, setTableData] = useState([]);
@@ -26,18 +27,24 @@ const AddStaff = () => {
     try {
       const response = await CollgeAdminServices.getStaffDetails();
       // Assuming the response contains an array of courses with 'id' and 'coursename' properties
-      const staffs = response;
+      // const staffs = response;
+      console.log(response)
+      const staffs = response.map((student) => student.staff_details);
+
+
       // Create table data dynamically based on the courses
       const newTableData = staffs.map((staff, index) => ({
         no: index + 1,
+        email: staff.email,
         first_name: staff.first_name,
         last_name: staff.last_name,
         age: staff.age,
-        zip_code:staff.zip_code,
-        address:staff.address,
+        zip_code: staff.zip_code,
+        address: staff.address,
         city: staff.city,
         state: staff.state,
         address: staff.address,
+        email_sent: staff.email_sent,
         phone_number: staff.phone_number,
         delete: staff.id,  // Set the 'id' as the delete value
         edit: staff.id,    // Set the 'id' as the edit value
@@ -55,7 +62,7 @@ const AddStaff = () => {
     // Call the fetchData function
     fetchData();
   }, []); // Empty dependency array ensures the effect runs only once on mount
-  
+
   const [value, setValue] = useState("")
 
   const handleFormSubmit = async (formData) => {
@@ -101,7 +108,28 @@ const AddStaff = () => {
   };
 
 
+  const handleClickCreateStudentAccount = async (formData) => {
+    try {
+      const response = await CollgeAdminServices.createUser(formData)
+      console.log("This is the user data", response)
+      if (response.status === 200) {
+        // Show success toast message
+        toast.success('Your College is registered Successfully', {
+          style: {
+            marginTop: '100px',
+          },
+          autoClose: 6000, // Set the duration for which the toast is visible (in milliseconds)
+        });
+      } else {
+        // Show a generic error toast message if the response status is not 200
+        toast.error('Failed to create user account. Please try again.');
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error('An error occurred while creating the user account.');
+    }
 
+  }
 
 
   const handleViewForm = () => {
@@ -123,7 +151,7 @@ const AddStaff = () => {
   return (
     <div className='h-screen'>
       <Layout />
-      <div className='bg-indigo-950 h-screen flex flex-col'>
+      <div className='bg-white h-screen flex flex-col'>
         {showForm &&
           <Modal isOpen={true} onClose={closeModal}>
             <div className='sm:w-[400px] md:w-[700px] h-96 overflow-y-scroll overflow-hidden scrollbar-hide '>
@@ -145,7 +173,7 @@ const AddStaff = () => {
             className='text-white w-40 bg-green-500 rounded-lg font-bold h-12 transform transition-transform hover:scale-105 flex-shrink-0'>
             Add Staff
           </button>
-          <ReUsableTable className='w-[100px]' columns={tableColumns} data={tableData} onEditClick={handleEditClick} onDeleteClick={handleDeleteClick} />
+          <ReUsableTable className='w-[100px]' columns={tableColumns} data={tableData} onEditClick={handleEditClick} onDeleteClick={handleDeleteClick} onCreateUserClick={handleClickCreateStudentAccount} />
         </div>
       </div>
     </div>

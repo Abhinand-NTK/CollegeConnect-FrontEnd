@@ -26,24 +26,56 @@ const Login = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
+  // const login = async () => {
+  //   dispatch(loginUser(user));
+  //   const Token = localStorage.getItem('Token');
+  //   const decoded = jwtDecode(Token);
+
+  //   console.log('Token is this',decoded)
+
+  //   if (decoded && ! decoded.is_super_admin && decoded.user_type == "1" ) {
+  //     Navigate('/admin/landing');
+  //   } else if(user&&!decoded.is_super_admin) {
+  //     toast.error('Login Permission is Restricted !!', {
+  //       style: {
+  //         marginTop: '100px',
+  //       }
+  //     });
+  //     setError('Login Permission is Restricted !!');
+  //   }
+  // };
+
   const login = async () => {
     dispatch(loginUser(user));
     const Token = localStorage.getItem('Token');
     const decoded = jwtDecode(Token);
-
-    console.log('Token is this',decoded)
-
-    if (decoded && ! decoded.is_super_admin && decoded.user_type == "1") {
-      Navigate('/admin/landing');
-    } else if(user&&!decoded.is_super_admin) {
-      toast.error('Login Permission is Restricted !!', {
-        style: {
-          marginTop: '100px',
-        }
-      });
-      setError('Login Permission is Restricted !!');
+  
+    console.log('Token is this', decoded);
+  
+    if (decoded) {
+      if (decoded.is_super_admin) {
+        // Warn super admin about restricted login
+        toast.warning('Super Admin login is restricted!', {
+          style: {
+            marginTop: '100px',
+          },
+        });
+        setError('Super Admin login is restricted!');
+      } else if (decoded && decoded.user_type === "1") {
+        Navigate('/admin/landing');
+      } else if (decoded.user_type === "2") {
+        Navigate('/admin/landing');
+      } else {
+        toast.error('Invalid user type or permission!', {
+          style: {
+            marginTop: '100px',
+          },
+        });
+        setError('Invalid user type or permission!');
+      }
     }
   };
+  
 
 
   return (
