@@ -32,7 +32,7 @@ const ReUsableForm = ({ fieldNames, onSubmit, data, setdata }) => {
     const fetchedStaffs = await CollgeAdminServices.getStaffDetails();
     console.log(fetchedStaffs)
     const staffs = fetchedStaffs.map((student) => student.staff_details);
-    console.log(staffs.map((s)=>s.id))
+    console.log(staffs.map((s) => s.id))
     setStaffs(staffs)
   }
 
@@ -148,6 +148,22 @@ const ReUsableForm = ({ fieldNames, onSubmit, data, setdata }) => {
                           {staff.first_name}
                         </option>
                       ))}
+                    </select>
+                  ) : fieldName === 'role' ? (
+                    <select
+                      id={fieldName}
+                      name={fieldName}
+                      onChange={handleInputChange}
+                      value={data ? data[fieldName] : formData[fieldName]}
+                      className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                      required
+                    >
+                      <option value="teacher">
+                        Teacher
+                      </option>
+                      <option value="head">
+                        Head of department
+                      </option>
                     </select>
                   ) : (
                     <input

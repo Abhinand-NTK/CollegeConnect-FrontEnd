@@ -14,6 +14,7 @@ const UsersDashboard = () => {
     const [teacherUserWindows, setteacherUserWindows] = useState(
         [
         ['Profile', '/users/profilecard'],
+        ['ClassRoom', '/users/admin/addstaff'],
         ['Subjects', '/users/admin/addstaff'],
         ['Blog/Connect', '/users/admin/addsubject'],
         ['Attendence Management', '/users/admin/addstudent'],

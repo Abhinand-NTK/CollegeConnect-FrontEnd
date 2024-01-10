@@ -12,9 +12,9 @@ import toast from 'react-hot-toast';
 const AddStudnet = () => {
 
 
-  const fieldNames = ['email', 'first_name', 'last_name', 'age', 'course', 'session',
+  const fieldNames = ['email', 'first_name', 'last_name','semester', 'age', 'course', 'session',
     'city', 'state', 'zip_code', 'address ', 'phone_number'];
-  const tableColumns = ['email', 'first_name', 'last_name', 'age', 'course',
+  const tableColumns = ['email', 'first_name','last_name','semester', 'age', 'course',
     'session', 'city', 'state', 'zip_code', 'address ', 'phone_number', 'Edit', 'Block', 'CreateAccount'
   ];
 
@@ -32,6 +32,8 @@ const AddStudnet = () => {
       // Assuming the response contains an array of courses with 'id' and 'coursename' properties
       const students = response.data || [];
 
+      console.log(students[0].semester)
+
       const student = students.map((student) => student.student_details)
 
       console.log(student)
@@ -44,6 +46,7 @@ const AddStudnet = () => {
         last_name: student.last_name,
         age: student.age,
         zip_code: student.zip_code,
+        semester: students[index].semester,
         address: student.address,
         city: student.city,
         state: student.state,

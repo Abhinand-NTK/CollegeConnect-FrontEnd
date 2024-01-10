@@ -25,6 +25,10 @@ import AddStaff from './Components/ReUsableForm/AddStaff'
 import AddStudnet from './Components/ReUsableForm/AddStudent'
 import AddSubject from './Components/ReUsableForm/AddSubject'
 import AddSession from './Components/ReUsableForm/AddSession'
+import Subjects from './Components/Teacher/Subjects'
+import ClassRoom from './ClassRoom/ClassRoom'
+
+
 
 
 function App() {
@@ -54,6 +58,8 @@ function App() {
           <Route path='/users/admin/addstudent' element={<AddStudnet/>}></Route>
           <Route path='/users/admin/addsubject' element={<AddSubject/>}></Route>
           <Route path='/users/admin/addsession' element={<AddSession/>}></Route>
+          <Route path='/users/staff/subjects' element={<Subjects/>}></Route>
+          <Route path='/users/staff/classroom' element={<ClassRoom/>}></Route>
           <Route element={<PrivateRoute />}>
             <Route path='/admin/users' element={<AdminUsers />} />
           </Route>

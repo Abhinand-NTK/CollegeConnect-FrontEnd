@@ -10,10 +10,10 @@ import toast from 'react-hot-toast';
 
 
 const AddStaff = () => {
-  const fieldNames = ['email', 'first_name', 'last_name', 'age',
+  const fieldNames = ['email', 'first_name', 'last_name','role', 'age',
     'city', 'state', 'zip_code', 'address ', 'phone_number',
   ];
-  const tableColumns = ['email', 'first_name', 'last_name', 'age',
+  const tableColumns = ['email', 'first_name', 'last_name','role', 'age',
     'city', 'state', 'zip_code', 'address ', 'phone_number', 'Edit', 'Block', 'CreateAccount'
   ];
   // State to manage the table data
@@ -30,24 +30,25 @@ const AddStaff = () => {
       // const staffs = response;
       console.log(response)
       const staffs = response.map((student) => student.staff_details);
+      console.log("Details",response[0].is_hod)
 
 
       // Create table data dynamically based on the courses
-      const newTableData = staffs.map((staff, index) => ({
+      const newTableData = response.map((staff, index) => ({
         no: index + 1,
-        email: staff.email,
-        first_name: staff.first_name,
-        last_name: staff.last_name,
-        age: staff.age,
-        zip_code: staff.zip_code,
-        address: staff.address,
-        city: staff.city,
-        state: staff.state,
-        address: staff.address,
-        email_sent: staff.email_sent,
-        phone_number: staff.phone_number,
-        delete: staff.id,  // Set the 'id' as the delete value
-        edit: staff.id,    // Set the 'id' as the edit value
+        email: staff.staff_details.email,
+        first_name: staff.staff_details.first_name,
+        last_name: staff.staff_details.last_name,
+        age: staff.staff_details.age,
+        // role: staff[index].is_hod !== null ? 'hod' : 'teacher',
+        zip_code: staff.staff_details.zip_code,
+        address: staff.staff_details.address,
+        city: staff.staff_details.city,
+        state: staff.staff_details.state,
+        email_sent: staff.staff_details.email_sent,
+        phone_number: staff.staff_details.phone_number,
+        delete: staff.staff_details.id,  // Set the 'id' as the delete value
+        edit: staff.staff_details.id,    // Set the 'id' as the edit value
       }));
 
       // Update the tableData state
