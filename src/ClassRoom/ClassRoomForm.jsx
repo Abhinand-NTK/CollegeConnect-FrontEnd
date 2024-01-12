@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StaffUserServices } from '../services/authservices';
 import { AuthContext } from '../context/contex';
+import toast from 'react-hot-toast';
+
 
 
 
@@ -67,6 +69,8 @@ const ClassRoomForm = () => {
                     course: formData.course,
                 });
 
+                console.log(response)
+
                 const data = response.data.map((details) => ({
                     id: details.student_details.id,
                     name: details.student_details.first_name,
@@ -102,10 +106,13 @@ const ClassRoomForm = () => {
 
         try {
 
-            response = await StaffUserServices.createClassRoom(data)
+            const response = await StaffUserServices.createClassRoom(data)
 
-            if (response.status == 200) {
+            if (response.status == 201) {
                 setShowForm(false)
+                toast.success("The Class Room is Created Successfully", {
+                    autoClose: 5000, 
+                });
             }
 
             console.log(response)

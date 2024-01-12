@@ -27,6 +27,7 @@ import AddSubject from './Components/ReUsableForm/AddSubject'
 import AddSession from './Components/ReUsableForm/AddSession'
 import Subjects from './Components/Teacher/Subjects'
 import ClassRoom from './ClassRoom/ClassRoom'
+import ClassRoomSpecs from './ClassRoom/ClassRoomSpecs'
 
 
 
@@ -46,7 +47,7 @@ function App() {
           <Route path='/admin' element={<AdminLogin />}></Route>
           <Route path='/menu' element={<Menu />}></Route>
           <Route path='/dashboard' element={<DashBoard />}></Route>
-          <Route path='/admin/manage' element={<UsersDashboard />}></Route>
+          <Route path='/manage' element={<UsersDashboard />}></Route>
           <Route path='/users/profilecard' element={<UserProfileCard />}></Route>
           {/* <Route path='/users/addstudent' element={<AddUserData />}></Route> */}
           {/* <Route path='/users/addteacher' element={<AddUserData />}></Route> */}
@@ -59,7 +60,8 @@ function App() {
           <Route path='/users/admin/addsubject' element={<AddSubject/>}></Route>
           <Route path='/users/admin/addsession' element={<AddSession/>}></Route>
           <Route path='/users/staff/subjects' element={<Subjects/>}></Route>
-          <Route path='/users/staff/classroom' element={<ClassRoom/>}></Route>
+          <Route path='/users/staff/classrooms' element={<ClassRoom/>}></Route>
+          <Route path='/users/staff/classroomspecs/:id' element={<ClassRoomSpecs/>}></Route>
           <Route element={<PrivateRoute />}>
             <Route path='/admin/users' element={<AdminUsers />} />
           </Route>

@@ -364,7 +364,7 @@ export const CollgeAdminServices = {
 }
 
 export const StaffUserServices = {
-  
+
   getCousers: async () => {
     try {
       const token = localStorage.getItem('Token');
@@ -391,11 +391,31 @@ export const StaffUserServices = {
     try {
       const token = localStorage.getItem('Token');
       const data_user = jwtDecode(token);
-      const response = await axiosInstance.post(`${BASE_URL}staffuser/createclassroom/?id=${data_user.user_id}`,formData)
+      const response = await axiosInstance.post(`${BASE_URL}staffuser/createclassroom/?id=${data_user.user_id}`, formData)
       return response
 
     } catch (error) {
       console.log(error)
+    }
+  },
+  GetClassRooms: async () => {
+    try {
+      const token = localStorage.getItem('Token');
+      const data_user = jwtDecode(token);
+      const response = await axiosInstance.get(`${BASE_URL}staffuser/getclassrooms/?id=${data_user.user_id}`)
+      return response.data
+    } catch (error) {
+
+    }
+  },
+  GetClassRoom: async (id) => {
+    try {
+      const token = localStorage.getItem('Token');
+      const data_user = jwtDecode(token);
+      const response = await axiosInstance.get(`${BASE_URL}staffuser/getclassroom?id=${data_user.user_id}&c_id=${id}`)
+      return response.data
+    } catch (error) {
+
     }
   }
 }

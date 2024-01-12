@@ -10,18 +10,18 @@ import { Menu } from '@material-tailwind/react'
 
 
 const UsersDashboard = () => {
-    const [studentUserWindows, setstudentUserWindows] = useState(['Profile', 'Subjects', 'Attendence', 'Assignments', 'Blog', 'Analysis', 'Video Meetings'])
+    // const [studentUserWindows, setstudentUserWindows] = useState(['Profile', 'Subjects', 'Attendence', 'Assignments', 'Blog', 'Analysis', 'Video Meetings'])
     const [teacherUserWindows, setteacherUserWindows] = useState(
         [
-        ['Profile', '/users/profilecard'],
-        ['ClassRoom', '/users/admin/addstaff'],
-        ['Subjects', '/users/admin/addstaff'],
-        ['Blog/Connect', '/users/admin/addsubject'],
-        ['Attendence Management', '/users/admin/addstudent'],
-        ['Leave Request', '/users/admin/addsession'],
-        ['Assign Principal', '/users/addteacher'],
-        ['Manage U I', '/users/manageui'],
-        ['Set Vision & Mission', '/users/vision&mission']])
+            ['Profile', '/users/profilecard'],
+            ['ClassRoom', '/users/staff/classrooms'],
+            ['Subjects', '/users/admin/addstaff'],
+            ['Blog/Connect', '/users/admin/addsubject'],
+            ['Attendence Management', '/users/admin/addstudent'],
+            ['Leave Request', '/users/admin/addsession'],
+            ['Assign Principal', '/users/addteacher'],
+            ['Manage U I', '/users/manageui'],
+            ['Set Vision & Mission', '/users/vision&mission']])
     const [adminUserWindows, setAdminUserWindows] = useState([
         ['Add Course', '/users/admin/addcourse'],
         ['Add Staff', '/users/admin/addstaff'],
@@ -31,7 +31,14 @@ const UsersDashboard = () => {
         ['Assign Principal', '/users/addteacher'],
         ['Manage U I', '/users/manageui'],
         ['Set Vision & Mission', '/users/vision&mission']])
-
+    const [studentUserWindows, setstudentUserWindows] = useState([
+        ['Profile', '/users/profilecard'],
+        ['ClassRoom', '/users/staff/classrooms'],
+        ['Subjects', '/users/admin/addstaff'],
+        ['Blog/Connect', '/users/admin/addsubject'],
+        ['Attendence ', '/users/admin/addstudent'],
+        ['Leave Request', '/users/admin/addsession'],
+    ])
 
 
     const [menu, setMenu] = useState([]);
@@ -49,7 +56,7 @@ const UsersDashboard = () => {
             setMenu(teacherUserWindows);
         }
         if (decoded.user_type === "3") {
-            setMenu(adminUserWindows);
+            setMenu(studentUserWindows);
         }
     }, [adminUserWindows, teacherUserWindows, studentUserWindows]);
 
