@@ -260,7 +260,7 @@ export const CollgeAdminServices = {
 
   },
   addSubject: async (formData) => {
-    console.log("This is the details to send to the staff creation",formData)
+    console.log("This is the details to send to the staff creation", formData)
 
     try {
       const response = await axiosInstance.post(`${BASE_URL}collegeadmin/addsubject/`, formData)
@@ -353,9 +353,9 @@ export const CollgeAdminServices = {
       console.log(error)
     }
   },
-  createUser: async(formData)=>{
+  createUser: async (formData) => {
     try {
-      const response = await axiosInstance.post(`${BASE_URL}collegeadmin/createAccounforuser/`,formData)
+      const response = await axiosInstance.post(`${BASE_URL}collegeadmin/createAccounforuser/`, formData)
       return response
     } catch (error) {
       console.log(error)
@@ -363,3 +363,59 @@ export const CollgeAdminServices = {
   }
 }
 
+export const StaffUserServices = {
+
+  getCousers: async () => {
+    try {
+      const token = localStorage.getItem('Token');
+      const data_user = jwtDecode(token);
+      const response = await axiosInstance.get(`${BASE_URL}staffuser/getCourses/?id=${data_user.user_id}`)
+      return response.data
+
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  getStudents: async (formData) => {
+    try {
+      const token = localStorage.getItem('Token');
+      const data_user = jwtDecode(token);
+      const response = await axiosInstance.get(`${BASE_URL}staffuser/getstudents/?id=${data_user.user_id}&course=${formData['course']}&semseter=${formData['semseter']}`);
+      return response;
+    } catch (error) {
+      console.error("Error in getStudents:", error.message || error);
+      throw error;
+    }
+  },
+  createClassRoom: async (formData) => {
+    try {
+      const token = localStorage.getItem('Token');
+      const data_user = jwtDecode(token);
+      const response = await axiosInstance.post(`${BASE_URL}staffuser/createclassroom/?id=${data_user.user_id}`, formData)
+      return response
+
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  GetClassRooms: async () => {
+    try {
+      const token = localStorage.getItem('Token');
+      const data_user = jwtDecode(token);
+      const response = await axiosInstance.get(`${BASE_URL}staffuser/getclassrooms/?id=${data_user.user_id}`)
+      return response.data
+    } catch (error) {
+
+    }
+  },
+  GetClassRoom: async (id) => {
+    try {
+      const token = localStorage.getItem('Token');
+      const data_user = jwtDecode(token);
+      const response = await axiosInstance.get(`${BASE_URL}staffuser/getclassroom?id=${data_user.user_id}&c_id=${id}`)
+      return response.data
+    } catch (error) {
+
+    }
+  }
+}
