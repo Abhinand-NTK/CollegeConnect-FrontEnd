@@ -40,19 +40,19 @@ const Menu = () => {
         className="bg-transparent p-6 text-white rounded-md absolute top-16  left-4 right-5 h-[500px] z-40"
       >
         {/* Content inside the animated window */}
-        <div className='w-48 mt-3 p-2  bg-indigo-950 opacity-90 text-white text-center text-sm font-semibold rounded-md shadow-md hover:shadow-lg cursor-pointer transition-transform transform hover:scale-105'>
-          Add Course
+        <div className='w-48 mt-3 p-2  bg-gray-600 opacity-90 text-white text-center text-sm font-semibold rounded-md shadow-md hover:shadow-lg cursor-pointer transition-transform transform hover:scale-105'>
+          Courses
         </div>
-        <div className='w-48 mt-3 p-2  bg-indigo-950 opacity-90 text-white text-center text-sm font-semibold rounded-md shadow-md hover:shadow-lg cursor-pointer transition-transform transform hover:scale-105'>
-          Add Staff
+        <div className='w-48 mt-3 p-2  bg-gray-600 opacity-90 text-white text-center text-sm font-semibold rounded-md shadow-md hover:shadow-lg cursor-pointer transition-transform transform hover:scale-105'>
+          Staffs
         </div>
-        <div className='w-48 mt-3 p-2  bg-indigo-950 opacity-90 text-white text-center text-sm font-semibold rounded-md shadow-md hover:shadow-lg cursor-pointer transition-transform transform hover:scale-105'>
-          Add Student
+        <div className='w-48 mt-3 p-2  bg-gray-600 opacity-90 text-white text-center text-sm font-semibold rounded-md shadow-md hover:shadow-lg cursor-pointer transition-transform transform hover:scale-105'>
+          Students
         </div>
-        <div className='w-48 mt-3 p-2  bg-indigo-950 opacity-90 text-white text-center text-sm font-semibold rounded-md shadow-md hover:shadow-lg cursor-pointer transition-transform transform hover:scale-105'>
-          Add Session
+        <div className='w-48 mt-3 p-2  bg-gray-600 opacity-90 text-white text-center text-sm font-semibold rounded-md shadow-md hover:shadow-lg cursor-pointer transition-transform transform hover:scale-105'>
+          Sessions
         </div>
-        <div className='w-48 mt-3 p-2  bg-indigo-950 opacity-90 text-white text-center text-sm font-semibold rounded-md shadow-md hover:shadow-lg cursor-pointer transition-transform transform hover:scale-105'>
+        <div className='w-48 mt-3 p-2  bg-gray-600 opacity-90 text-white text-center text-sm font-semibold rounded-md shadow-md hover:shadow-lg cursor-pointer transition-transform transform hover:scale-105'>
           Assign Principal
         </div>
 

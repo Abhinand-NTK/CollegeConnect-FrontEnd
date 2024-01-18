@@ -25,9 +25,14 @@ import AddStaff from './Components/ReUsableForm/AddStaff'
 import AddStudnet from './Components/ReUsableForm/AddStudent'
 import AddSubject from './Components/ReUsableForm/AddSubject'
 import AddSession from './Components/ReUsableForm/AddSession'
-import Subjects from './Components/Teacher/Subjects'
 import ClassRoom from './ClassRoom/ClassRoom'
 import ClassRoomSpecs from './ClassRoom/ClassRoomSpecs'
+import StaffStudentBasicInfo from './ClassRoom/StaffStudentBasicInfo'
+import ClassRoomForTeachers from './ClassRoom/ClassRoomForTeachers'
+import ClassRoomSpecsTeacher from './ClassRoom/ClassRoomSpecsTeacher'
+import Subjects from './Subjects/Subjects'
+import Modules from './Subjects/Modules'
+
 
 
 
@@ -49,8 +54,7 @@ function App() {
           <Route path='/dashboard' element={<DashBoard />}></Route>
           <Route path='/manage' element={<UsersDashboard />}></Route>
           <Route path='/users/profilecard' element={<UserProfileCard />}></Route>
-          {/* <Route path='/users/addstudent' element={<AddUserData />}></Route> */}
-          {/* <Route path='/users/addteacher' element={<AddUserData />}></Route> */}
+          <Route path='/users/profilecard/:id' element={<StaffStudentBasicInfo />}></Route>
           <Route path='/users/usersdata' element={<UsersDataList />}></Route>
           <Route path='/users/otpverification' element={<OtpVerification />}></Route>
           <Route path='/users/checkout' element={<Intiate />}></Route>
@@ -60,14 +64,17 @@ function App() {
           <Route path='/users/admin/addsubject' element={<AddSubject/>}></Route>
           <Route path='/users/admin/addsession' element={<AddSession/>}></Route>
           <Route path='/users/staff/subjects' element={<Subjects/>}></Route>
+          <Route path='/users/staff/subjects/modules' element={<Modules/>}></Route>
           <Route path='/users/staff/classrooms' element={<ClassRoom/>}></Route>
+          <Route path='/users/staffs/classrooms' element={<ClassRoomForTeachers/>}></Route>
           <Route path='/users/staff/classroomspecs/:id' element={<ClassRoomSpecs/>}></Route>
+          <Route path='/users/staffs/attendence/:id_' element={<ClassRoomSpecsTeacher/>}></Route>
           <Route element={<PrivateRoute />}>
             <Route path='/admin/users' element={<AdminUsers />} />
           </Route>
           <Route element={<PrivateRoute />}>
             <Route path='/admin/landing' element={<CollegeAdminLandingPage />} />
-          </Route>
+          </Route>  
         </Routes>
       </Provider>
     </>

@@ -8,7 +8,7 @@ import { StaffUserServices } from '../services/authservices';
 
 
 
-const ClassRoom = () => {
+const   ClassRoom = () => {
 
     
 
@@ -46,7 +46,7 @@ const ClassRoom = () => {
     return (
         <div>
             <Layout />
-            <section className='bg-indigo-950 p-4 md:p-10 lg:p-16 mt-8 md:mt-12 h-auto md:h-[800px]'>
+            <section className='bg-white-950 p-4 md:p-10 lg:p-16 mt-8 md:mt-12 h-auto md:h-[600px]'>
                 <div className='flex justify-center mb-8'>
                     <button className='bg-green-500 text-white px-4 py-2 rounded-md' onClick={openModal}>
                         Add A Classroom
@@ -64,7 +64,9 @@ const ClassRoom = () => {
                         classrooms.map((classroom, index) => {
                             return (
                                 <NavLink  to={`/users/staff/classroomspecs/${classroom.id}`}>
-                                    <div className=' flex-col transform transition-transform hover:scale-105 flex-shrink-0 flex font-bold text-lg items-center justify-center bg-white p-4 md:p-6 h-32 rounded-xl'>
+                                    <div className=' transform transition-transform hover:scale-105 
+                                flex-shrink-0 flex flex-col font-bold text-lg items-center justify-center bg-gray-200 
+                                bg-opacity-70 text-black h-32'>
                                         <div className='items-center text-center'>
                                             <p className='font-semibold'>{classroom.name}</p>
                                             <p className='text-sm'>{classroom.departments.map((dep)=>(dep.coursename))}</p>

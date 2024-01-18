@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import { clearErrorMessage, setErrorMessage } from '../features/Login/AuthSlice';
 
 const BASE_URL = "http://localhost:8000/api/";
+
+
 
 // Function to refresh the access token
 const refreshAccessToken = async () => {
@@ -417,5 +420,99 @@ export const StaffUserServices = {
     } catch (error) {
 
     }
+  },
+  UserDetails: async () => {
+    try {
+      const token = localStorage.getItem('Token')
+      const data_user = jwtDecode(token)
+      const response = await axiosInstance.get(`${BASE_URL}staffuser/getprofile/${data_user.user_id}/`)
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  getTeacherDetails: async (id) => {
+    try {
+
+      const response = await axiosInstance.get(`${BASE_URL}collegeadmin/getallstaff/${id}/`)
+      return response.data
+
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  GetClassRoomsForTeacher: async (sub_ids, id) => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}staffuser/getpro/`, {
+        params: {
+          sub_ids: sub_ids.join(','),
+          id: id,
+        },
+      });
+
+      console.log("This is the response", response)
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      console.log(error)
+      throw error;
+    }
   }
+  ,
+  AssignTeacherToClassRoom: async (formData, id) => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}staffuser/classforteacher/?id=${id}`, formData)
+      return response
+
+    } catch (error) {
+      setErrorMessage(error.response.data.error[0])
+      console.log(error)
+      return error
+    }
+  },
+  GetAssignedTeachers: async (sub_ids) => {
+
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}staffuser/classforteacher/`, {
+        params: {
+          sub_ids: sub_ids.join(','),
+        },
+      });
+      console.log("This is the response", response)
+      return response.data;
+    } catch (error) {
+      console.log(error)
+      throw error;
+    }
+  },
+  DeleleAssignedClassroomForTeacher: async (id) => {
+    try {
+      const response = await axiosInstance.delete(`${BASE_URL}staffuser/classforteacher/${id}/`)
+      return response
+    } catch (error) {
+
+    }
+  },
+  GetClassroomsForTeachers: async (id) => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}staffuser/classroomsforteachers/${id}/`)
+      return response.data
+    } catch (error) {
+
+    }
+  },
+
+  // GetClassroomsForTeachers : async ()=>{
+  //   try {
+  //     const response = await axiosInstance.get(`${BASE_URL}staffuser/classforteacherget/${id}`)
+  //   } catch (error) {
+      
+  //   }
+  // }
+
+
+
 }
+
+

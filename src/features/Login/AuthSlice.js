@@ -7,12 +7,19 @@ const authSlice = createSlice({
   initialState: {
     user: null,
     id: '',
-    role:'',
+    role: '',
     isLoggedIn: false,
     loading: false,
     error: null,
   },
   reducers: {
+    setErrorMessage: (state, action) => {
+      console.log("This is the state from the reducer :------",action.payload)
+      state.error = action.payload;
+    },
+    clearErrorMessage: (state) => {
+      state.error = null;
+    },
     logout: (state) => {
       state.loading = false;
       state.user = null;
@@ -43,8 +50,8 @@ const authSlice = createSlice({
 
 
 
-export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, logout,setErrorMessage,clearErrorMessage } = authSlice.actions;
 export default authSlice.reducer;
-export const selectuser = ((state)=>state.user.user)
-export const loading = ((state)=>state.user.loading)
-export const is_logged = ((state)=>state.user.isLoggedIn)
+export const selectuser = ((state) => state.user.user)
+export const loading = ((state) => state.user.loading)
+export const is_logged = ((state) => state.user.isLoggedIn)

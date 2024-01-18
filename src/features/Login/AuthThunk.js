@@ -11,7 +11,6 @@ export const loginUser = createAsyncThunk(
       console.log(response)
       return response;
     } catch (error) {
-      // Reject the promise with the error message
       return rejectWithValue(error.message);
     }
   }
