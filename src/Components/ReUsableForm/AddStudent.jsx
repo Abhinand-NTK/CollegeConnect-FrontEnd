@@ -37,6 +37,7 @@ const AddStudnet = () => {
       const student = students.map((student) => student.student_details)
 
       console.log(student)
+      
 
       // Create table data dynamically based on the courses
       const newTableData = student.map((student, index) => ({
@@ -47,7 +48,6 @@ const AddStudnet = () => {
         age: student.age,
         zip_code: student.zip_code,
         semester: students[index].semester,
-        address: student.address,
         city: student.city,
         state: student.state,
         address: student.address,

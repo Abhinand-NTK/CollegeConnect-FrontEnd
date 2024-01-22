@@ -1,18 +1,26 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import { loginUser } from "./AuthThunk";
+import toast from "react-hot-toast";
 
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
     id: '',
-    role:'',
+    role: '',
     isLoggedIn: false,
     loading: false,
     error: null,
   },
   reducers: {
+    setErrorMessage: (state, action) => {
+      console.log("This is the state from the reducer :------",action.payload)
+      state.error = action.payload;
+    },
+    clearErrorMessage: (state) => {
+      state.error = null;
+    },
     logout: (state) => {
       state.loading = false;
       state.user = null;
@@ -28,23 +36,28 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        console.log("The rotue is full filled the action")
+        console.log("The rotue is full filled the action",action.payload)
         state.loading = false;
         state.isLoggedIn = true;
         state.user = action.payload;
+        if(action.payload == 401){
+          toast.error('The User is Blocked')
+        }
       })
       .addCase(loginUser.rejected, (state, action) => {
-        console.log("The rotue is rejected with some value")
+        console.log("The rotue is rejected with some value",action.payload)
         state.loading = false;
         state.error = action.payload;
+        // console.log("the Errror form slice",state.error)
+        // toast.error('The')
       });
   },
 });
 
 
 
-export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, logout,setErrorMessage,clearErrorMessage } = authSlice.actions;
 export default authSlice.reducer;
-export const selectuser = ((state)=>state.user.user)
-export const loading = ((state)=>state.user.loading)
-export const is_logged = ((state)=>state.user.isLoggedIn)
+export const selectuser = ((state) => state.user.user)
+export const loading = ((state) => state.user.loading)
+export const is_logged = ((state) => state.user.isLoggedIn)

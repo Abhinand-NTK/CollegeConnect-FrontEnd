@@ -10,10 +10,10 @@ import toast from 'react-hot-toast';
 
 
 const AddStaff = () => {
-  const fieldNames = ['email', 'first_name', 'last_name','role', 'age',
+  const fieldNames = ['email', 'first_name', 'last_name', 'role', 'age',
     'city', 'state', 'zip_code', 'address ', 'phone_number',
   ];
-  const tableColumns = ['email', 'first_name', 'last_name','role', 'age',
+  const tableColumns = ['email', 'first_name', 'last_name', 'role', 'age',
     'city', 'state', 'zip_code', 'address ', 'phone_number', 'Edit', 'Block', 'CreateAccount'
   ];
   // State to manage the table data
@@ -30,7 +30,7 @@ const AddStaff = () => {
       // const staffs = response;
       console.log(response)
       const staffs = response.map((student) => student.staff_details);
-      console.log("Details",response[0].is_hod)
+      console.log("Details", response[0].is_hod)
 
 
       // Create table data dynamically based on the courses
@@ -104,8 +104,16 @@ const AddStaff = () => {
   };
 
 
-  const handleDeleteClick = (rowData) => {
+  const handleDeleteClick = async (rowData) => {
     console.log('Delete button clicked for:', rowData);
+    try {
+      const response = await CollgeAdminServices.blockStaff(rowData.delete)
+      if (response.status == 200) {
+        toast.success('The User is BLocked successfully')
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
 
 

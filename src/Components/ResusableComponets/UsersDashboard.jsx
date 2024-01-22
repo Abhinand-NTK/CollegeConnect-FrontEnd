@@ -3,47 +3,76 @@ import Layout from '../Layout/Layout'
 import { NavLink } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode'
 import { Menu } from '@material-tailwind/react'
-
-
+import { GiBookshelf, GiTeacher } from "react-icons/gi";
+import { PiStudentDuotone } from "react-icons/pi";
+import { SiSessionize } from "react-icons/si";
+import { MdSubject } from "react-icons/md";
+import { ImProfile } from "react-icons/im";
+import { SiGoogleclassroom } from "react-icons/si";
+import { FaBlogger } from "react-icons/fa";
+import { HiMiniPresentationChartBar } from "react-icons/hi2";
+import { FcLeave } from "react-icons/fc";
+import { StaffUserServices } from '../../services/authservices'
 
 
 
 
 const UsersDashboard = () => {
+    const [checkPermission, setCheckPermission] = useState(null)
     // const [studentUserWindows, setstudentUserWindows] = useState(['Profile', 'Subjects', 'Attendence', 'Assignments', 'Blog', 'Analysis', 'Video Meetings'])
+    const userdetails = async () => {
+        try {
+            const response = await StaffUserServices.UserDetails()
+            console.log(response)
+            setCheckPermission(response.is_hod)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    console.log(checkPermission)
+
+    const [HodsUserWindows, setHodsUserWindows] = useState(
+        [
+            ['Profile', '/users/profilecard', <ImProfile />],
+            ['ClassRoom', '/users/staff/classrooms', <SiGoogleclassroom />],
+            ['Subjects', '/users/admin/addstaff', <MdSubject />],
+            ['Blog/Connect', '/users/blogpost', <FaBlogger />],
+            ['Attendence Management', '/users/attendencetable', <HiMiniPresentationChartBar />],
+            ['Leave Request', '/users/leaverequest', <FcLeave />],
+        ])
     const [teacherUserWindows, setteacherUserWindows] = useState(
         [
-            ['Profile', '/users/profilecard'],
-            ['ClassRoom', '/users/staff/classrooms'],
-            ['Subjects', '/users/admin/addstaff'],
-            ['Blog/Connect', '/users/admin/addsubject'],
-            ['Attendence Management', '/users/admin/addstudent'],
-            ['Leave Request', '/users/admin/addsession'],
-            ['Assign Principal', '/users/addteacher'],
-            ['Manage U I', '/users/manageui'],
-            ['Set Vision & Mission', '/users/vision&mission']])
+            ['Profile', '/users/profilecard', <ImProfile />],
+            ['ClassRooms', '/users/staffs/classrooms', <SiGoogleclassroom />],
+            ['Subjects', '/users/subjects', <MdSubject />],
+            ['Blog/Connect', '/users/blogpost', <FaBlogger />],
+            ['Attendence Management', '/users/attendencetable', <HiMiniPresentationChartBar />],
+            ['Leave Request', '/users/leaverequest', <FcLeave />],
+        ])
     const [adminUserWindows, setAdminUserWindows] = useState([
-        ['Add Course', '/users/admin/addcourse'],
-        ['Add Staff', '/users/admin/addstaff'],
-        ['Add Subject', '/users/admin/addsubject'],
-        ['Add Student', '/users/admin/addstudent'],
-        ['Add Session', '/users/admin/addsession'],
+        ['Courses', '/users/admin/addcourse', <GiBookshelf />],
+        ['Staffs', '/users/admin/addstaff', <GiTeacher />],
+        ['Subjects', '/users/admin/addsubject', <MdSubject />],
+        ['Students', '/users/admin/addstudent', <PiStudentDuotone />],
+        ['Sessions', '/users/admin/addsession', <SiSessionize />],
         ['Assign Principal', '/users/addteacher'],
         ['Manage U I', '/users/manageui'],
         ['Set Vision & Mission', '/users/vision&mission']])
     const [studentUserWindows, setstudentUserWindows] = useState([
-        ['Profile', '/users/profilecard'],
-        ['ClassRoom', '/users/staff/classrooms'],
-        ['Subjects', '/users/admin/addstaff'],
-        ['Blog/Connect', '/users/admin/addsubject'],
-        ['Attendence ', '/users/admin/addstudent'],
-        ['Leave Request', '/users/admin/addsession'],
+        ['Profile', '/users/profilecard', <ImProfile />],
+        // ['ClassRoom', '/users/staff/classrooms', <SiGoogleclassroom />],
+        ['Subjects', '/users/subjects', <MdSubject />],
+        ['Blog/Connect', '/users/blogpost', <FaBlogger />],
+        ['Attendence ', '/users/admin/addstudent', <HiMiniPresentationChartBar />],
+        ['Leave Request', '/users/leaverequest', <FcLeave />],
     ])
 
 
     const [menu, setMenu] = useState([]);
 
     useEffect(() => {
+        userdetails()
         const token = localStorage.getItem('Token');
         const decoded = jwtDecode(token)
         console.log(jwtDecode(token))
@@ -53,7 +82,7 @@ const UsersDashboard = () => {
             setMenu(adminUserWindows);
         }
         if (decoded.user_type === "2") {
-            setMenu(teacherUserWindows);
+            checkPermission ? setMenu(teacherUserWindows) : setMenu(teacherUserWindows);
         }
         if (decoded.user_type === "3") {
             setMenu(studentUserWindows);
@@ -64,13 +93,20 @@ const UsersDashboard = () => {
     return (
         <div>
             <Layout></Layout>
-            <section className='bg-indigo-950 p-4 md:p-10 lg:p-16 mt-8 md:mt-12 h-auto md:h-[800px]'>
+            <section className='bg-white-950 p-4 md:p-10 lg:p-16 mt-8 md:mt-18 lg:mt-18 h-auto md:h-[600px]'>
                 <div className=' grid grid-cols-1 ml-24 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-28 md:mt-8'>
                     {
                         menu.map((s) => (
                             <NavLink to={s[1]}>
-                                <div key={s} className='transform transition-transform hover:scale-105 flex-shrink-0  flex font-bold text-lg items-center justify-center bg-white p-4 md:p-6 h-24 rounded-xl mt-5'>
-                                    {s[0]}
+                                <div key={s} className="transform transition-transform hover:scale-105 
+                                flex-shrink-0 flex flex-col font-bold text-lg items-center justify-center bg-gray-200 
+                                bg-opacity-70 text-black h-32">
+                                    <div className="h-5 ">
+                                        {s[2]}
+                                    </div>
+                                    <div className="">
+                                        {s[0]}
+                                    </div>
                                 </div>
                             </NavLink>
                         ))

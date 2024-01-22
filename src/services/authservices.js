@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import { clearErrorMessage, setErrorMessage } from '../features/Login/AuthSlice';
 
 const BASE_URL = "http://localhost:8000/api/";
+
+
 
 // Function to refresh the access token
 const refreshAccessToken = async () => {
@@ -56,8 +59,10 @@ export const userService = {
       localStorage.setItem('Token_R', response.data.refresh);
       console.log(decodedToken, "This is the info frm token---");
       console.log(response.status);
+      return response
     } catch (error) {
-      console.error("Error is:", error.response.status);
+      console.error("Error is:---", error.response.status);
+      return error.response.status
     }
   },
   getuserdata: async () => {
@@ -259,6 +264,15 @@ export const CollgeAdminServices = {
     }
 
   },
+  blockStaff: async (id) => {
+    try {
+      const response = await axiosInstance.patch(`${BASE_URL}collegeadmin/blockuser/${id}/`, {});
+      return response
+    } catch (error) {
+      console.log(error)
+
+    }
+  },
   addSubject: async (formData) => {
     console.log("This is the details to send to the staff creation", formData)
 
@@ -417,5 +431,169 @@ export const StaffUserServices = {
     } catch (error) {
 
     }
+  },
+  UserDetails: async () => {
+    try {
+      const token = localStorage.getItem('Token')
+      const data_user = jwtDecode(token)
+      const response = await axiosInstance.get(`${BASE_URL}staffuser/getprofile/${data_user.user_id}/`)
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  EditUserDetails: async (formdata) => {
+    const token = localStorage.getItem('Token')
+    const data_user = jwtDecode(token)
+    try {
+      const response = await axiosInstance.patch(`${BASE_URL}staffuser/getprofile/${data_user.user_id}/`, formdata)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
   }
+  ,
+  getTeacherDetails: async (id) => {
+    try {
+
+      const response = await axiosInstance.get(`${BASE_URL}collegeadmin/getallstaff/${id}/`)
+      return response.data
+
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  GetClassRoomsForTeacher: async (sub_ids, id) => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}staffuser/getpro/`, {
+        params: {
+          sub_ids: sub_ids.join(','),
+          id: id,
+        },
+      });
+
+      console.log("This is the response", response)
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      console.log(error)
+      throw error;
+    }
+  }
+  ,
+  AssignTeacherToClassRoom: async (formData, id) => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}staffuser/classforteacher/?id=${id}`, formData)
+      return response
+
+    } catch (error) {
+      setErrorMessage(error.response.data.error[0])
+      console.log(error)
+      return error
+    }
+  },
+  GetAssignedTeachers: async (sub_ids) => {
+
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}staffuser/classforteacher/`, {
+        params: {
+          sub_ids: sub_ids.join(','),
+        },
+      });
+      console.log("This is the response", response)
+      return response.data;
+    } catch (error) {
+      console.log(error)
+      throw error;
+    }
+  },
+  DeleleAssignedClassroomForTeacher: async (id) => {
+    try {
+      const response = await axiosInstance.delete(`${BASE_URL}staffuser/classforteacher/${id}/`)
+      return response
+    } catch (error) {
+
+    }
+  },
+  GetClassroomsForTeachers: async (id) => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}staffuser/classroomsforteachers/${id}/`)
+      return response.data
+    } catch (error) {
+
+    }
+  },
+
+  MarkAttendence: async (formdata) => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}staffuser/classroomattendence/`, formdata)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  GetAttendenceOfStudents: async (classRoomId, date) => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}staffuser/getclassroomattendence/`, {
+        params: {
+          class_room_for_staff_id: classRoomId,
+          date: date,
+        }
+      });
+      return response.data
+      // Process the response here
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  CreateModulesForClassRoom: async (formdata) => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}staffuser/createmodulesforclassrooms/`, formdata)
+      return response
+
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  GetTheModulesofclassroom: async (class_room_staff_id) => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}staffuser/createmodulesforclassrooms/?class_room_staff_id=${class_room_staff_id}`)
+      return response.data
+
+    } catch (error) {
+
+    }
+  },
+  DeleteModule: async (item_id) => {
+    try {
+      const response = await axiosInstance.delete(`${BASE_URL}staffuser/createmodulesforclassrooms/${item_id}`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  UpdateModuleClassroom: async (M_no, formdata) => {
+    try {
+      const response = await axiosInstance.patch(`${BASE_URL}staffuser/createmodulesforclassrooms/${M_no}/`, formdata)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  GetModuleVideo: async (M_no) => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}staffuser/createmodulesforclassrooms/${M_no}/`)
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+
+
+
 }
+
+
