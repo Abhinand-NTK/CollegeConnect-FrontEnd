@@ -116,8 +116,10 @@ const ClassRoomForTeachers = () => {
                         <div
                             key={index}
                             className='transform transition-transform hover:scale-105 
-                                flex-shrink-0 flex flex-col font-bold text-lg items-center justify-center bg-gradient-to-br from-indigo-700 to-indigo-950 
-                                bg-opacity-80 text-white h-48 rounded-md shadow-md'
+                                flex-shrink-0 flex flex-col font-bold text-lg items-center 
+                                justify-center bg-gradient-to-br from-blue-600 to-blue-900 
+                                bg-opacity-80 text-white h-48 rounded-md shadow-md
+                                 '
                         >
                             <div className='items-center text-center'>
                                 <p className='font-light text-lg mb-2'><span className='font-semibold text-sm'>Class Name:</span> {classroom.class_id?.name}</p>
@@ -126,9 +128,9 @@ const ClassRoomForTeachers = () => {
                                 <p className='font-light text-sm'><span className='font-semibold text-md'>Course:</span> {classroom?.class_id?.course?.coursename}</p>
                             </div>
 
-                            <div className="flex flex-col mt-4 items-center">
+                            <div className="flex flex-col mt-4 items-center">       
                                 <div className="flex justify-between w-full gap-10">
-                                    <NavLink className='text-blue-300 hover:underline transition-all duration-300' to={'/users/staff/subjects/modules'} key={index} >Go to Modules</NavLink>
+                                    <NavLink className='text-blue-300 hover:underline transition-all duration-300' to={`/users/staff/subjects/modules/${classroom?.id}`} key={index} >Go to Modules</NavLink>
                                     <NavLink className='text-blue-300 hover:underline transition-all duration-300' to={`/users/staffs/attendence/${classroom?.id}`} key={index} >Go to Attendance</NavLink>
                                 </div>
                             </div>

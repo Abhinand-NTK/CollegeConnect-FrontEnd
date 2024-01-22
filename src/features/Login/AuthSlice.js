@@ -1,6 +1,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import { loginUser } from "./AuthThunk";
+import toast from "react-hot-toast";
 
 const authSlice = createSlice({
   name: 'auth',
@@ -35,15 +36,20 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        console.log("The rotue is full filled the action")
+        console.log("The rotue is full filled the action",action.payload)
         state.loading = false;
         state.isLoggedIn = true;
         state.user = action.payload;
+        if(action.payload == 401){
+          toast.error('The User is Blocked')
+        }
       })
       .addCase(loginUser.rejected, (state, action) => {
-        console.log("The rotue is rejected with some value")
+        console.log("The rotue is rejected with some value",action.payload)
         state.loading = false;
         state.error = action.payload;
+        // console.log("the Errror form slice",state.error)
+        // toast.error('The')
       });
   },
 });

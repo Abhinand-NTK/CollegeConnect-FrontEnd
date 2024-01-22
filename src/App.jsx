@@ -29,9 +29,15 @@ import ClassRoom from './ClassRoom/ClassRoom'
 import ClassRoomSpecs from './ClassRoom/ClassRoomSpecs'
 import StaffStudentBasicInfo from './ClassRoom/StaffStudentBasicInfo'
 import ClassRoomForTeachers from './ClassRoom/ClassRoomForTeachers'
-import ClassRoomSpecsTeacher from './ClassRoom/ClassRoomSpecsTeacher'
 import Subjects from './Subjects/Subjects'
 import Modules from './Subjects/Modules'
+import Attendance from './ClassRoom/Attendance'
+import ModulesVideoPlayer from './ClassRoom/ModulesVideoPlayer'
+import BlogPost from './BlogPost/BlogPost'
+import ChatComponent from './BlogPost/ChatComponet'
+import LeaveRequestForm from './Components/LeaveReqeust/LeaveRequest'
+import AttendanceTable from './ClassRoom/AttendanceTable'
+AttendanceTable
 
 
 
@@ -63,12 +69,17 @@ function App() {
           <Route path='/users/admin/addstudent' element={<AddStudnet/>}></Route>
           <Route path='/users/admin/addsubject' element={<AddSubject/>}></Route>
           <Route path='/users/admin/addsession' element={<AddSession/>}></Route>
-          <Route path='/users/staff/subjects' element={<Subjects/>}></Route>
-          <Route path='/users/staff/subjects/modules' element={<Modules/>}></Route>
+          <Route path='/users/subjects' element={<Subjects/>}></Route>
+          <Route path='/users/staff/subjects/modules/:id__' element={<Modules/>}></Route>
+          <Route path='/users/staff/subjects/modules/videoplayer/:id____/:M_no' element={<ModulesVideoPlayer/>}></Route>
           <Route path='/users/staff/classrooms' element={<ClassRoom/>}></Route>
           <Route path='/users/staffs/classrooms' element={<ClassRoomForTeachers/>}></Route>
           <Route path='/users/staff/classroomspecs/:id' element={<ClassRoomSpecs/>}></Route>
-          <Route path='/users/staffs/attendence/:id_' element={<ClassRoomSpecsTeacher/>}></Route>
+          <Route path='/users/staffs/attendence/:id_' element={<Attendance/>}></Route>
+          <Route path='/users/blogpost' element={<BlogPost/>}></Route>
+          <Route path='/users/message' element={<ChatComponent/>}></Route>
+          <Route path='/users/leaverequest' element={<LeaveRequestForm/>}></Route>
+          <Route path='/users/attendencetable' element={<AttendanceTable/>}></Route>
           <Route element={<PrivateRoute />}>
             <Route path='/admin/users' element={<AdminUsers />} />
           </Route>

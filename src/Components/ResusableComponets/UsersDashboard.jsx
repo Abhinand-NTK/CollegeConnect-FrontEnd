@@ -37,18 +37,18 @@ const UsersDashboard = () => {
             ['Profile', '/users/profilecard', <ImProfile />],
             ['ClassRoom', '/users/staff/classrooms', <SiGoogleclassroom />],
             ['Subjects', '/users/admin/addstaff', <MdSubject />],
-            ['Blog/Connect', '/users/admin/addsubject', <FaBlogger />],
-            ['Attendence Management', '/users/admin/addstudent', <HiMiniPresentationChartBar />],
-            ['Leave Request', '/users/admin/addsession', <FcLeave />],
+            ['Blog/Connect', '/users/blogpost', <FaBlogger />],
+            ['Attendence Management', '/users/attendencetable', <HiMiniPresentationChartBar />],
+            ['Leave Request', '/users/leaverequest', <FcLeave />],
         ])
     const [teacherUserWindows, setteacherUserWindows] = useState(
         [
             ['Profile', '/users/profilecard', <ImProfile />],
             ['ClassRooms', '/users/staffs/classrooms', <SiGoogleclassroom />],
-            ['Subjects', '/users/staff/subjects', <MdSubject />],
-            ['Blog/Connect', '/users/admin/addsubject', <FaBlogger />],
-            ['Attendence Management', '/users/admin/addstudent', <HiMiniPresentationChartBar />],
-            ['Leave Request', '/users/admin/addsession', <FcLeave />],
+            ['Subjects', '/users/subjects', <MdSubject />],
+            ['Blog/Connect', '/users/blogpost', <FaBlogger />],
+            ['Attendence Management', '/users/attendencetable', <HiMiniPresentationChartBar />],
+            ['Leave Request', '/users/leaverequest', <FcLeave />],
         ])
     const [adminUserWindows, setAdminUserWindows] = useState([
         ['Courses', '/users/admin/addcourse', <GiBookshelf />],
@@ -61,11 +61,11 @@ const UsersDashboard = () => {
         ['Set Vision & Mission', '/users/vision&mission']])
     const [studentUserWindows, setstudentUserWindows] = useState([
         ['Profile', '/users/profilecard', <ImProfile />],
-        ['ClassRoom', '/users/staff/classrooms', <SiGoogleclassroom />],
-        ['Subjects', '/users/admin/addstaff', <MdSubject />],
-        ['Blog/Connect', '/users/admin/addsubject', <FaBlogger />],
+        // ['ClassRoom', '/users/staff/classrooms', <SiGoogleclassroom />],
+        ['Subjects', '/users/subjects', <MdSubject />],
+        ['Blog/Connect', '/users/blogpost', <FaBlogger />],
         ['Attendence ', '/users/admin/addstudent', <HiMiniPresentationChartBar />],
-        ['Leave Request', '/users/admin/addsession', <FcLeave />],
+        ['Leave Request', '/users/leaverequest', <FcLeave />],
     ])
 
 

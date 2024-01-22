@@ -47,12 +47,14 @@ const Login = () => {
 
   const login = async () => {
     dispatch(loginUser(user));
-    const Token = localStorage.getItem('Token');
-    const decoded = jwtDecode(Token);
 
-    console.log('Token is this', decoded);
+    // console.log('Token is this', decoded);
 
-    if (decoded) {
+
+
+    if (localStorage.getItem('Token')) {
+      const Token = localStorage.getItem('Token');
+      const decoded = jwtDecode(Token);
       if (decoded.is_super_admin) {
         // Warn super admin about restricted login
         toast.warning('Super Admin login is restricted!', {
