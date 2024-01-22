@@ -8,13 +8,14 @@ import { StaffUserServices } from '../services/authservices';
 
 
 
+
 const   ClassRoom = () => {
 
     
 
-    const [classrooms, setClassrooms] = useState([])
+    // const [classrooms, setClassrooms] = useState([])
 
-    const { showForm, setShowForm, editForm, setEditForm } = useContext(AuthContext)
+    const { showForm, setShowForm, editForm, setEditForm,setClassrooms,classrooms } = useContext(AuthContext)
 
     const openModal = () => {
         setShowForm(true);

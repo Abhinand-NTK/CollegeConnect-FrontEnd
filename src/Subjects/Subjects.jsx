@@ -1,46 +1,47 @@
-import React, { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
-import { jwtDecode } from 'jwt-decode'
-import { Menu } from '@material-tailwind/react'
-import { GiBookshelf, GiTeacher } from "react-icons/gi";
-import { PiStudentDuotone } from "react-icons/pi";
-import { SiSessionize } from "react-icons/si";
-import { MdSubject } from "react-icons/md";
-import { ImProfile } from "react-icons/im";
-import { SiGoogleclassroom } from "react-icons/si";
-import { FaBlogger } from "react-icons/fa";
-import { HiMiniPresentationChartBar } from "react-icons/hi2";
-import { FcLeave } from "react-icons/fc";
-import Layout from '../Components/Layout/Layout'
-import { StaffUserServices } from '../services/authservices';
+import React, { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { MdSubject, MdAssignmentAdd } from 'react-icons/md';
+import { FaPhotoVideo } from 'react-icons/fa';
+import Layout from '../Components/Layout/Layout';
+// import CanvasJSReact from '@canvasjs/react-charts';
+import { StudentUserServices } from '../services/authservices';
+import DropDown from './DropDown';
 
 
 
-
+// const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const Subjects = () => {
+    const [subjects, setSubjects] = useState([]);
 
+    const GetSubjects = async () => {
+        try {
+            const response = await StudentUserServices.GetSubjectsStudents();
+            setSubjects(response?.data?.subjects);
+            console.log(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        GetSubjects();
+    }, []);
+
+    
 
     return (
         <div>
-            <Layout/>
+            <Layout />
             <section className='bg-white-950 p-4 md:p-10 lg:p-16 mt-8 md:mt-18 lg:mt-18 h-auto md:h-[600px]'>
-                <div className=' grid grid-cols-1 ml-24 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-28 md:mt-8'>
-                    <NavLink to=''>
-                        <div key='' className="transform transition-transform hover:scale-105 
-                                flex-shrink-0 flex flex-col font-bold text-lg items-center justify-center bg-gray-200 
-                                bg-opacity-70 text-black h-32">
-                            <div className="h-5 ">
-                                <MdSubject />
-                            </div>
-                            <div className="">
-                                Subjects
-                            </div>
-                        </div>
-                    </NavLink>
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+                    {subjects.map((item, index) => (
+                       <DropDown item={item} index={index}/>
+                    ))}
                 </div>
             </section>
         </div>
-    )
-}
-export default Subjects
+    );
+};
+
+export default Subjects;

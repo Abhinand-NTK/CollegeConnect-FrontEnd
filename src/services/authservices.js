@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { clearErrorMessage, setErrorMessage } from '../features/Login/AuthSlice';
+// import { ErrorResponseImpl } from '@remix-run/router/dist/utils';
 
 const BASE_URL = "http://localhost:8000/api/";
 
@@ -590,10 +591,21 @@ export const StaffUserServices = {
     }
   }
 
-
-
-
-
 }
 
 
+export const StudentUserServices = {
+
+
+  GetSubjectsStudents: async () => {
+    const token = localStorage.getItem('Token')
+    const data_user = jwtDecode(token)
+    try {
+      const response = axiosInstance.get(`${BASE_URL}studentuser/getsubejcts/${data_user.user_id}/`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+}
