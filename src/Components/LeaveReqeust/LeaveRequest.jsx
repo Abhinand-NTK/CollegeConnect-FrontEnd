@@ -1,158 +1,123 @@
-// import React, { useState } from 'react';
+
+
+
+// import React, { useEffect, useState } from 'react';
+// import { useForm, Controller } from 'react-hook-form';
 // import Layout from '../../Components/Layout/Layout';
+// import { StaffUserServices, StudentUserServices } from '../../services/authservices';
+// import UserDetails from '../../BlogPost/UserDetails';
+// import toast from 'react-hot-toast';
+
 
 // const LeaveRequestForm = () => {
-//     const [submittedRequest, setSubmittedRequest] = useState({
-//         name: 'John Doe',
-//         leaveType: 'Vacation',
-//         reason: 'Family vacation',
-//         fromDate: '2024-02-01',
-//         toDate: '2024-02-07',
-//         status: 'Pending',
-//     });
 
-//     const handleFormSubmit = () => {
-//         setSubmittedRequest({ ...submittedRequest, status: 'Submitted' });
+//     const [userdetailss, setUserDetails] = useState([])
+//     const [studentUserDetails, setStudentUserDetails] = useState([])
+//     const [submittedRequest, setSubmittedRequest] = useState([]);
+
+
+//     const userdetails = async () => {
+
+//         try {
+//             const response = await StaffUserServices.UserDetails()
+//             console.log(response)
+//             if (response?.staff) {
+//                 setUserDetails(response?.staff)
+//             }
+//             else {
+//                 setUserDetails(response?.student)
+//             }
+//             if (response.student.id || response.staff.id) {
+//                 GetRequestStatus(response.student.id || response.staff.id)
+//             }
+
+//         } catch (error) {
+//             console.log(error)
+//         }
+//     }
+
+
+//     const onSubmit = async (data) => {
+//         // Handle form submission logic
+//         console.log(data);
+//         data.requestor = userdetailss ? userdetailss?.id : studentUserDetails?.id
+//         console.log(data);
+//         console.log(UserDetails.id)
+
+//         setSubmittedRequest({ ...data, status: 'Submitted' });
+//         try {
+//             const response = await StudentUserServices.RequestingForLeave(data)
+//             console.log(response)
+//             if (response.status == 201) {
+//                 toast.success('The Reqeust is submitted successfully')
+//                 GetRequestStatus(userdetailss.id)
+//             }
+//         } catch (error) {
+//             console.log(error)
+//         }
 //     };
 
-//     return (
-//         <section className='bg-white-950 p-4 md:p-10 lg:p-16 mt-8 md:mt-18 lg:mt-18 h-auto md:h-[600px]'>
-//             <Layout />
-//             <div className='flex flex-col md:flex-row'>
-//                 <div className='md:w-1/2 pr-0 md:pr-4 mb-4 md:mb-0'>
-//                     <div className='relative flex flex-col rounded-xl bg-white p-6 shadow-md'>
-//                         <h3 className='block font-sans text-2xl font-semibold mb-4'>
-//                             Leave Request Status
-//                         </h3>
-//                         <div className='mb-2'>
-//                             <span className='font-bold'>Status:</span> {submittedRequest.status}
-//                         </div>
-//                         <div className='mb-2'>
-//                             <span className='font-bold'>Submitted by:</span> {submittedRequest.name}
-//                         </div>
-//                     </div>
-//                 </div>
 
-//                 <div className='md:w-1/2 pl-0 md:pl-4'>
-//                     <div className='relative flex flex-col rounded-xl bg-white p-6 shadow-md'>
-//                         <h3 className='block font-sans text-2xl font-semibold mb-4'>
-//                             Leave Request Form
-//                         </h3>
-//                         <div className='mb-4'>
-//                             <label htmlFor='name' className='font-bold mb-1 block'>
-//                                 Your Name
-//                             </label>
-//                             <input
-//                                 id='name'
-//                                 type='text'
-//                                 placeholder='Your Name'
-//                                 className='w-full rounded-md border border-blue-gray-200 px-3 py-2'
-//                             />
-//                         </div>
-//                         <div className='mb-4'>
-//                             <label htmlFor='leaveType' className='font-bold mb-1 block'>
-//                                 Leave Type
-//                             </label>
-//                             <input
-//                                 id='leaveType'
-//                                 type='text'
-//                                 placeholder='Leave Type'
-//                                 className='w-full rounded-md border border-blue-gray-200 px-3 py-2'
-//                             />
-//                         </div>
-//                         <div className='mb-4'>
-//                             <label htmlFor='reason' className='font-bold mb-1 block'>
-//                                 Reason for Leave
-//                             </label>
-//                             <textarea
-//                                 id='reason'
-//                                 placeholder='Reason for Leave'
-//                                 rows='3'
-//                                 className='w-full rounded-md border border-blue-gray-200 px-3 py-2'
-//                             ></textarea>
-//                         </div>
-//                         <div className='mb-4'>
-//                             <label htmlFor='fromDate' className='font-bold mb-1 block'>
-//                                 From Date
-//                             </label>
-//                             <input
-//                                 id='fromDate'
-//                                 type='date'
-//                                 className='w-full rounded-md border border-blue-gray-200 px-3 py-2'
-//                             />
-//                         </div>
-//                         <div className='mb-4'>
-//                             <label htmlFor='toDate' className='font-bold mb-1 block'>
-//                                 To Date
-//                             </label>
-//                             <input
-//                                 id='toDate'
-//                                 type='date'
-//                                 className='w-full rounded-md border border-blue-gray-200 px-3 py-2'
-//                             />
-//                         </div>
-//                         <div className='flex justify-end'>
-//                             <button
-//                                 onClick={handleFormSubmit}
-//                                 className='bg-cyan-500 text-white px-4 py-2 rounded-md hover:bg-cyan-600'
-//                             >
-//                                 Submit Request
-//                             </button>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </section>
-//     );
-// };
+//     const GetRequestStatus = async (id) => {
+//         try {
+//             if (userdetails) {
+//                 console.log("This is the id for retrieve:----", id);
+//                 const response = await StudentUserServices.GetReqeustStatus(id);
+//                 console.log(response);
+//                 // Assuming response.data is an object with the desired properties
+//                 setSubmittedRequest(response?.data);
+//             }
+//         } catch (error) {
+//             console.log(error);
+//         }
+//     };
+//     useEffect(() => {
+//         userdetails()
+//     }, [])
 
-// export default LeaveRequestForm;
 
-// import React from 'react';
-// import { useForm, Controller } from 'react-hook-form';  // Import the necessary functions
-// import Layout from '../../Components/Layout/Layout';
 
-// const LeaveRequestForm = () => {
+
 //     const {
 //         control,
 //         handleSubmit,
 //         formState: { errors },
-//         register,  // Make sure to include register in the destructuring assignment
+//         register,
 //     } = useForm();
 
-//     const onSubmit = (data) => {
-//         // Handle form submission logic
-//         console.log(data);
-//     };
 
-//     const [submittedRequest, setSubmittedRequest] = useState({
-//         name: 'John Doe',
-//         leaveType: 'Vacation',
-//         reason: 'Family vacation',
-//         fromDate: '2024-02-01',
-//         toDate: '2024-02-07',
-//         status: 'Pending',
-//     });
 
-//     const handleFormSubmit = () => {
-//         setSubmittedRequest({ ...submittedRequest, status: 'Submitted' });
-//     };
+
+
 
 //     return (
 //         <section className='bg-white-950 p-4 md:p-10 lg:p-16 mt-8 md:mt-18 lg:mt-18 h-auto md:h-[600px]'>
 //             <Layout />
-//             <div className='flex flex-col md:flex-row'>
+//             <div className='flex flex-col ml-24 mt-20 md:flex-row'>
 //                 <div className='md:w-1/2 pr-0 md:pr-4 mb-4 md:mb-0'>
 //                     <div className='relative flex flex-col rounded-xl bg-white p-6 shadow-md'>
 //                         <h3 className='block font-sans text-2xl font-semibold mb-4'>
 //                             Leave Request Status
 //                         </h3>
-//                         <div className='mb-2'>
-//                             <span className='font-bold'>Status:</span> {submittedRequest.status}
-//                         </div>
-//                         <div className='mb-2'>
-//                             <span className='font-bold'>Submitted by:</span> {submittedRequest.name}
-//                         </div>
+//                         {/* {
+//                          submittedRequest.length == 0 && 
+//                          <p>Not yet any requests</p>   
+//                         } */}
+//                         {
+//                             submittedRequest.map((requests, index) => (
+//                                 <div key={index} className='bg-indigo-700 text-white opacity-40 shadow-md rounded-sm  mt-3'>
+//                                     <div className='mb-2 ml-2'>
+//                                         <span className='font-bold'>leaveType:</span> {requests.leavetype}
+//                                     </div><div className='mb-2 ml-2'>
+//                                         <span className='font-bold'>Time Period</span> {submittedRequest.from_date} to {submittedRequest.to_date}
+//                                     </div>
+//                                     <div className='mb-2 ml-2'>
+//                                         <span className='font-bold'>Status:</span> {submittedRequest.approval_status ? 'Approved' : 'Pending'}
+//                                     </div>
+//                                 </div>
+
+//                             ))
+//                         }
 //                     </div>
 //                 </div>
 
@@ -164,72 +129,34 @@
 //                             </h3>
 
 //                             <div className='mb-4'>
-//                                 <label htmlFor='name' className='font-bold mb-1 block'>
+//                                 <label htmlFor='requestor' className='font-bold mb-1 block'>
 //                                     Your Name
 //                                 </label>
 //                                 <input
-//                                     id='name'
+//                                     {...register('requestor', { required: 'Name is required' })}
 //                                     type='text'
-//                                     placeholder='Your Name'
-//                                     className='w-full rounded-md border border-blue-gray-200 px-3 py-2'
+//                                     placeholder={userdetailss ? userdetailss.name : studentUserDetails ? studentUserDetails.name : 'Your Name'}
+//                                     className={`w-full rounded-md border ${errors.requestor ? 'border-red-500' : 'border-blue-gray-200'
+//                                         } px-3 py-2`}
 //                                 />
-//                             </div>
-//                             <div className='mb-4'>
-//                                 <label htmlFor='leaveType' className='font-bold mb-1 block'>
-//                                     Leave Type
-//                                 </label>
-//                                 <input
-//                                     id='leaveType'
-//                                     type='text'
-//                                     placeholder='Leave Type'
-//                                     className='w-full rounded-md border border-blue-gray-200 px-3 py-2'
-//                                 />
-//                             </div>
-//                             <div className='mb-4'>
-//                                 <label htmlFor='reason' className='font-bold mb-1 block'>
-//                                     Reason for Leave
-//                                 </label>
-//                                 <textarea
-//                                     id='reason'
-//                                     placeholder='Reason for Leave'
-//                                     rows='3'
-//                                     className='w-full rounded-md border border-blue-gray-200 px-3 py-2'
-//                                 ></textarea>
-//                             </div>
-//                             <div className='mb-4'>
-//                                 <label htmlFor='fromDate' className='font-bold mb-1 block'>
-//                                     From Date
-//                                 </label>
-//                                 <input
-//                                     id='fromDate'
-//                                     type='date'
-//                                     className='w-full rounded-md border border-blue-gray-200 px-3 py-2'
-//                                 />
-//                             </div>
-//                             <div className='mb-4'>
-//                                 <label htmlFor='toDate' className='font-bold mb-1 block'>
-//                                     To Date
-//                                 </label>
-//                                 <input
-//                                     id='toDate'
-//                                     type='date'
-//                                     className='w-full rounded-md border border-blue-gray-200 px-3 py-2'
-//                                 />
+//                                 {errors.requestor && (
+//                                     <span className='text-red-500 text-sm mt-1'>
+//                                         {errors.requestor.message}
+//                                     </span>
+//                                 )}
 //                             </div>
 
-//                             {/* Add other form fields with similar pattern */}
-
 //                             <div className='mb-4'>
-//                                 <label htmlFor='leaveType' className='font-bold mb-1 block'>
+//                                 <label htmlFor='leavetype' className='font-bold mb-1 block'>
 //                                     Leave Type
 //                                 </label>
 //                                 <Controller
 //                                     control={control}
-//                                     name='leaveType'
+//                                     name='leavetype'
 //                                     render={({ field }) => (
 //                                         <select
 //                                             {...field}
-//                                             className={`w-full rounded-md border ${errors.leaveType
+//                                             className={`w-full rounded-md border ${errors.leavetype
 //                                                 ? 'border-red-500'
 //                                                 : 'border-blue-gray-200'
 //                                                 } px-3 py-2`}
@@ -242,19 +169,75 @@
 //                                     )}
 //                                     rules={{ required: 'Leave Type is required' }}
 //                                 />
-//                                 {errors.leaveType && (
+//                                 {errors.leavetype && (
 //                                     <span className='text-red-500 text-sm mt-1'>
-//                                         {errors.leaveType.message}
+//                                         {errors.leavetype.message}
 //                                     </span>
 //                                 )}
 //                             </div>
 
-//                             {/* Other form fields go here */}
+//                             <div className='mb-4'>
+//                                 <label htmlFor='reasonforleave' className='font-bold mb-1 block'>
+//                                     Reason for Leave
+//                                 </label>
+//                                 <textarea
+//                                     {...register('reasonforleave', { required: 'Reason is required' })}
+//                                     placeholder='Reason for Leave'
+//                                     rows='3'
+//                                     className={`w-full rounded-md border ${errors.reasonforleave ? 'border-red-500' : 'border-blue-gray-200'
+//                                         } px-3 py-2`}
+//                                 ></textarea>
+//                                 {errors.reasonforleave && (
+//                                     <span className='text-red-500 text-sm mt-1'>
+//                                         {errors.reasonforleave.message}
+//                                     </span>
+//                                 )}
+//                             </div>
+
+//                             <div className='mb-4'>
+//                                 <label htmlFor='from_date' className='font-bold mb-1 block'>
+//                                     From Date
+//                                 </label>
+//                                 <input
+//                                     {...register('from_date', {
+//                                         required: 'From Date is required',
+//                                     })}
+//                                     type='date'
+//                                     min={new Date().toISOString().split('T')[0]}
+//                                     className={`w-full rounded-md border ${errors.from_date ? 'border-red-500' : 'border-blue-gray-200'
+//                                         } px-3 py-2`}
+//                                 />
+//                                 {errors.from_date && (
+//                                     <span className='text-red-500 text-sm mt-1'>
+//                                         {errors.from_date.message}
+//                                     </span>
+//                                 )}
+//                             </div>
+
+//                             <div className='mb-4'>
+//                                 <label htmlFor='to_date' className='font-bold mb-1 block'>
+//                                     To Date
+//                                 </label>
+//                                 <input
+//                                     {...register('to_date', {
+//                                         required: 'To Date is required',
+//                                     })}
+//                                     type='date'
+//                                     min={new Date().toISOString().split('T')[0]}
+//                                     className={`w-full rounded-md border ${errors.to_date ? 'border-red-500' : 'border-blue-gray-200'
+//                                         } px-3 py-2`}
+//                                 />
+//                                 {errors.to_date && (
+//                                     <span className='text-red-500 text-sm mt-1'>
+//                                         {errors.to_date.message}
+//                                     </span>
+//                                 )}
+//                             </div>
 
 //                             <div className='flex justify-end'>
 //                                 <button
 //                                     type='submit'
-//                                     className='bg-cyan-500 text-white px-4 py-2 rounded-md hover:bg-cyan-600'
+//                                     className='bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600'
 //                                 >
 //                                     Submit Request
 //                                 </button>
@@ -270,32 +253,78 @@
 // export default LeaveRequestForm;
 
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import Layout from '../../Components/Layout/Layout';
+import { StaffUserServices, StudentUserServices } from '../../services/authservices';
+import UserDetails from '../../BlogPost/UserDetails';
+import toast from 'react-hot-toast';
 
 const LeaveRequestForm = () => {
+    const [userdetailss, setUserDetails] = useState([]);
+    const [studentUserDetails, setStudentUserDetails] = useState([]);
+    const [submittedRequest, setSubmittedRequest] = useState([]);
+
+    const userdetails = async () => {
+        try {
+            const response = await StaffUserServices.UserDetails();
+            console.log(response);
+            if (response?.staff) {
+                setUserDetails([response?.staff]); // Assuming staff is an object, wrap it in an array
+            } else {
+                setUserDetails([response?.student]); // Assuming student is an object, wrap it in an array
+            }
+            if (response.student?.id || response.staff?.id) {
+                GetRequestStatus(response.student?.id || response.staff?.id);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const onSubmit = async (data) => {
+        console.log(data);
+        data.requestor = userdetailss.length > 0 ? userdetailss[0].id : studentUserDetails?.id;
+        console.log(data);
+        // console.log(UserDetails.id);
+
+        setSubmittedRequest({ ...data, status: 'Submitted' });
+        try {
+            const response = await StudentUserServices.RequestingForLeave(data);
+            console.log(response);
+            if (response.status == 201) {
+                toast.success('The Request is submitted successfully');
+                GetRequestStatus(userdetailss.length > 0 ? userdetailss[0].id : studentUserDetails?.id);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const GetRequestStatus = async (id) => {
+        try {
+            const id_ = userdetailss?.id;
+            if (id) {
+                console.log("This is the id for retrieve:----", id);
+                const response = await StudentUserServices.GetReqeustStatus(id || id_);
+                console.log(response);
+                setSubmittedRequest(response?.data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        userdetails();
+    }, []);
+
     const {
         control,
         handleSubmit,
         formState: { errors },
         register,
     } = useForm();
-
-    const [submittedRequest, setSubmittedRequest] = useState({
-        name: 'John Doe',
-        leaveType: 'Vacation',
-        reason: 'Family vacation',
-        fromDate: '2024-02-01',
-        toDate: '2024-02-07',
-        status: 'Pending',
-    });
-
-    const onSubmit = (data) => {
-        // Handle form submission logic
-        console.log(data);
-        setSubmittedRequest({ ...data, status: 'Submitted' });
-    };
 
     return (
         <section className='bg-white-950 p-4 md:p-10 lg:p-16 mt-8 md:mt-18 lg:mt-18 h-auto md:h-[600px]'>
@@ -306,12 +335,38 @@ const LeaveRequestForm = () => {
                         <h3 className='block font-sans text-2xl font-semibold mb-4'>
                             Leave Request Status
                         </h3>
-                        <div className='mb-2'>
-                            <span className='font-bold'>Status:</span> {submittedRequest.status}
-                        </div>
-                        <div className='mb-2'>
-                            <span className='font-bold'>Submitted by:</span> {submittedRequest.name}
-                        </div>
+                        {/* <p>
+                            {
+                                Object.keys(submittedRequest).map(i => <p>{submittedRequest[i]._id}</p>)
+                            }
+                        </p> */}
+                        {/* {Object.keys(submittedRequest)?.map((requests, index) => (
+                            <div key={index} className='bg-indigo-700 text-white opacity-40 shadow-md rounded-sm  mt-3'>
+                                <div className='mb-2 ml-2'>
+                                    <span className='font-bold'>leaveType:</span> {requests.leavetype}
+                                </div>
+                                <div className='mb-2 ml-2'>
+                                    <span className='font-bold'>Time Period</span> {requests.from_date} to {requests.to_date}
+                                </div>
+                                <div className='mb-2 ml-2'>
+                                    <span className='font-bold'>Status:</span> {requests.approval_status ? 'Approved' : 'Pending'}
+                                </div>
+                            </div>
+                        ))} */}
+                        {Object.keys(submittedRequest).map((key, index) => (
+                            <div key={index} className='bg-indigo-700 p-4 text-white opacity-40 shadow-md rounded-lg mt-3'>
+                                <div className='mb-2 ml-4 '>
+                                    <span className='font-bold'>leaveType:</span> {submittedRequest[key].leavetype}
+                                </div>
+                                <div className='mb-2 ml-4'>
+                                    <span className='font-bold'>Time Period</span> {submittedRequest[key].from_date} to {submittedRequest[key].to_date}
+                                </div>
+                                <div className='mb-2 ml-4'>
+                                    <span className='font-bold'>Status:</span> {submittedRequest[key].approval_status ? 'Approved' : 'Pending'}
+                                </div>
+                            </div>
+                        ))}
+
                     </div>
                 </div>
 
@@ -323,39 +378,37 @@ const LeaveRequestForm = () => {
                             </h3>
 
                             <div className='mb-4'>
-                                <label htmlFor='name' className='font-bold mb-1 block'>
+                                <label htmlFor='requestor' className='font-bold mb-1 block'>
                                     Your Name
                                 </label>
                                 <input
-                                    {...register('name', { required: 'Name is required' })}
+                                    {...register('requestor', { required: 'Name is required' })}
                                     type='text'
-                                    placeholder='Your Name'
-                                    className={`w-full rounded-md border ${
-                                        errors.name ? 'border-red-500' : 'border-blue-gray-200'
-                                    } px-3 py-2`}
+                                    placeholder={userdetailss ? userdetailss.name : studentUserDetails ? studentUserDetails.name : 'Your Name'}
+                                    className={`w-full rounded-md border ${errors.requestor ? 'border-red-500' : 'border-blue-gray-200'
+                                        } px-3 py-2`}
                                 />
-                                {errors.name && (
+                                {errors.requestor && (
                                     <span className='text-red-500 text-sm mt-1'>
-                                        {errors.name.message}
+                                        {errors.requestor.message}
                                     </span>
                                 )}
                             </div>
 
                             <div className='mb-4'>
-                                <label htmlFor='leaveType' className='font-bold mb-1 block'>
+                                <label htmlFor='leavetype' className='font-bold mb-1 block'>
                                     Leave Type
                                 </label>
                                 <Controller
                                     control={control}
-                                    name='leaveType'
+                                    name='leavetype'
                                     render={({ field }) => (
                                         <select
                                             {...field}
-                                            className={`w-full rounded-md border ${
-                                                errors.leaveType
-                                                    ? 'border-red-500'
-                                                    : 'border-blue-gray-200'
-                                            } px-3 py-2`}
+                                            className={`w-full rounded-md border ${errors.leavetype
+                                                ? 'border-red-500'
+                                                : 'border-blue-gray-200'
+                                                } px-3 py-2`}
                                         >
                                             <option value=''>Select Leave Type</option>
                                             <option value='Vacation'>Vacation</option>
@@ -365,70 +418,67 @@ const LeaveRequestForm = () => {
                                     )}
                                     rules={{ required: 'Leave Type is required' }}
                                 />
-                                {errors.leaveType && (
+                                {errors.leavetype && (
                                     <span className='text-red-500 text-sm mt-1'>
-                                        {errors.leaveType.message}
+                                        {errors.leavetype.message}
                                     </span>
                                 )}
                             </div>
 
                             <div className='mb-4'>
-                                <label htmlFor='reason' className='font-bold mb-1 block'>
+                                <label htmlFor='reasonforleave' className='font-bold mb-1 block'>
                                     Reason for Leave
                                 </label>
                                 <textarea
-                                    {...register('reason', { required: 'Reason is required' })}
+                                    {...register('reasonforleave', { required: 'Reason is required' })}
                                     placeholder='Reason for Leave'
                                     rows='3'
-                                    className={`w-full rounded-md border ${
-                                        errors.reason ? 'border-red-500' : 'border-blue-gray-200'
-                                    } px-3 py-2`}
+                                    className={`w-full rounded-md border ${errors.reasonforleave ? 'border-red-500' : 'border-blue-gray-200'
+                                        } px-3 py-2`}
                                 ></textarea>
-                                {errors.reason && (
+                                {errors.reasonforleave && (
                                     <span className='text-red-500 text-sm mt-1'>
-                                        {errors.reason.message}
+                                        {errors.reasonforleave.message}
                                     </span>
                                 )}
                             </div>
 
                             <div className='mb-4'>
-                                <label htmlFor='fromDate' className='font-bold mb-1 block'>
+                                <label htmlFor='from_date' className='font-bold mb-1 block'>
                                     From Date
                                 </label>
                                 <input
-                                    {...register('fromDate', {
+                                    {...register('from_date', {
                                         required: 'From Date is required',
                                     })}
                                     type='date'
                                     min={new Date().toISOString().split('T')[0]}
-                                    className={`w-full rounded-md border ${
-                                        errors.fromDate ? 'border-red-500' : 'border-blue-gray-200'
-                                    } px-3 py-2`}
+                                    className={`w-full rounded-md border ${errors.from_date ? 'border-red-500' : 'border-blue-gray-200'
+                                        } px-3 py-2`}
                                 />
-                                {errors.fromDate && (
+                                {errors.from_date && (
                                     <span className='text-red-500 text-sm mt-1'>
-                                        {errors.fromDate.message}
+                                        {errors.from_date.message}
                                     </span>
                                 )}
                             </div>
 
                             <div className='mb-4'>
-                                <label htmlFor='toDate' className='font-bold mb-1 block'>
+                                <label htmlFor='to_date' className='font-bold mb-1 block'>
                                     To Date
                                 </label>
                                 <input
-                                    {...register('toDate', {
+                                    {...register('to_date', {
                                         required: 'To Date is required',
                                     })}
                                     type='date'
                                     min={new Date().toISOString().split('T')[0]}
-                                    className={`w-full rounded-md border ${
-                                        errors.toDate ? 'border-red-500' : 'border-blue-gray-200'
-                                    } px-3 py-2`}
+                                    className={`w-full rounded-md border ${errors.to_date ? 'border-red-500' : 'border-blue-gray-200'
+                                        } px-3 py-2`}
                                 />
-                                {errors.toDate && (
+                                {errors.to_date && (
                                     <span className='text-red-500 text-sm mt-1'>
-                                        {errors.toDate.message}
+                                        {errors.to_date.message}
                                     </span>
                                 )}
                             </div>

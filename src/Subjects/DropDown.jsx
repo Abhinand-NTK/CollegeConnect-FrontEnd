@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { MdSubject, MdAssignmentAdd } from 'react-icons/md';
 import { FaPhotoVideo } from 'react-icons/fa';
 import CanvasJSReact from '@canvasjs/react-charts';
@@ -10,7 +10,8 @@ const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 
 
-const DropDown = ({ item, index }) => {
+
+const DropDown = ({ item, index, GetMedia, cls, links }) => {
 
     const chartOptions = {
         width: (4.5 / 2.54) * 96,
@@ -66,9 +67,17 @@ const DropDown = ({ item, index }) => {
     const toggleDropdown = () => {
         setDropdownOpen(!isDropdownOpen);
     }
-    const toggleDropdown2 = () => {
+    const toggleDropdown2 = (sub_id, cls_id) => {
         setDropdownOpen2(!isDropdownOpen2);
+        GetMedia(cls_id, sub_id)
+        console.log(sub_id, cls_id)
+
     }
+
+    // console.log("This is the class",cls)
+
+
+
     return (
         <NavLink key={index} to=''>
             <div className=' bg-gray-200 flex'>
@@ -86,7 +95,7 @@ const DropDown = ({ item, index }) => {
                         <div onClick={toggleDropdown}>
                             <MdAssignmentAdd />
                         </div>
-                        <div onClick={toggleDropdown2}>
+                        <div onClick={() => toggleDropdown2(item.id, cls.id)}>
                             <FaPhotoVideo />
                         </div>
                     </div>
@@ -134,33 +143,15 @@ const DropDown = ({ item, index }) => {
                 )}
                 {isDropdownOpen2 && (<div className='w-1/2'>
                     <ul className='text-sm bg-black text-white font-bold opacity-30 mx-auto mt-2 text-center'>
-                        <li className='py-2'>
-                            <span className='flex items-center justify-center'>
-                                video 1
-                                <GoFileSubmodule className='ml-2' />
-                            </span>
-                        </li><li className='py-2'>
-                            <span className='flex items-center justify-center'>
-                                Video 2
-                                <GoFileSubmodule className='ml-2' />
-                            </span>
-                        </li><li className='py-2'>
-                            <span className='flex items-center justify-center'>
-                                Video 3
-                                <GoFileSubmodule className='ml-2' />
-                            </span>
-                        </li><li className='py-2'>
-                            <span className='flex items-center justify-center'>
-                                Video 4
-                                <GoFileSubmodule className='ml-2' />
-                            </span>
-                        </li>
-                        <li className='py-2'>
-                            <span className='flex items-center justify-center'>
-                                Video 5
-                                <GoFileSubmodule className='ml-2' />
-                            </span>
-                        </li>
+                        {links && links.map((item, index) => (
+                            <li key={index} className='py-2'>
+                                <Link to={`/users/staff/subjects/modules/videoplayer/${item.class_room_staff_id}/${item.id}`} className='flex items-center justify-center'>
+                                    video {index + 1}
+                                    <GoFileSubmodule className='ml-2' />
+                                </Link>
+                            </li>
+                        ))}
+
                     </ul>
 
                 </div>

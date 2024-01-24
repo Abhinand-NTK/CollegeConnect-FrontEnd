@@ -12,9 +12,9 @@ import toast from 'react-hot-toast';
 const AddStudnet = () => {
 
 
-  const fieldNames = ['email', 'first_name', 'last_name','semester', 'age', 'course', 'session',
+  const fieldNames = ['email', 'first_name', 'last_name', 'semester', 'age', 'course', 'session',
     'city', 'state', 'zip_code', 'address ', 'phone_number'];
-  const tableColumns = ['email', 'first_name','last_name','semester', 'age', 'course',
+  const tableColumns = ['email', 'first_name', 'last_name', 'semester', 'age', 'course',
     'session', 'city', 'state', 'zip_code', 'address ', 'phone_number', 'Edit', 'Block', 'CreateAccount'
   ];
 
@@ -37,7 +37,7 @@ const AddStudnet = () => {
       const student = students.map((student) => student.student_details)
 
       console.log(student)
-      
+
 
       // Create table data dynamically based on the courses
       const newTableData = student.map((student, index) => ({
@@ -106,9 +106,18 @@ const AddStudnet = () => {
 
   };
 
-  const handleDeleteClick = (rowData) => {
+  const handleDeleteClick = async (rowData) => {
     console.log('Delete button clicked for:', rowData);
+    try {
+      const response = await CollgeAdminServices.blockStaff(rowData.delete)
+      if (response.status == 200) {
+        toast.success('The User is BLocked successfully')
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
+
 
   const handleClickCreateStudentAccount = async (formData) => {
     try {
@@ -136,7 +145,7 @@ const AddStudnet = () => {
   const handleViewForm = () => {
     setShowForm(!showForm);
   };
-  
+
 
   const openModal = () => {
     setShowForm(true)

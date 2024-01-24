@@ -37,7 +37,8 @@ import BlogPost from './BlogPost/BlogPost'
 import ChatComponent from './BlogPost/ChatComponet'
 import LeaveRequestForm from './Components/LeaveReqeust/LeaveRequest'
 import AttendanceTable from './ClassRoom/AttendanceTable'
-AttendanceTable
+import LeaveRequestApprovel from './Components/LeaveReqeust/LeaveRequestApprovel'
+LeaveRequestApprovel
 
 
 
@@ -79,7 +80,8 @@ function App() {
           <Route path='/users/blogpost' element={<BlogPost/>}></Route>
           <Route path='/users/message' element={<ChatComponent/>}></Route>
           <Route path='/users/leaverequest' element={<LeaveRequestForm/>}></Route>
-          <Route path='/users/attendencetable' element={<AttendanceTable/>}></Route>
+          <Route path='/users/attendance' element={<AttendanceTable/>}></Route>
+          <Route path='/users/leaverequestapprovel' element={<LeaveRequestApprovel/>}></Route>
           <Route element={<PrivateRoute />}>
             <Route path='/admin/users' element={<AdminUsers />} />
           </Route>

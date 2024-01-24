@@ -24,13 +24,31 @@ const UsersDashboard = () => {
         try {
             const response = await StaffUserServices.UserDetails()
             console.log(response)
-            setCheckPermission(response.is_hod)
+            setCheckPermission(response?.is_hod)
+            const token = localStorage.getItem('Token');
+            const decoded = jwtDecode(token)
+            console.log(jwtDecode(token))
+
+
+            if (decoded.user_type === "1") {
+                setMenu(adminUserWindows);
+            }
+            if (decoded.user_type === "2") {
+                checkPermission ? setMenu(teacherUserWindows) : setMenu(teacherUserWindows);
+            }
+            if (response?.is_hod && decoded.user_type === "2") {
+                setMenu(HodsUserWindows)
+            }
+            if (decoded.user_type === "3") {
+                setMenu(studentUserWindows);
+            }
 
         } catch (error) {
             console.log(error)
         }
     }
-    console.log(checkPermission)
+
+    console.log("permission", checkPermission)
 
     const [HodsUserWindows, setHodsUserWindows] = useState(
         [
@@ -38,7 +56,7 @@ const UsersDashboard = () => {
             ['ClassRoom', '/users/staff/classrooms', <SiGoogleclassroom />],
             ['Subjects', '/users/admin/addstaff', <MdSubject />],
             ['Blog/Connect', '/users/blogpost', <FaBlogger />],
-            ['Attendence Management', '/users/attendencetable', <HiMiniPresentationChartBar />],
+            ['Staffs & Students Leave Requests', '/users/leaverequestapprovel', <HiMiniPresentationChartBar />],
             ['Leave Request', '/users/leaverequest', <FcLeave />],
         ])
     const [teacherUserWindows, setteacherUserWindows] = useState(
@@ -47,7 +65,7 @@ const UsersDashboard = () => {
             ['ClassRooms', '/users/staffs/classrooms', <SiGoogleclassroom />],
             ['Subjects', '/users/subjects', <MdSubject />],
             ['Blog/Connect', '/users/blogpost', <FaBlogger />],
-            ['Attendence Management', '/users/attendencetable', <HiMiniPresentationChartBar />],
+            // ['Attendence Management', '/users/attendance', <HiMiniPresentationChartBar />],
             ['Leave Request', '/users/leaverequest', <FcLeave />],
         ])
     const [adminUserWindows, setAdminUserWindows] = useState([
@@ -64,7 +82,7 @@ const UsersDashboard = () => {
         // ['ClassRoom', '/users/staff/classrooms', <SiGoogleclassroom />],
         ['Subjects', '/users/subjects', <MdSubject />],
         ['Blog/Connect', '/users/blogpost', <FaBlogger />],
-        ['Attendence ', '/users/admin/addstudent', <HiMiniPresentationChartBar />],
+        ['Attendence ', '/users/attendance', <HiMiniPresentationChartBar />],
         ['Leave Request', '/users/leaverequest', <FcLeave />],
     ])
 
@@ -73,20 +91,23 @@ const UsersDashboard = () => {
 
     useEffect(() => {
         userdetails()
-        const token = localStorage.getItem('Token');
-        const decoded = jwtDecode(token)
-        console.log(jwtDecode(token))
+        // const token = localStorage.getItem('Token');
+        // const decoded = jwtDecode(token)
+        // console.log(jwtDecode(token))
 
 
-        if (decoded.user_type === "1") {
-            setMenu(adminUserWindows);
-        }
-        if (decoded.user_type === "2") {
-            checkPermission ? setMenu(teacherUserWindows) : setMenu(teacherUserWindows);
-        }
-        if (decoded.user_type === "3") {
-            setMenu(studentUserWindows);
-        }
+        // if (decoded.user_type === "1") {
+        //     setMenu(adminUserWindows);
+        // }
+        // if (decoded.user_type === "2") {
+        //     checkPermission ? setMenu(teacherUserWindows) : setMenu(teacherUserWindows);
+        // }
+        // if(checkPermission && decoded.user_type === "2" ){
+        //     setMenu(HodsUserWindows)
+        // }
+        // if (decoded.user_type === "3") {
+        //     setMenu(studentUserWindows);
+        // }
     }, [adminUserWindows, teacherUserWindows, studentUserWindows]);
 
 
@@ -96,8 +117,8 @@ const UsersDashboard = () => {
             <section className='bg-white-950 p-4 md:p-10 lg:p-16 mt-8 md:mt-18 lg:mt-18 h-auto md:h-[600px]'>
                 <div className=' grid grid-cols-1 ml-24 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-28 md:mt-8'>
                     {
-                        menu.map((s) => (
-                            <NavLink to={s[1]}>
+                        menu.map((s, index) => (
+                            <NavLink key={index} to={s[1]}>
                                 <div key={s} className="transform transition-transform hover:scale-105 
                                 flex-shrink-0 flex flex-col font-bold text-lg items-center justify-center bg-gray-200 
                                 bg-opacity-70 text-black h-32">
