@@ -7,9 +7,10 @@ import toast from 'react-hot-toast';
 
 
 
+
 const ClassRoomForm = () => {
 
-    const { showForm, setShowForm, editForm, setEditForm } = useContext(AuthContext)
+    const { showForm, setShowForm, editForm, setEditForm,classrooms,setClassrooms } = useContext(AuthContext)
 
     const [courseOptions, setCourseOptions] = useState([]);
     const [students, setStudents] = useState([]);
@@ -110,7 +111,8 @@ const ClassRoomForm = () => {
 
             if (response.status == 201) {
                 setShowForm(false)
-                toast.success("The Class Room is Created Successfully", {
+                console.log(response.data)
+                toast.success('The Class Room is Created Successfully', {
                     autoClose: 5000,
                 });
             }

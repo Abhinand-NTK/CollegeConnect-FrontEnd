@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { clearErrorMessage, setErrorMessage } from '../features/Login/AuthSlice';
+// import { ErrorResponseImpl } from '@remix-run/router/dist/utils';
 
 const BASE_URL = "http://localhost:8000/api/";
 
@@ -590,10 +591,77 @@ export const StaffUserServices = {
     }
   }
 
-
-
-
-
 }
 
 
+export const StudentUserServices = {
+
+
+  GetSubjectsStudents: async () => {
+    const token = localStorage.getItem('Token')
+    const data_user = jwtDecode(token)
+    try {
+      const response = axiosInstance.get(`${BASE_URL}studentuser/getsubejcts/${data_user.user_id}/`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  GetMedia: async (class_room_staff_id, sub_id) => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}studentuser/media/?class_room_staff_id=${class_room_staff_id}&sub_id=${sub_id}`);
+      // const response = await axiosInstance.get(`${BASE_URL}studentuser/media/?class_room_staff_id=${class_room_staff_id}/?sub_id=${sub_id}`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  GetAttendence: async () => {
+    const token = localStorage.getItem('Token')
+    const data_user = jwtDecode(token)
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}studentuser/studentattendence/${data_user.user_id}`)
+      return response.data
+    } catch (error) {
+
+    }
+  },
+  RequestingForLeave: async (formdata) => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}studentuser/requestforleave/`, formdata)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  GetReqeustStatus: async (id) => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}studentuser/requestforleave/${id}/`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  GetReqeustStatusUsers: async () => {
+    const token = localStorage.getItem('Token')
+    const data_user = jwtDecode(token)
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}studentuser/requestforleave/?id=${data_user.user_id}`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  ApprovalLeave : async (id) => {
+    const token = localStorage.getItem('Token')
+    const data_user = jwtDecode(token)
+    
+    try {
+      const response = await axiosInstance.patch(`${BASE_URL}studentuser/requestforleave/${id}/?id=${data_user.user_id}`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+}

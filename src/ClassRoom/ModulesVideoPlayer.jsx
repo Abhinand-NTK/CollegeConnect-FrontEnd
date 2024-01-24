@@ -7,6 +7,8 @@ import { FaUpload } from "react-icons/fa";
 import { StaffUserServices } from '../services/authservices';
 import { useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { jwtDecode } from 'jwt-decode';
+
 
 
 
@@ -19,6 +21,12 @@ const ModulesVideoPlayer = () => {
     const [urlData, setDataUrl] = useState([])
 
     console.log("Thi is hte id u have:--", id____)
+
+    const Token = localStorage.getItem('Token')
+
+    const decoded = jwtDecode(Token);
+
+    console.log("The User Type Is :---", decoded.user_type)
 
 
 
@@ -243,69 +251,71 @@ const ModulesVideoPlayer = () => {
                         </div>
                     </div>
                     {/* Right Side - Options */}
-                    <div className="w-1/4 bg-white p-4">
-                        <div className="flex flex-col space-y-4">
-                            {/* File input */}
-                            <input
-                                className='bg-gradient-to-r from-indigo-200 to-indigo-700 text-white py-2 px-4 rounded flex items-center justify-center'
-                                type="file"
-                                accept="video/*"
-                                onChange={handleFileChange}
-                            />
+                    {
+                        decoded.user_type && decoded.user_type == 2 &&
 
-                            {/* Upload Button */}
-                            <button
-                                className='bg-gradient-to-r from-indigo-200 to-indigo-700 text-white py-2 px-4 rounded flex items-center justify-center'
-                                onClick={handleUpload}
-                            >
-                                <span className="mr-2 font-bold">Upload</span>
-                                <FaUpload />
-                            </button>
-                            <div className="relative pt-1">
-                                <div className="flex mb-2 items-center justify-between">
-                                    <div>
-                                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-indigo-600 bg-indigo-200">
-                                            Upload Progress
-                                        </span>
+                        <div className="w-1/4 bg-white p-4">
+                            <div className="flex flex-col space-y-4">
+                                {/* File input */}
+                                <input
+                                    className='bg-gradient-to-r from-indigo-200 to-indigo-700 text-white py-2 px-4 rounded flex items-center justify-center'
+                                    type="file"
+                                    accept="video/*"
+                                    onChange={handleFileChange}
+                                />
+
+                                {/* Upload Button */}
+                                <button
+                                    className='bg-gradient-to-r from-indigo-200 to-indigo-700 text-white py-2 px-4 rounded flex items-center justify-center'
+                                    onClick={handleUpload}
+                                >
+                                    <span className="mr-2 font-bold">Upload</span>
+                                    <FaUpload />
+                                </button>
+                                <div className="relative pt-1">
+                                    <div className="flex mb-2 items-center justify-between">
+                                        <div>
+                                            <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-indigo-600 bg-indigo-200">
+                                                Upload Progress
+                                            </span>
+                                        </div>
+                                        <div className="text-right">
+                                            <span className="text-xs font-semibold inline-block text-indigo-600">
+                                                {uploadProgress.toFixed(2)}%
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div className="text-right">
-                                        <span className="text-xs font-semibold inline-block text-indigo-600">
-                                            {uploadProgress.toFixed(2)}%
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="flex flex-col items-center">
-                                    <div className="w-full bg-gray-200 rounded-full">
-                                        <div
-                                            className="bg-gradient-to-r from-indigo-500 to-indigo-700 text-xs leading-none py-1 text-center text-white rounded-full"
-                                            style={{ width: `${uploadProgress}%` }}
-                                        >
-                                            {uploadProgress > 0 && uploadProgress < 100 && `${uploadProgress.toFixed(2)}%`}
+                                    <div className="flex flex-col items-center">
+                                        <div className="w-full bg-gray-200 rounded-full">
+                                            <div
+                                                className="bg-gradient-to-r from-indigo-500 to-indigo-700 text-xs leading-none py-1 text-center text-white rounded-full"
+                                                style={{ width: `${uploadProgress}%` }}
+                                            >
+                                                {uploadProgress > 0 && uploadProgress < 100 && `${uploadProgress.toFixed(2)}%`}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
+
+                                {/* Edit Button */}
+                                <button
+                                    className="bg-gradient-to-r from-indigo-200 to-indigo-700 text-white py-2 px-4 rounded flex items-center justify-center"
+                                    onClick={handleEdit}
+                                >
+                                    Edit
+                                </button>
+
+                                {/* Delete Button */}
+                                <button
+                                    className="bg-gradient-to-r from-indigo-200 to-indigo-700 text-white py-2 px-4 rounded flex items-center justify-center"
+                                    onClick={handleDelete}
+                                >
+                                    Delete
+                                </button>
                             </div>
-
-
-                            {/* Edit Button */}
-                            <button
-                                className="bg-gradient-to-r from-indigo-200 to-indigo-700 text-white py-2 px-4 rounded flex items-center justify-center"
-                                onClick={handleEdit}
-                            >
-                                Edit
-                            </button>
-
-                            {/* Delete Button */}
-                            <button
-                                className="bg-gradient-to-r from-indigo-200 to-indigo-700 text-white py-2 px-4 rounded flex items-center justify-center"
-                                onClick={handleDelete}
-                            >
-                                Delete
-                            </button>
                         </div>
-                    </div>
-
-
+                    }
                 </div>
             </section>
         </div>
