@@ -627,6 +627,8 @@ export const StudentUserServices = {
     }
   },
   RequestingForLeave: async (formdata) => {
+
+    console.log("This is the data that is coming form the jsx ::----",formdata)
     try {
       const response = await axiosInstance.post(`${BASE_URL}studentuser/requestforleave/`, formdata)
       return response

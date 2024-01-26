@@ -24,11 +24,13 @@ const UserProfileCard = () => {
             console.log(response)
             if (response?.staff) {
                 setUserDetails(response?.staff)
+                setImage(response?.staff?.user_image)
             }
             else {
+                response.student.user_image = `http://127.0.0.1:8000${response.student.user_image}`;
                 setStudentUserDetails(response?.student)
+                setImage(response?.student?.user_image)
             }
-            setImage(response?.staff?.user_image)
             console.log(response?.staff?.user_image)
             console.log("The response for get furntion:----", response)
         } catch (error) {
