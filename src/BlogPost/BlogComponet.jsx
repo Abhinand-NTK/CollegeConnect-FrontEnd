@@ -92,32 +92,32 @@ const BlogPostComponent = ({ title, content, id, data, setdata, item, setShowFor
   });
 
 
-  const sharePost = async (post) => {
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: post.title,
-          text: post.description,
-          url: post.url,
-        });
-      } else {
-        // Fallback for browsers that do not support the Web Share API
-        alert(`Sharing not supported on this device or browser.`);
-      }
-    } catch (error) {
-      console.error('Error sharing post:', error);
-    }
-  };
+  // const sharePost = async (post) => {
+  //   try {
+  //     if (navigator.share) {
+  //       await navigator.share({
+  //         title: post.title,
+  //         text: post.description,
+  //         url: post.url,
+  //       });
+  //     } else {
+  //       // Fallback for browsers that do not support the Web Share API
+  //       alert(`Sharing not supported on this device or browser.`);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error sharing post:', error);
+  //   }
+  // };
 
-  // Example usage
-  const post = {
-    title: 'Example Post',
-    description: 'This is a sample post.',
-    url: 'https://example.com/posts/1',
-  };
+  // // Example usage
+  // const post = {
+  //   title: 'Example Post',
+  //   description: 'This is a sample post.',
+  //   url: 'https://example.com/posts/1',
+  // };
 
-  // Trigger the share function
-  sharePost(post);
+  // // Trigger the share function
+  // sharePost(post);
 
 
 
@@ -210,16 +210,19 @@ const BlogPostComponent = ({ title, content, id, data, setdata, item, setShowFor
         <div className='flex'>
           <div className='p-4'
             onClick={() => { likebutton(id) }}
+            style={{ cursor: 'pointer' }}
           >
             {item.user_like_status ?
               <FcLike style={{ fontSize: '24px' }} /> :
               <FcLikePlaceholder style={{ color: 'black', fontSize: '24px' }} />}
           </div>
-          <div className='p-4'>
+          <div className='p-4'
+            style={{ cursor: 'pointer' }}
+          >
             <TfiComments style={{ fontSize: '24px' }} />
           </div>
           <div className='p-4'
-            onClick={() => { sharePost() }}
+            style={{ cursor: 'pointer' }}
           >
             <IoMdShareAlt style={{ fontSize: '24px' }} />
           </div>
