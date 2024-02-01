@@ -1,56 +1,148 @@
 
-import React, { useState } from 'react';
+
+import React, { useContext, useEffect, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
-import { useFormik } from 'formik'; // Import useFormik
-import * as Yup from 'yup'; // Import Yup for validation
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import Layout from '../Components/Layout/Layout';
 import BlogPostComponent from './BlogComponet';
 import UserDetails from './UserDetails';
+import { AuthContext } from '../context/contex';
+import { StudentUserServices } from '../services/authservices';
+import toast from 'react-hot-toast';
+import { jwtDecode } from 'jwt-decode';
+import io from 'socket.io-client';
+
 
 const validationSchema = Yup.object({
     title: Yup.string().required('Title is required'),
-    postContent: Yup.string().required('Post content is required'),
+    content: Yup.string().required('Post content is required'),
 });
 
 const BlogPost = () => {
     const [showFirstDiv, setShowFirstDiv] = useState(true);
     const [showForm, setShowForm] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+    const [datas, setDatas] = useState(null);
+    const { setblogpost, blogpost } = useContext(AuthContext);
+    const [user_id, setUser_id] = useState(null);
+    const [likeCount, setLikeCount] = useState(0);
+   
 
-    // Use react-spring for animating only the BlogPostComponent
+
     const contentAnimation = useSpring({
         opacity: showFirstDiv ? 1 : 0,
         transform: showFirstDiv ? 'translateY(0)' : 'translateY(20px)',
     });
+
+
 
     const togglePostForm = () => {
         setShowForm(!showForm);
     };
 
     const handleImageChange = (event) => {
-        // Handle the selected image here
         const file = event.target.files[0];
         setSelectedImage(URL.createObjectURL(file));
     };
 
-    const submitPost = () => {
-        // Implement your post submission logic here
-        console.log('Post submitted!');
-    };
+    console.log("This is the data to edit parent", blogpost[0]?.title)
 
     const formik = useFormik({
         initialValues: {
-            title: '',
-            postContent: '',
-            // Add more fields if needed
+            title: blogpost[0]?.title || '',  // Use the values from blogpost if available, otherwise default to an empty string
+            content: blogpost[0]?.content || '',
+            id: blogpost[0]?.id || '',
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            // Handle submission logic here, you can access form data in the 'values' object
-            console.log('Form data:', values);
-            // Add your logic to send data to the server (submitPost function?)
+            setblogpost(values);
+            submitPost(values);
         },
+        enableReinitialize: true,
     });
+
+    const submitPost = async (postData) => {
+        try {
+            const response = await StudentUserServices.CreateBlogPost(postData);
+            if (response?.status == 201) {
+                setShowForm(false)
+                toast.success('This is a success toast message', {
+                    position: 'top-right',
+                    duration: 3000, // Adjust the duration as needed (in milliseconds)
+                });
+                getAllPost()
+            }
+            if (response?.status == 205) {
+                setShowForm(false)
+                toast.success('Your Blog is Updated Sucessfully', {
+                    position: 'top-right',
+                    duration: 3000, // Adjust the duration as needed (in milliseconds)
+                });
+                getAllPost()
+            }
+            console.log('This is the response:', response);
+        } catch (error) {
+            console.error('Error submitting post:', error);
+        }
+    };
+
+
+    const getAllPost = async () => {
+        try {
+            const response = await StudentUserServices.getBlogPost()
+            console.log('allposts are', response)
+            setDatas(response?.data)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+
+    useEffect(() => {
+        getAllPost()
+        const token = localStorage.getItem('Token');
+
+        if (token && !user_id) {
+            setUser_id(jwtDecode(token).user_id);
+        }
+    }, [])
+
+
+    const token = localStorage.getItem('Token')
+    const data_user = jwtDecode(token)
+    
+
+  useEffect(() => {
+    const ws = new WebSocket(`ws://localhost:8000/ws/notifications/${data_user.user_id}/`);
+
+    ws.onopen = () => {
+      console.log('WebSocket connection opened');
+    };
+
+    ws.onmessage = (event) => {
+      const notification = JSON.parse(event.data);
+      console.log('Received notification:', notification);
+      const messageToDisplay = notification.notification;
+      toast.success(messageToDisplay, {
+        position: 'top-right',
+        duration: 7000, // Adjust the duration as needed (in milliseconds)
+      });
+
+    };
+
+    ws.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+
+    // Remember to close the WebSocket connection when the component unmounts
+    return () => {
+      ws.close();
+    };
+  }, []);
+
 
     return (
         <section className='bg-white p-4 md:p-10 lg:p-16 mt-8 md:mt-24 h-auto md:h-[600px]'>
@@ -107,12 +199,12 @@ const BlogPost = () => {
                                 <form onSubmit={formik.handleSubmit} className=''>
                                     <textarea
                                         id="postTextarea"
-                                        name="postContent"
+                                        name="content"
                                         className="w-full p-4 border rounded-md mt-4 items-center"
                                         placeholder="Write your post here..."
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        value={formik.values.postContent}
+                                        value={formik.values.content}
                                     ></textarea>
 
                                     <input
@@ -136,13 +228,15 @@ const BlogPost = () => {
 
                     <div className='w-full ml-4 lg:w-3/4 md:w-3/4 '>
                         <animated.div style={contentAnimation}>
-                            <BlogPostComponent title="Blog Title 1" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
-                            <BlogPostComponent title="Blog Title 2" content="Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+                            {datas && datas.map((item, index) => (
+                                <BlogPostComponent
+                                    key={index} title={item.title} content={item.content} id={item.id} user_id={item?.user_id} item={item} showForm={showForm} setShowForm={setShowForm} data={datas} setdata={setDatas} />
+                            ))}
                         </animated.div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </div >
+        </section >
     );
 };
 

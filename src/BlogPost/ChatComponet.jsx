@@ -1,16 +1,3 @@
-// import React from 'react'
-
-// const ChatComponet = () => {
-//   return (
-//     <div>
-
-
-
-//     </div>
-//   )
-// }
-
-// export default ChatComponet
 
 import React from 'react';
 
