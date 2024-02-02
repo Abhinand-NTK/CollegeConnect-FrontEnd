@@ -44,10 +44,8 @@ const UserDetails = () => {
     }, [])
 
     return (
-        <div className='w-full lg:w-3/4 rounded-xl ml-4 lg:ml-8 lg:flex lg:items-center'>
-
-
-            <div className='lg:flex lg:flex-col lg:items-center lg:text-center bg-white p-10 rounded-lg shadow-md'>
+        <div className='w-full lg:w-full rounded-xl ml-4 lg:ml-8 lg:flex lg:items-center'>
+            <div className='lg:flex w-50 lg:flex-col lg:items-center lg:text-center bg-white p-10 rounded-lg shadow-md'>
                 <img
                     src={userInfo.profilePic}
                     alt='Profile Pic'
@@ -60,14 +58,14 @@ const UserDetails = () => {
                 {/* Additional user details for a blog app */}
                 <p className='text-gray-600 mb-4'>{userInfo.bio}</p>
 
-                <div className='flex space-x-4 mb-4'>
+                {/* <div className='flex space-x-4 mb-4'>
                     <button className='bg-indigo-900 text-white px-4 py-2 rounded-md inline-block'>
                         Follow
                     </button>
                     <button className='bg-indigo-900 text-white px-4 py-2 rounded-md inline-block'>
                         Message
                     </button>
-                </div>
+                </div> */}
             </div>
         </div>
     );

@@ -12,7 +12,7 @@ import { StudentUserServices } from '../services/authservices';
 import toast from 'react-hot-toast';
 import { jwtDecode } from 'jwt-decode';
 import io from 'socket.io-client';
-
+import { GrSend } from "react-icons/gr";
 
 const validationSchema = Yup.object({
     title: Yup.string().required('Title is required'),
@@ -27,7 +27,9 @@ const BlogPost = () => {
     const { setblogpost, blogpost } = useContext(AuthContext);
     const [user_id, setUser_id] = useState(null);
     const [likeCount, setLikeCount] = useState(0);
-   
+    const [activeUsers, setActiveUsers] = useState([]);
+
+
 
 
     const contentAnimation = useSpring({
@@ -103,6 +105,7 @@ const BlogPost = () => {
 
     useEffect(() => {
         getAllPost()
+        StudentUserServices.activeusers()
         const token = localStorage.getItem('Token');
 
         if (token && !user_id) {
@@ -113,35 +116,68 @@ const BlogPost = () => {
 
     const token = localStorage.getItem('Token')
     const data_user = jwtDecode(token)
-    
 
-  useEffect(() => {
-    const ws = new WebSocket(`ws://localhost:8000/ws/notifications/${data_user.user_id}/`);
 
-    ws.onopen = () => {
-      console.log('WebSocket connection opened');
-    };
 
-    ws.onmessage = (event) => {
-      const notification = JSON.parse(event.data);
-      console.log('Received notification:', notification);
-      const messageToDisplay = notification.notification;
-      toast.success(messageToDisplay, {
-        position: 'top-right',
-        duration: 7000, // Adjust the duration as needed (in milliseconds)
-      });
 
-    };
+    useEffect(() => {
+        const socket = new WebSocket('ws://localhost:8000/ws/active_users/');
 
-    ws.onclose = () => {
-      console.log('WebSocket connection closed');
-    };
+        socket.onmessage = (event) => {
+            console.log('Raw WebSocket message:', event.data);
 
-    // Remember to close the WebSocket connection when the component unmounts
-    return () => {
-      ws.close();
-    };
-  }, []);
+            const data = JSON.parse(event.data);
+            const newActiveUsers = data;
+
+            const updatedActiveUsers = newActiveUsers.filter(newUser => (
+                !activeUsers.some(existingUser => existingUser.email == newUser.email)
+            ));
+
+            setActiveUsers(prevActiveUsers => [...prevActiveUsers, ...updatedActiveUsers]);
+
+            const uniqueUsersByEmail = Array.from(new Set(activeUsers.map(user => user.email)))
+                .map(uniqueEmail => activeUsers.find(user => user.email == uniqueEmail));
+
+            console.log("Unique users based on email:", uniqueUsersByEmail);
+
+        };
+
+        // Clean up the WebSocket connection when the component unmounts
+        return () => {
+            socket.close();
+        };
+    }, [activeUsers]);
+
+
+    useEffect(() => {
+        const ws = new WebSocket(`ws://localhost:8000/ws/notifications/${data_user.user_id}/`);
+
+        ws.onopen = () => {
+            console.log('WebSocket connection opened');
+        };
+
+        ws.onmessage = (event) => {
+            const notification = JSON.parse(event.data);
+            console.log('Received notification:', notification);
+            const messageToDisplay = notification.notification;
+            toast.success(messageToDisplay, {
+                position: 'top-right',
+                duration: 7000, // Adjust the duration as needed (in milliseconds)
+            });
+
+        };
+
+        ws.onclose = () => {
+            console.log('WebSocket connection closed');
+        };
+
+        // Remember to close the WebSocket connection when the component unmounts
+        return () => {
+            ws.close();
+        };
+    }, []);
+
+
 
 
     return (
@@ -151,6 +187,27 @@ const BlogPost = () => {
                 <div className='lg:w-1/4 h-screen'>
                     <div className='w-full fixed lg:relative'>
                         {showFirstDiv && <UserDetails />}
+                        <div className="flex flex-col ml-12">
+                            {activeUsers.length > 0 && <h2 className="text-lg font-semibold text-center mb-2">Active Users</h2>}
+                            {activeUsers.map((item, index) => (
+                                <div key={index} className="bg-white p-4 rounded-md shadow-md mb-4">
+                                    <div className="right-0 bg-green-500 rounded-full w-2 h-2"></div>
+                                    <div className='flex justify-between items-center'>
+                                        <div className='mt-2'>
+                                            <p className="font-semibold">{item?.first_name}</p>
+                                        </div>
+                                        <div>
+                                            <button className="bg-indigo-500 text-white px-2 py-1 rounded">
+                                                <GrSend />
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center mt-2">
+                                        <p className="text-gray-500 text-xs">{item?.email}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <div className='w-3/4 h-screen flex flex-col items-center'>

@@ -10,6 +10,7 @@ import { StaffUserServices, StudentUserServices } from '../services/authservices
 import toast from 'react-hot-toast';
 import { AuthContext } from '../context/contex';
 import io from 'socket.io-client';
+import BlogComment from './BlogComment';
 
 const BlogPostComponent = ({ title, content, id, data, setdata, item, setShowForm, showForm, user_id }) => {
 
@@ -18,6 +19,8 @@ const BlogPostComponent = ({ title, content, id, data, setdata, item, setShowFor
   const { setblogpost, blogpost } = useContext(AuthContext);
   const [likeCount, setLikeCount] = useState(0);
   const [socket, setSocket] = useState(null);
+  const [click, setclick] = useState(false)
+
 
   const toggleDropdown = () => {
     setDropdownVisible(!isDropdownVisible);
@@ -202,7 +205,6 @@ const BlogPostComponent = ({ title, content, id, data, setdata, item, setShowFor
           />
 
         </div>
-
         <div className="mt-4">
           <h2 className='text-2xl font-bold text-gray-800 mb-2'>{title}</h2>
           <p className='text-gray-700'>{content}</p>
@@ -217,6 +219,7 @@ const BlogPostComponent = ({ title, content, id, data, setdata, item, setShowFor
               <FcLikePlaceholder style={{ color: 'black', fontSize: '24px' }} />}
           </div>
           <div className='p-4'
+            onClick={()=>{setclick(!click)}}
             style={{ cursor: 'pointer' }}
           >
             <TfiComments style={{ fontSize: '24px' }} />
@@ -227,6 +230,7 @@ const BlogPostComponent = ({ title, content, id, data, setdata, item, setShowFor
             <IoMdShareAlt style={{ fontSize: '24px' }} />
           </div>
         </div>
+        <BlogComment click={click} id={id}/>
       </div>
     </div >
   );
