@@ -627,6 +627,8 @@ export const StudentUserServices = {
     }
   },
   RequestingForLeave: async (formdata) => {
+
+    console.log("This is the data that is coming form the jsx ::----", formdata)
     try {
       const response = await axiosInstance.post(`${BASE_URL}studentuser/requestforleave/`, formdata)
       return response
@@ -652,12 +654,77 @@ export const StudentUserServices = {
       console.log(error)
     }
   },
-  ApprovalLeave : async (id) => {
+  ApprovalLeave: async (id) => {
     const token = localStorage.getItem('Token')
     const data_user = jwtDecode(token)
-    
+
     try {
       const response = await axiosInstance.patch(`${BASE_URL}studentuser/requestforleave/${id}/?id=${data_user.user_id}`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  CreateBlogPost: async (formdata) => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}blogpost/blogpost/`, formdata)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  getBlogPost: async () => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}blogpost/blogpost`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  removeBlogPost: async (id) => {
+    try {
+      const response = await axiosInstance.delete(`${BASE_URL}blogpost/blogpost/${id}/`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  LikesForThePost: async (id) => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}blogpost/blogpostlike/`, { 'id': id })
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  CommentsForThePost: async (values) => {
+    console.log(values)
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}blogpost/commentforblogpost/`, values)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  GetCommentsForThePost: async (id) => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}blogpost/commentforblogpost/${id}/`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  deletecomment: async (id) => {
+    try {
+      const response = await axiosInstance.delete(`${BASE_URL}blogpost/commentforblogpost/${id}/`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  activeusers: async () => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}blogpost/activeusers/`)
       return response
     } catch (error) {
       console.log(error)
