@@ -9,7 +9,7 @@ const ChatComponent = () => {
             <Layout />
             <div className='flex ml-20'>
                 <div
-                    
+
                     className='flex-1 scrollNone p-2 w-full sm:w-1/2  sm:p-6 overflow-y-scroll items-center border-4  flex flex-col h-screen'>
                     <div className='w-full  p-4   shadow-md shadow-gray-600 rounded-sm '>
                         <img
@@ -24,7 +24,7 @@ const ChatComponent = () => {
                             src="https://t3.ftcdn.net/jpg/05/17/79/88/360_F_517798849_WuXhHTpg2djTbfNf0FQAjzFEoluHpnct.jpg" alt="" />
                         test
                     </div>
-                        
+
                 </div>
 
                 <div className="flex-1 p-2 w-full sm:w-1/2 border-4 sm:p-6 justify-between items-center flex flex-col h-screen">
