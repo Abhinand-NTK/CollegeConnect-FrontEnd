@@ -9,15 +9,9 @@ const Modules = ({ classroom, index }) => {
     const [showDiv, setShowDiv] = useState(false);
     const { id__ } = useParams()
     const [moduels, setModuels] = useState([])
-
-
-
-    console.log("This is the id of this classroom ::---", id__)
-
     const handleButtonClick = async () => {
         const response = await StaffUserServices.CreateModulesForClassRoom({ class_room_staff_id: id__ })
 
-        console.log('This is the response', response)
         if (response.status == 201) {
             toast.success('Moduels is creted', {
                 duration: 5000,
@@ -32,7 +26,6 @@ const Modules = ({ classroom, index }) => {
     const getModules = async () => {
         try {
             const response = await StaffUserServices.GetTheModulesofclassroom(id__)
-            console.log(response)
             setModuels(response)
         } catch (error) {
 
@@ -40,7 +33,6 @@ const Modules = ({ classroom, index }) => {
     }
 
     const DeleteModule = async (item_id) => {
-        console.log("The funtion is calling for delete :--")
         try {
             const response = await StaffUserServices.DeleteModule(item_id)
             if (response.status == 204) {
@@ -57,7 +49,6 @@ const Modules = ({ classroom, index }) => {
         }
     }
 
-    console.log("This is the data in the back end", moduels)
 
     useEffect(() => {
         getModules()

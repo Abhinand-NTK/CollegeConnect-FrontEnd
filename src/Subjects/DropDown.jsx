@@ -23,7 +23,6 @@ const DropDown = ({ item, index, GetMedia, cls, links }) => {
         },
         subtitles: [
             {
-                // text: "71% Percentage",
                 verticalAlign: "center",
                 fontSize: 10,
                 dockInsidePlotArea: true,
@@ -35,9 +34,6 @@ const DropDown = ({ item, index, GetMedia, cls, links }) => {
             fontFamily: "Arial",
             fontSize: 10,
             fontWeight: "bold",
-            // itemTextFormatter: function (e) {
-            //     return e.dataPoint.name + ": " + e.dataPoint.y + "%";
-            // },
         },
         backgroundColor: "#E5E7EB",
         data: [
@@ -51,7 +47,6 @@ const DropDown = ({ item, index, GetMedia, cls, links }) => {
                 indexLabelFontWeight: "bold",
                 indexLabelFontColor: "black",
                 indexLabelLineColor: "white",
-                // indexLabelPlacement: "outside",
                 dataPoints: [
                     { name: "Critical", y: 10 },
                     { name: "Withheld", y: 30 },
@@ -73,10 +68,6 @@ const DropDown = ({ item, index, GetMedia, cls, links }) => {
         console.log(sub_id, cls_id)
 
     }
-
-    // console.log("This is the class",cls)
-
-
 
     return (
         <NavLink key={index} to=''>

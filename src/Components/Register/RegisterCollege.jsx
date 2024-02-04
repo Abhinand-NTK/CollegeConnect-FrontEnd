@@ -66,7 +66,6 @@ const RegisterCollege = () => {
         try {
             setLoadingPage(true)
             const statesResponse = await axios.get('http://localhost:3000/allstates');
-            console.log(statesResponse)
             const collegesResponse = await axios.get(`http://localhost:3000/colleges/state/?states=${state}`);
             setStates(statesResponse.data);
             setColleges(collegesResponse.data);
@@ -110,11 +109,9 @@ const RegisterCollege = () => {
     const [loading, setLoading] = useState(false)
 
     const handleRegisterCollege = async () => {
-        console.log("reqeust is send")
         try {
             setLoading(true)
             const response = await userService.registerCollege(formData);
-            console.log(response.status)
             if (response.status) {
                 toast.success('Your Collge is registerd Successfully', {
                     style: {

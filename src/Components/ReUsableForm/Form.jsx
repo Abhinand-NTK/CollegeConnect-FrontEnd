@@ -30,9 +30,7 @@ const ReUsableForm = ({ fieldNames, onSubmit, data, setdata }) => {
 
   const getStaffs = async () => {
     const fetchedStaffs = await CollgeAdminServices.getStaffDetails();
-    console.log(fetchedStaffs)
     const staffs = fetchedStaffs.map((student) => student.staff_details);
-    console.log(staffs.map((s) => s.id))
     setStaffs(staffs)
   }
 

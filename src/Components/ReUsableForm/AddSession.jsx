@@ -56,7 +56,6 @@ const AddSession = () => {
     if (!value) {
       try {
         const response = await CollgeAdminServices.addSession(formData)
-        console.log("This is the post ", response)
         if (response.status === 201) {
           closeModal()
           fetchData()
@@ -68,7 +67,6 @@ const AddSession = () => {
     } else {
       try {
         const response = await CollgeAdminServices.editSession(formData)
-        console.log("This is the post ", response)
         if (response.status === 200) {
           closeModal()
           fetchData()
@@ -84,13 +82,11 @@ const AddSession = () => {
   const handleEditClick = (rowData) => {
     setValue(rowData)
     openModal()
-    console.log('Edit button clicked for:', rowData.edit);
 
   };
 
 
   const handleDeleteClick = (rowData) => {
-    console.log('Delete button clicked for:', rowData);
   };
 
 

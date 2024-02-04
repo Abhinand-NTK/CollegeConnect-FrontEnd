@@ -29,15 +29,11 @@ const UserDetails = () => {
                 email: response?.staff?.email || response?.student?.email,
                 CollegeName: response?.staff?.collge_id?.collegename || response?.student?.collge_id?.collegename
             }));
-
-
-            console.log("User Details:", response);
         } catch (error) {
             console.error("Error fetching user details:", error);
         }
     };
 
-    console.log(user)
 
     useEffect(() => {
         UserDetail()

@@ -40,6 +40,7 @@ import AttendanceTable from './ClassRoom/AttendanceTable'
 import LeaveRequestApprovel from './Components/LeaveReqeust/LeaveRequestApprovel'
 import PublicRoute from './Routes/PublicRoutes'
 import NotFound from './Components/NotFoundPage/NotFound'
+import ChangePasswordForm from './Components/ForgotPassword/ChangePasswordForm'
 
 
 
@@ -72,13 +73,14 @@ function App() {
           </Route> */}
 
           {/* <Route path='/signin/' element={<Login />}></Route> */}
-          {/* <Route path='/dashboard' element={<DashBoard />}></Route> */}
+          <Route path='/dashboard' element={<DashBoard />}></Route>
           {/* <Route path='/manage' element={<UsersDashboard />}></Route> */}
           {/* <Route path='/users/profilecard' element={<UserProfileCard />}></Route> */}
           {/* <Route path='/users/profilecard/:id' element={<StaffStudentBasicInfo />}></Route> */}
           {/* <Route path='/users/usersdata' element={<UsersDataList />}></Route> */}
           {/* <Route path='/users/otpverification' element={<OtpVerification />}></Route> */}
           {/* <Route path='/users/checkout' element={<Intiate />}></Route> */}
+          <Route path='/resetpassword' element={<ChangePasswordForm />}></Route>
 
 
           <Route path='*' element={<NotFound />}></Route>
@@ -86,9 +88,9 @@ function App() {
           <Route path='/role' element={<Role />}></Route>
 
           <Route path='/menu' element={<Menu />}></Route>
-          <Route element={<PrivateRoute />}>
+          {/* <Route element={<PrivateRoute />}>
             <Route path='/dashboard' element={<DashBoard />} />
-          </Route>
+          </Route> */}
           <Route element={<PrivateRoute role={[1,2,3]} />}>
             <Route path='/manage' element={<UsersDashboard />} />
           </Route>

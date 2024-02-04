@@ -21,7 +21,6 @@ const LeaveRequestApprovel = () => {
     const GetLeaveReqeustDetails = async () => {
         try {
             const response = await StudentUserServices.GetReqeustStatusUsers()
-            console.log(response)
             setLeaveRequests(response.data)
 
         } catch (error) {

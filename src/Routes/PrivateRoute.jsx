@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { is_logged, loading } from '../features/Login/AuthSlice';
 import { jwtDecode } from 'jwt-decode';
+import { StaffUserServices } from '../services/authservices';
 
 
 const PrivateRoute = ({ role, hods }) => {
@@ -65,32 +66,15 @@ const PrivateRoute = ({ role, hods }) => {
         }
       }
       if (set) {
-        navigate("*")
+        navigate("/*")
       }
     }
     if (hod) {
       if (hods && hod){
-        navigate('*')
+        navigate('/*')
       }
     }
   }, [isLoggedIn, load, navigate, showLoading, role, decode_token]);
-
-  // useEffect(() => {
-
-  //   if (role) {
-  //     const user_ids = decode_token?.user_type;
-  //     let set = true
-  //     for (let i = 0; i < role.length; i++) {
-  //       console.log(role[i]);
-  //       if (role[i] == user_ids) {
-  //         set = false
-  //       }
-  //     }
-  //     if (set) {
-  //       navigate("*")
-  //     }
-  //   }
-  // }, [decode_token, role, navigate]);
 
 
   if (showLoading) {

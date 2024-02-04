@@ -32,11 +32,9 @@ const AddStudnet = () => {
       // Assuming the response contains an array of courses with 'id' and 'coursename' properties
       const students = response.data || [];
 
-      console.log(students[0].semester)
 
       const student = students.map((student) => student.student_details)
 
-      console.log(student)
 
 
       // Create table data dynamically based on the courses
@@ -107,7 +105,6 @@ const AddStudnet = () => {
   };
 
   const handleDeleteClick = async (rowData) => {
-    console.log('Delete button clicked for:', rowData);
     try {
       const response = await CollgeAdminServices.blockStaff(rowData.delete)
       if (response.status == 200) {
@@ -122,7 +119,6 @@ const AddStudnet = () => {
   const handleClickCreateStudentAccount = async (formData) => {
     try {
       const response = await CollgeAdminServices.createUser(formData)
-      console.log("This is the user data", response)
       if (response.status === 200) {
         // Show success toast message
         toast.success('Your College is registered Successfully', {

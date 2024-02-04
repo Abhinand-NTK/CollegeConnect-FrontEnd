@@ -14,7 +14,6 @@ const LeaveRequestForm = () => {
     const userdetails = async () => {
         try {
             const response = await StaffUserServices.UserDetails();
-            console.log(response);
             if (response?.staff) {
                 setUserDetails([response?.staff]); // Assuming staff is an object, wrap it in an array
             } else {
@@ -29,15 +28,11 @@ const LeaveRequestForm = () => {
     };
 
     const onSubmit = async (data) => {
-        console.log(data);
         data.requestor = userdetailss.length > 0 ? userdetailss[0].id : studentUserDetails?.id;
-        console.log("This is the data",data);
-        // console.log(UserDetails.id);
 
         setSubmittedRequest({ ...data, status: 'Submitted' });
         try {
             const response = await StudentUserServices.RequestingForLeave(data);
-            console.log(response);
             if (response.status == 201) {
                 toast.success('The Request is submitted successfully');
                 GetRequestStatus(userdetailss.length > 0 ? userdetailss[0].id : studentUserDetails?.id);
@@ -52,9 +47,7 @@ const LeaveRequestForm = () => {
         try {
             const id_ = userdetailss?.id;
             if (id) {
-                console.log("This is the id for retrieve:----", id);
                 const response = await StudentUserServices.GetReqeustStatus(id || id_);
-                console.log(response);
                 setSubmittedRequest(response?.data);
             }
         } catch (error) {

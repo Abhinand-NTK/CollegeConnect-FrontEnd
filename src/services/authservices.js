@@ -206,9 +206,9 @@ export const userService = {
 
 export const CollgeAdminServices = {
 
-  Subscribe : async()=>{
+  Subscribe: async () => {
     try {
-      const response = await axiosInstance.post(`${BASE_URL}payment/payments/`,{id:1})
+      const response = await axiosInstance.post(`${BASE_URL}payment/payments/`, { id: 1 })
       return response
     } catch (error) {
       console.log(error)
@@ -463,6 +463,7 @@ export const StaffUserServices = {
     const token = localStorage.getItem('Token')
     const data_user = jwtDecode(token)
     try {
+      console.log("The users profile is this", formdata)
       const response = await axiosInstance.patch(`${BASE_URL}staffuser/getprofile/${data_user.user_id}/`, formdata)
       return response
     } catch (error) {
@@ -682,6 +683,8 @@ export const StudentUserServices = {
     }
   },
   CreateBlogPost: async (formdata) => {
+
+    console.log("This is the form data want to send for creating a blog post ::--", formdata)
     try {
       const response = await axiosInstance.post(`${BASE_URL}blogpost/blogpost/`, formdata)
       return response
@@ -772,6 +775,46 @@ export const MessageService = {
     try {
       const response = axiosInstance.get(`${BASE_URL}messages/connections/`)
       return response
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+
+export const PasswordManageSerive = {
+  Otpsend: async (data) => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}superadmin/otpsend/`, { data })
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  VerifyOtp: async (data) => {
+    const userId = localStorage.getItem('user_id');
+    try {
+      const response = await axiosInstance.patch(`${BASE_URL}superadmin/otpsend/${userId}/`, { data })
+      return response
+    } catch (error) {
+      console.log(error)
+      return error
+    }
+  },
+  ResetPassword: async (data) => {
+    const userId = localStorage.getItem('user_id');
+    try {
+      const response = await axiosInstance.patch(`${BASE_URL}superadmin/resetpassword/${userId}/`, { data })
+      return response
+    } catch (error) {
+      console.log(error)
+      return error
+    }
+  },
+  SubscrptionStatus: async () => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}superadmin/dashboard`)
+      return response?.data
     } catch (error) {
       console.log(error)
     }

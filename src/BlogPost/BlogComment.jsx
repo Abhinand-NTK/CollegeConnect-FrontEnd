@@ -18,7 +18,6 @@ const BlogComment = ({ id, click }) => {
             const response = await StudentUserServices.deletecomment(comment_id)
             const updatedDatas = comments?.filter(item => item.id !== comment_id);
             setComments(updatedDatas)
-            console.log("the deleted response", response)
             if (response.status == 204) {
                 toast.success("The comment is delted successfully")
             }
@@ -72,7 +71,7 @@ const BlogComment = ({ id, click }) => {
     });
 
 
-    console.log("comments are this", comments)
+    
 
     useEffect(() => {
         if (click) {

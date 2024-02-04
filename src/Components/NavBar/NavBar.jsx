@@ -4,19 +4,9 @@ import { logout } from '../../features/Login/AuthSlice';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
-
-
-
-
 const Navbar = () => {
 
     const token = localStorage.getItem('Token')
-    // const data_user = jwtDecode(token)
-
-    // const options_For_SuperUser = ['Logout']
-    // const options_For_admin = []
-    // const options_For_staff = []
-    // const options_For_student = []
     const dispath = useDispatch()
     const navigate = useNavigate()
 
@@ -62,15 +52,6 @@ const Navbar = () => {
                                  hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700
                                  dark:hover:text-white" onClick={logout_session} aria-current="page">Logout</a>
                             </li>
-                            {/* <li>
-                                <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Services</a>
-                            </li>
-                            <li>
-                                <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white">Pricing</a>
-                            </li>
-                            <li>
-                                <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Contact</a>
-                            </li> */}
                         </ul >
                     </div >
                 </div>

@@ -8,7 +8,6 @@ export const loginUser = createAsyncThunk(
     try {
       // Make your API call here
       const response = await userService.login(credentials);
-      console.log("what is thsis",response)
       return response;
     } catch (error) {
       console.log("This is the errror",error)

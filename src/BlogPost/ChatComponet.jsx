@@ -20,10 +20,10 @@ const ChatComponent = () => {
     const [resmessage, setResMessage] = useState('');
     const { re } = useParams()
     const [messageData, setMessageData] = useState('');
-    console.log("receiver_id_is ", re, data_user.user_id);
+   
 
     const sendMessage = async () => {
-        console.log("This is  the reciver___id", re)
+        
         const updatedMessageData = {
             sender: data_user.user_id,
             receiver: re,
@@ -37,7 +37,7 @@ const ChatComponent = () => {
 
 
         const response = await MessageService.Messaging(updatedMessageData);
-        console.log(response);
+      
     };
 
     const getmessages = async () => {
@@ -53,9 +53,6 @@ const ChatComponent = () => {
             });
 
             setResMessage(sortedMessages);
-
-
-            console.log(resmessage)
 
         } catch (error) {
 
@@ -155,9 +152,6 @@ const ChatComponent = () => {
                             </span>
                         </div>
                     ))}
-
-
-
                 </div>
 
                 <div className="flex-1 p-2 w-full sm:w-1/2 border-4 sm:p-6 justify-between  flex flex-col h-screen">
@@ -195,7 +189,6 @@ const ChatComponent = () => {
                                 <div className="w-full ">
                                     <p>{item?.content}</p>
                                     <p className='text-xs text-end'>{extractTimeFromTimestamp(item?.timestamp)}</p>
-                                    {/* <p>{extractTimeFromTimestamp(item?.timestamp)}</p> */}
                                 </div>
                             </div>
                         ))}

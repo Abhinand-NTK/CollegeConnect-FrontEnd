@@ -6,14 +6,7 @@ import ClassRoomForm from './ClassRoomForm';
 import { AuthContext } from '../context/contex';
 import { StaffUserServices } from '../services/authservices';
 
-
-
-
 const   ClassRoom = () => {
-
-    
-
-    // const [classrooms, setClassrooms] = useState([])
 
     const { showForm, setShowForm, editForm, setEditForm,setClassrooms,classrooms } = useContext(AuthContext)
 
@@ -32,13 +25,10 @@ const   ClassRoom = () => {
         try {
             const response = await StaffUserServices.GetClassRooms()
             setClassrooms(response)
-
-
         } catch (error) {
 
         }
     }
-    console.log("This is the ", classrooms)
 
     useEffect(() => {
         fetechclassrooms()

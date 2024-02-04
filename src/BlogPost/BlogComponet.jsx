@@ -21,13 +21,13 @@ const BlogPostComponent = ({ title, content, id, data, setdata, item, setShowFor
   const [socket, setSocket] = useState(null);
   const [click, setclick] = useState(false)
 
-
+  console.log("This is the item", item?.image_url)
   const toggleDropdown = () => {
     setDropdownVisible(!isDropdownVisible);
   };
 
   const likebutton = async (id) => {
-    console.log("The users like buttons ");
+
     try {
       // Send a like for the post
       const response = await StudentUserServices.LikesForThePost(id);
@@ -95,33 +95,6 @@ const BlogPostComponent = ({ title, content, id, data, setdata, item, setShowFor
   });
 
 
-  // const sharePost = async (post) => {
-  //   try {
-  //     if (navigator.share) {
-  //       await navigator.share({
-  //         title: post.title,
-  //         text: post.description,
-  //         url: post.url,
-  //       });
-  //     } else {
-  //       // Fallback for browsers that do not support the Web Share API
-  //       alert(`Sharing not supported on this device or browser.`);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error sharing post:', error);
-  //   }
-  // };
-
-  // // Example usage
-  // const post = {
-  //   title: 'Example Post',
-  //   description: 'This is a sample post.',
-  //   url: 'https://example.com/posts/1',
-  // };
-
-  // // Trigger the share function
-  // sharePost(post);
-
 
 
 
@@ -186,25 +159,21 @@ const BlogPostComponent = ({ title, content, id, data, setdata, item, setShowFor
                   Remove
                 </button>
               </li>
-              {/* <li>
-                <Link to="/report" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                  Report
-                </Link>
-              </li> */}
             </ul>
 
 
           </div>
         </div>
 
-        <div className='h-60'>
-          <img
-            src="image source"
-            className="img-fluid rounded-top"
-            alt=""
-          />
-
-        </div>
+        {item?.image_url &&
+          <div className='h-60'>
+            <img
+              src={item?.image_url}
+              className="img-fluid rounded-top"
+              alt=""
+            />
+          </div>
+        }
         <div className="mt-4">
           <h2 className='text-2xl font-bold text-gray-800 mb-2'>{title}</h2>
           <p className='text-gray-700'>{content}</p>
@@ -219,7 +188,7 @@ const BlogPostComponent = ({ title, content, id, data, setdata, item, setShowFor
               <FcLikePlaceholder style={{ color: 'black', fontSize: '24px' }} />}
           </div>
           <div className='p-4'
-            onClick={()=>{setclick(!click)}}
+            onClick={() => { setclick(!click) }}
             style={{ cursor: 'pointer' }}
           >
             <TfiComments style={{ fontSize: '24px' }} />
@@ -230,7 +199,7 @@ const BlogPostComponent = ({ title, content, id, data, setdata, item, setShowFor
             <IoMdShareAlt style={{ fontSize: '24px' }} />
           </div>
         </div>
-        <BlogComment click={click} id={id}/>
+        <BlogComment click={click} id={id} />
       </div>
     </div >
   );

@@ -23,7 +23,6 @@ const ClassRoomForTeachers = () => {
     const userdetails = async () => {
         try {
             const response = await StaffUserServices.UserDetails()
-            console.log(response)
             setId(response?.id)
         } catch (error) {
             console.log(error)
@@ -34,7 +33,6 @@ const ClassRoomForTeachers = () => {
         try {
             if (id != null) {
                 const response = await StaffUserServices.GetClassroomsForTeachers(id)
-                console.log(response)
                 setClassrooms(response)
             }
 
@@ -51,10 +49,6 @@ const ClassRoomForTeachers = () => {
 
     }, [id])
 
-
-
-
-
     useEffect(() => {
         fetechclassrooms(id)
         userdetails()
@@ -65,51 +59,6 @@ const ClassRoomForTeachers = () => {
         <div>
             <Layout />
             <section className='bg-white p-4 md:p-10 lg:p-16 mt-8 md:mt-12 h-auto md:h-[600px]'>
-                {/* <div className='grid ml-20 grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mt-8 justify-center items-center'>
-                    {classrooms.map((classroom, index) => (
-                        <div
-                            key={index}
-                            className='transform transition-transform hover:scale-105 
-                                        flex-shrink-0 flex flex-col font-bold text-lg items-center 
-                                        justify-center bg-gradient-to-br from-gray-300 to-gray-200 
-                                        bg-opacity-80 text-black h-52 rounded-md shadow-md'
-                        >
-                            <div className='items-center text-center'>
-                                <p className='font-light text-lg mb-2'><span className='font-semibold text-xl'>Class Name:</span> {classroom.class_id?.name}</p>
-                                <p className='font-light text-sm mb-2'><span className='font-semibold text-md'>Subject:</span> {classroom?.sub_id?.name}</p>
-                                <p className='font-light text-sm mb-2'><span className='font-semibold text-md'>Semester:</span> {classroom?.sub_id?.semester}</p>
-                                <p className='font-light text-sm'><span className='font-semibold text-md'>Course:</span> {classroom?.class_id?.course?.coursename}</p>
-                            </div>
-
-                            <div className="flex flex-col mt-2 items-center">
-                                <NavLink className='text-black-300 hover:underline transition-all duration-300' to={`/users/staffs/classroomspecs/${classroom?.class_id?.id}`} key={index} >Go to Attendance</NavLink>
-                                <NavLink className='text-black-300 hover:underline transition-all duration-300' to={`/users/staffs/classroomspecs/${classroom?.class_id?.id}`} key={index} >Go to Modules</NavLink>
-                            </div>
-                        </div>
-                    ))}
-                </div> */}
-                {/* <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mt-8 justify-center items-center'>
-                    {classrooms.map((classroom, index) => (
-                        <div
-                            key={index}
-                            className='transform transition-transform hover:scale-105 
-                flex-shrink-0 flex flex-col font-bold text-lg items-center justify-center bg-gray-300 
-                bg-opacity-80 text-black h-48 rounded-md shadow-md'
-                        >
-                            <div className='items-center text-center'>
-                                <p className='font-light text-lg mb-2'><span className='font-semibold text-xl'>Class Name:</span> {classroom.class_id?.name}</p>
-                                <p className='font-light text-sm mb-2'><span className='font-semibold text-md'>Subject:</span> {classroom?.sub_id?.name}</p>
-                                <p className='font-light text-sm mb-2'><span className='font-semibold text-md'>Semester:</span> {classroom?.sub_id?.semester}</p>
-                                <p className='font-light text-sm'><span className='font-semibold text-md'>Course:</span> {classroom?.class_id?.course?.coursename}</p>
-                            </div>
-
-                            <div className="flex flex-col mt-4 items-center">
-                                <NavLink className='text-blue-300 hover:underline transition-all duration-300' to={`/users/staffs/classroomspecs/${classroom?.class_id?.id}`} key={index} >Go to Modules</NavLink>
-                                <a href="/attendance" className="text-blue-300 hover:underline mt-2 transition-all duration-300">Go to Attendance</a>
-                            </div>
-                        </div>
-                    ))}
-                </div> */}
                 <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mt-8 ml-12
                 justify-center items-center'>
                     {classrooms.map((classroom, index) => (

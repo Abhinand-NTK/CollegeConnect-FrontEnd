@@ -14,14 +14,9 @@ const UserProfileCard = () => {
     const [image, setImage] = useState(null);
     const [sendImage, setsendImage] = useState(null);
 
-
-
-
-
     const userdetails = async () => {
         try {
             const response = await StaffUserServices.UserDetails()
-            console.log(response)
             if (response?.staff) {
                 setUserDetails(response?.staff)
                 setImage(response?.staff?.user_image)
@@ -31,14 +26,11 @@ const UserProfileCard = () => {
                 setStudentUserDetails(response?.student)
                 setImage(response?.student?.user_image)
             }
-            console.log(response?.staff?.user_image)
-            console.log("The response for get furntion:----", response)
         } catch (error) {
             console.log(error)
         }
     }
 
-    console.log("This is the image url for the respected image", image)
     useEffect(() => {
         userdetails()
     }, [])
@@ -58,7 +50,6 @@ const UserProfileCard = () => {
         const reader = new FileReader();
         reader.onload = () => {
             const previewUrl = reader.result;
-            console.log('Preview URL:', previewUrl);
         };
         reader.readAsDataURL(file);
         let formData
@@ -71,14 +62,13 @@ const UserProfileCard = () => {
     const upload_image = async (formData) => {
         if (sendImage) {
             // Create a FormData object and append the image file
-            console.log("This is the image i have:---", image)
             formData = new FormData();
             formData.append('image', sendImage);
         };
         if (formData) {
+            console.log("User deatils for changing the images::---   ",formData)
             try {
                 const response = await StaffUserServices.EditUserDetails(formData)
-                console.log(response)
                 if (response.status == 200) {
                     toast.success("Profile Picture updated Sucessfully")
                     userdetails()
@@ -95,7 +85,6 @@ const UserProfileCard = () => {
         document.getElementById('fileInput').click();
     };
 
-    console.log('CollegeName',userDetails)
 
 
 

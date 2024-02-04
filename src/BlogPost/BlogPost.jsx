@@ -14,6 +14,9 @@ import { jwtDecode } from 'jwt-decode';
 import io from 'socket.io-client';
 import { GrSend } from "react-icons/gr";
 import { Link, useNavigate } from 'react-router-dom';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
+import { storage } from '../Firebase/config';
+
 
 
 
@@ -33,7 +36,11 @@ const BlogPost = () => {
     const [activeUsers, setActiveUsers] = useState([]);
 
 
-
+    // Create the file metadata for any video type
+    /** @type {any} */
+    const metadata = {
+        contentType: 'image/*'
+    };
 
     const contentAnimation = useSpring({
         opacity: showFirstDiv ? 1 : 0,
@@ -42,22 +49,29 @@ const BlogPost = () => {
 
 
 
+
     const togglePostForm = () => {
         setShowForm(!showForm);
     };
 
+    let file = ''
     const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        setSelectedImage(URL.createObjectURL(file));
+
+        const selectedFile = event.target.files[0];
+        if (selectedFile) {
+            setSelectedImage(URL.createObjectURL(selectedFile));
+            formik.setFieldValue('image_url', selectedFile); // Set the image_url field value in Formik
+        }
     };
 
-   
+
 
     const formik = useFormik({
         initialValues: {
             title: blogpost[0]?.title || '',
             content: blogpost[0]?.content || '',
             id: blogpost[0]?.id || '',
+            image_url: blogpost[0]?.image_url || '',
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -68,8 +82,55 @@ const BlogPost = () => {
     });
 
     const submitPost = async (postData) => {
+        let storageRef;
+        let uploadTask;
+
+        // Use selectedFile from formik.values.image_url instead of selectedImage
+        storageRef = ref(storage, 'blogimages/' + postData.image_url.name);
+
+        // Use selectedFile from formik.values.image_url instead of selectedImage
+        uploadTask = uploadBytesResumable(storageRef, postData.image_url, metadata);
+
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+
+                switch (snapshot.state) {
+                    case 'paused':
+                        console.log('Upload is paused');
+                        break;
+                    case 'running':
+                        console.log('Upload is running');
+                        break;
+                }
+            },
+            (error) => {
+                switch (error.code) {
+                    case 'storage/unauthorized':
+                        break;
+                    case 'storage/canceled':
+                        break;
+                    case 'storage/unknown':
+                        break;
+                }
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    console.log('File available at', downloadURL);
+                    // Saveurl(downloadURL)
+                    savepost(postData, downloadURL)
+                });
+            }
+        );
+
+    };
+
+    const savepost = async (postData, url) => {
+        postData.image_url = url
         try {
             const response = await StudentUserServices.CreateBlogPost(postData);
+            // Rest of your code...
             if (response?.status == 201) {
                 setShowForm(false)
                 toast.success('This is a success toast message', {
@@ -86,17 +147,16 @@ const BlogPost = () => {
                 });
                 getAllPost()
             }
-            
         } catch (error) {
             console.error('Error submitting post:', error);
         }
-    };
+    }
 
 
     const getAllPost = async () => {
         try {
             const response = await StudentUserServices.getBlogPost()
-            
+
             setDatas(response?.data)
 
         } catch (error) {
@@ -127,34 +187,23 @@ const BlogPost = () => {
         const socket = new WebSocket('ws://localhost:8000/ws/active_users/');
 
         socket.onmessage = (event) => {
-            console.log('Raw WebSocket message:', event.data);
+
+
 
             const data = JSON.parse(event.data);
             const newActiveUsers = data;
 
-            // const updatedActiveUsers = newActiveUsers.filter(newUser => (
-            //     !activeUsers.some(existingUser => existingUser.email === newUser.email && existingUser.id !== activeUserId)
-            // ));
-
-            // setActiveUsers(prevActiveUsers => [...prevActiveUsers, ...updatedActiveUsers]);
-
-            // const uniqueUsersByEmail = Array.from(new Set(activeUsers.map(user => user.email)))
-            //     .map(uniqueEmail => activeUsers.find(user => user.email == uniqueEmail));
-
-            // console.log("Unique users based on email:", uniqueUsersByEmail);
 
             const updatedActiveUsers = newActiveUsers.filter(newUser => (
                 !activeUsers.some(existingUser => existingUser.email == newUser.email && existingUser.id != activeUserId)
             ));
 
-            
+
             const uniqueUsersByEmail = Array.from(new Set(activeUsers.map(user => user.email)))
-            .map(uniqueEmail => activeUsers.find(user => user.email == uniqueEmail))
-            .filter(user => user && user.id != activeUserId);
-            
-            console.log("Unique users based on email (excluding current user):", uniqueUsersByEmail);
-            
-            // setActiveUsers(prevActiveUsers => [...prevActiveUsers, ...uniqueUsersByEmail]);
+                .map(uniqueEmail => activeUsers.find(user => user.email == uniqueEmail))
+                .filter(user => user && user.id != activeUserId);
+
+
             setActiveUsers(updatedActiveUsers);
 
         };
@@ -175,7 +224,7 @@ const BlogPost = () => {
 
         ws.onmessage = (event) => {
             const notification = JSON.parse(event.data);
-            console.log('Received notification:', notification);
+
             const messageToDisplay = notification.notification;
             toast.success(messageToDisplay, {
                 position: 'top-right',
@@ -202,9 +251,6 @@ const BlogPost = () => {
     };
 
 
-
-
-
     return (
         <section className='bg-white p-4 md:p-10 lg:p-16 mt-8 md:mt-24 h-auto md:h-[600px]'>
             <Layout />
@@ -222,11 +268,6 @@ const BlogPost = () => {
                                             <p className="font-semibold">{item?.first_name}</p>
                                         </div>
                                         <div>
-                                            {/* <Link
-                                                className="bg-indigo-500 text-white px-2 py-1 rounded"
-                                                to="/users/messages">
-                                                <GrSend />
-                                            </Link> */}
                                             <button
                                                 onClick={() => (handleClick(item.id))}
                                                 className="bg-indigo-500 text-white px-2 py-1 rounded">
@@ -271,21 +312,46 @@ const BlogPost = () => {
                                 <span>Choose an Image</span>
                                 <input
                                     type="file"
-                                    accept="image/*"
+                                    // accept="image/*"
                                     id="imageInput"
                                     onChange={handleImageChange}
                                     style={{ display: 'none' }}
                                 />
                             </label>
-
-                            {selectedImage && (
+                            {/* 
+                            {selectedImage || blogpost[0].image_url && (
                                 <div className="mt-4">
-                                    <img src={selectedImage} alt="Selected" className="max-w-full items-center h-100" />
+                                    <img src={blogpost[0].image_url?blogpost[0].image_url:selectedImage}
+
+                                     alt="Selected" className="max-w-full items-center h-100" />
+                                </div>
+                            )} */}
+                            {(selectedImage || (blogpost[0] && blogpost[0].image_url)) && (
+                                <div className="mt-4">
+                                    <img
+                                        src={blogpost[0] && blogpost[0].image_url ? blogpost[0].image_url : selectedImage}  
+                                        alt="Selected"
+                                        className="max-w-full items-center h-100"
+                                    />
                                 </div>
                             )}
 
+
                             <div id="blogPostForm" className="mt-8 w-full ml-4 ">
-                                <form onSubmit={formik.handleSubmit} className=''>
+                                <form onSubmit={formik.handleSubmit} className='' >
+                                    {/* <label className="custom-file-input-label mb-4">
+
+                                        <span>Choose an Image</span>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            id="imageInput"
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            value={formik.values.image_url}
+                                            style={{ display: 'none' }}
+                                        />
+                                    </label> */}
                                     <textarea
                                         id="postTextarea"
                                         name="content"

@@ -4,11 +4,9 @@ import { StudentUserServices } from '../services/authservices';
 
 
 const AttendanceTable = () => {
-    // Sample data (replace this with actual data)
     const attendanceData = [
         { id: 1, semster: 1, subject: 'ThermoDynamics', name: 'Student 1', attendancePercentage: 85 },
         { id: 2, semster: 1, subject: 'Mechanics', name: 'Student 2', attendancePercentage: 60 },
-        // Add more data as needed
     ];
 
     const [attendeceDatas, setAttendeceDatas] = useState({})
@@ -22,7 +20,6 @@ const AttendanceTable = () => {
         }
         fun()
     }, [])
-    console.log("This is the response", attendeceDatas)
 
 
     return (
@@ -41,7 +38,6 @@ const AttendanceTable = () => {
                         <tr key={index}>
                             <td className="border p-2 text-center">{index + 1}</td>
                             <td className="border p-2 text-center">{subjectKey}</td>
-                            {/* <td className="border p-2 text-center">{attendeceDatas.subjects[subjectKey]?.percentage || 0}</td> */}
                             <td className="border p-2 text-center">
                                 <div className="relative pt-1">
                                     <div className="flex mb-2 items-center justify-center">

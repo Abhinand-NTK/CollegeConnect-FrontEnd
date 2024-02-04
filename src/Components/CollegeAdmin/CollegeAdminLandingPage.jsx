@@ -9,7 +9,6 @@ const CollegeAdminLandingPage = () => {
 
     const [message, setMessage] = useState("");
     const [Check, setCheck] = useState("");
-
     // Use Effect is using for , Setting the Strip setup
 
     const subscription = async () => {
@@ -52,8 +51,6 @@ const CollegeAdminLandingPage = () => {
             // });
             const response = await CollgeAdminServices.Subscribe()
 
-            console.log("This is the url from the backend", response)
-
             // Handle the response as needed
             if (response.status === 200) {
                 subscription()
@@ -83,9 +80,7 @@ const CollegeAdminLandingPage = () => {
         { name: 'Paid time off', value: 'Unlimited' },
     ]
 
-    // const handleSubscribeClick = ()=>{
-    //     Navigate('/users/checkout/')
-    // }
+
 
     return (
         <Layout title='Home | Admin | Welcome ' content=' Admin Landing page'>

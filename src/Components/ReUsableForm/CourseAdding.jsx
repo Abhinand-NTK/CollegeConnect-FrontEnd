@@ -45,9 +45,6 @@ const CousreAdding = () => {
 
       // Assuming the response contains an array of courses with 'id' and 'coursename' properties
       const courses = response;
-
-      console.log("The course are", courses)
-
       // Create table data dynamically based on the courses
       const newTableData = courses.map((course, index) => ({
         no: index + 1,
@@ -77,7 +74,6 @@ const CousreAdding = () => {
     if (!value) {
       try {
         const response = await CollgeAdminServices.AddCourse(formData)
-        console.log("This is the post ", response)
         if (response.status === 201) {
           closeModal()
           fetchData()
@@ -89,7 +85,6 @@ const CousreAdding = () => {
     } else {
       try {
         const response = await CollgeAdminServices.editCourse(formData)
-        console.log("This is the post ", response)
         if (response.status === 200) {
           closeModal()
           fetchData()
@@ -105,12 +100,10 @@ const CousreAdding = () => {
   const handleEditClick = (rowData) => {
     setValue(rowData)
     openModal()
-    console.log('Edit button clicked for:', rowData.edit);
 
   };
 
   const handleDeleteClick = (rowData) => {
-    console.log('Delete button clicked for:', rowData);
   };
 
 

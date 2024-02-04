@@ -27,7 +27,7 @@ const Attendance = () => {
     const userdetails = async () => {
         try {
             const response = await StaffUserServices.UserDetails();
-            console.log(response);
+            
             setId(response?.id);
         } catch (error) {
             console.error('Error fetching user details:', error);
@@ -38,13 +38,11 @@ const Attendance = () => {
         try {
             if (id != null) {
                 const response = await StaffUserServices.GetClassroomsForTeachers(id);
-                console.log(response);
-
+             
                 if (Array.isArray(response) && response.length > 0) {
                     response?.forEach((item) => {
                         if (item.id == id_) {
                             const firstClassroomStudents = item.students || [];
-                            console.log('This is the classroom now', item.id);
                             const formattedStudents = firstClassroomStudents.map((student) => ({
                                 class_room_for_staff_id: item.id,
                                 id: student.id,
@@ -67,8 +65,6 @@ const Attendance = () => {
     };
 
     const handleCheckboxChange = (studentId) => {
-
-        console.log("This the students id:--",studentId)
         setStudents((prevStudents) =>
             prevStudents.map((student) =>
                 student.id === studentId ? { ...student, present: !student.present } : student
@@ -88,12 +84,9 @@ const Attendance = () => {
                 attendance_status: present ? 'present' : 'absent',
             }));
 
-            console.log("This is the formdata:::----",attendanceData)
-
             const response = await StaffUserServices.MarkAttendence(attendanceData);
 
             if (response.status == 201) {
-                console.log('Attendance submitted successfully');
 
                 // After submitting, update the attendance data in the table
                 getAttendance();
@@ -122,14 +115,12 @@ const Attendance = () => {
                 id_,
                 selectedDate.toISOString().split('T')[0]
             );
-            console.log('This is the attendance data:', response);
 
             setStudents(response.map((item) => ({
                 ...item,
                 present: item.attendance_status == 'present',
             })));
 
-            console.log("This is the students", students);
 
             setIsButtonVisible(response.length === 0);
         } catch (error) {
@@ -144,7 +135,6 @@ const Attendance = () => {
     }, [id_, selectedDate]);
 
     const handleEditAttendance = async () => {
-        console.log("This is the hide and unhide button,====>>>>.");
         setIsButtonVisible(!isButtonVisible);
         
     };

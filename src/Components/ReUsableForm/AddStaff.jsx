@@ -27,11 +27,7 @@ const AddStaff = () => {
     try {
       const response = await CollgeAdminServices.getStaffDetails();
       // Assuming the response contains an array of courses with 'id' and 'coursename' properties
-      // const staffs = response;
-      console.log(response)
       const staffs = response.map((student) => student.staff_details);
-      console.log("Details", response[0].is_hod)
-
 
       // Create table data dynamically based on the courses
       const newTableData = response.map((staff, index) => ({
@@ -70,7 +66,6 @@ const AddStaff = () => {
     if (!value) {
       try {
         const response = await CollgeAdminServices.AddStaff(formData)
-        console.log("This is the post ", response)
         if (response.status === 201) {
           closeModal()
           fetchData()
@@ -82,7 +77,6 @@ const AddStaff = () => {
     } else {
       try {
         const response = await CollgeAdminServices.editStaff(formData)
-        console.log("This is the post ", response)
         if (response.status === 200) {
           closeModal()
           fetchData()
@@ -99,13 +93,11 @@ const AddStaff = () => {
   const handleEditClick = (rowData) => {
     setValue(rowData)
     openModal()
-    console.log('Edit button clicked for:', rowData.edit);
 
   };
 
 
   const handleDeleteClick = async (rowData) => {
-    console.log('Delete button clicked for:', rowData);
     try {
       const response = await CollgeAdminServices.blockStaff(rowData.delete)
       if (response.status == 200) {
@@ -120,7 +112,6 @@ const AddStaff = () => {
   const handleClickCreateStudentAccount = async (formData) => {
     try {
       const response = await CollgeAdminServices.createUser(formData)
-      console.log("This is the user data", response)
       if (response.status === 200) {
         // Show success toast message
         toast.success('Your College is registered Successfully', {

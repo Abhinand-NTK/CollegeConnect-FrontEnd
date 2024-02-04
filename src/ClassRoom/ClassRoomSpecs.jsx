@@ -15,40 +15,20 @@ const ClassRoomSpecs = () => {
     const fetchClassroom = async (classroomId) => {
         try {
             const response = await StaffUserServices.GetClassRoom(classroomId);
-            
             setClassroomData(response);
         } catch (error) {
             console.error('Error fetching classroom:', error);
         }
     };
-
-
     useEffect(() => {
         if (id) {
             fetchClassroom(id);
-            // staffdetails(id)
         }
     }, [id]);
 
-
-
     const staffdetails = (id) => {
-        console.log(id);
         Navigate(`/users/profilecard/${id}`);
     };
-
-    console.log("This is the data that i have?????",classroomData)
-
-    // if (classroomData) {
-
-    //     classroomData.map((data) => {
-    //         data.students.map((data, index) => (
-    //             console.log(":-data",data)
-    //         ))
-
-    //     })
-
-    // }
 
     return (
         <div>
@@ -124,13 +104,6 @@ const ClassRoomSpecs = () => {
                                                         >
                                                             <FaUser size="1rem" />
                                                         </button>
-                                                        {/* <Link
-                                                            to={`/user/`}
-                                                            className="cursor-pointer w-9 h-4 shadow-[0_4px_10px_rgba(0,0,0,0.03)] text-sm font-normal transition-colors rounded-lg
-                                                            bg-white  hover:text-indigo-400"
-                                                        >
-                                                            <FaUser size="1rem" />
-                                                        </Link> */}
                                                     </div>
                                                 </div>
 

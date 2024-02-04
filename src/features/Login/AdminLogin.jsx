@@ -12,7 +12,6 @@ import { loading, selectuser } from './AuthSlice';
 const AdminLogin = () => {
 
   const load = useSelector(loading)
-  console.log(load)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setErr] = useState('');
@@ -38,7 +37,7 @@ const AdminLogin = () => {
 
   const login = async () => {
     try {
-      await dispatch(loginUser(user));
+      dispatch(loginUser(user));
       const Token = localStorage.getItem('Token');
       const decoded = jwtDecode(Token);
 

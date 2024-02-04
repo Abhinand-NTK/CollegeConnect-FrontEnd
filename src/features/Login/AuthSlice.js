@@ -15,7 +15,7 @@ const authSlice = createSlice({
   },
   reducers: {
     setErrorMessage: (state, action) => {
-      console.log("This is the state from the reducer :------",action.payload)
+      console.log("This is the state from the reducer :------", action.payload)
       state.error = action.payload;
     },
     clearErrorMessage: (state) => {
@@ -36,16 +36,21 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        console.log("The rotue is full filled the action",action.payload)
+        console.log("The rotue is full filled the action", action.payload)
         state.loading = false;
         state.isLoggedIn = true;
         state.user = action.payload;
-        if(action.payload == 401){
-          toast.error('The User is Blocked')
+        if (action.payload == 401) {
+          toast.error('When attempting to log in, please ensure that the entered username and password are correct. Additionally, if you find that your account is blocked, kindly reach out to support for further assistance.', {
+            style: {
+              fontSize: '16px',  // Set your desired font size
+              maxWidth: '900px', // Set your desired maximum width
+            },
+          })
         }
       })
       .addCase(loginUser.rejected, (state, action) => {
-        console.log("The rotue is rejected with some value",action.payload)
+        console.log("The rotue is rejected with some value", action.payload)
         state.loading = false;
         state.error = action.payload;
         // console.log("the Errror form slice",state.error)
@@ -56,7 +61,7 @@ const authSlice = createSlice({
 
 
 
-export const { loginStart, loginSuccess, loginFailure, logout,setErrorMessage,clearErrorMessage } = authSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, logout, setErrorMessage, clearErrorMessage } = authSlice.actions;
 export default authSlice.reducer;
 export const selectuser = ((state) => state.user.user)
 export const loading = ((state) => state.user.loading)

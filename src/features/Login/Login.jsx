@@ -26,31 +26,8 @@ const Login = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  // const login = async () => {
-  //   dispatch(loginUser(user));
-  //   const Token = localStorage.getItem('Token');
-  //   const decoded = jwtDecode(Token);
-
-  //   console.log('Token is this',decoded)
-
-  //   if (decoded && ! decoded.is_super_admin && decoded.user_type == "1" ) {
-  //     Navigate('/admin/landing');
-  //   } else if(user&&!decoded.is_super_admin) {
-  //     toast.error('Login Permission is Restricted !!', {
-  //       style: {
-  //         marginTop: '100px',
-  //       }
-  //     });
-  //     setError('Login Permission is Restricted !!');
-  //   }
-  // };
-
   const login = async () => {
     dispatch(loginUser(user));
-
-    // console.log('Token is this', decoded);
-
-
 
     if (localStorage.getItem('Token')) {
       const Token = localStorage.getItem('Token');
@@ -87,7 +64,6 @@ const Login = () => {
     <>
       <Layout title='Auth | Login | Login Dashboard' content='Login Dashboard page'>
         <div>
-          {/* bg-slate-900	 */}
           <section className="mt-40 md:mt-10 xl:mt-10 bg-gray-200 dark:bg-gray-900 background decoration-black">
             <div className="flex flex-col items-center justify-center  md:h-screen sm:py-0">
               <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
@@ -141,7 +117,7 @@ const Login = () => {
                           </label>
                         </div>
                       </div>
-                      <a href="/" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
+                      <a href="/resetpassword" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
                         Forgot password?
                       </a>
                     </div>
