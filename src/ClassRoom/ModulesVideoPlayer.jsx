@@ -324,19 +324,3 @@ const ModulesVideoPlayer = () => {
 };
 
 export default ModulesVideoPlayer;
-
-
-
-// {
-//     {
-//         selectedVideo && (
-//             <div>
-//                 <h2>Uploaded Video:</h2>
-//                 <video controls width="400" height="300">
-//                     <source src={selectedVideo} type="video/mp4" />
-//                     Your browser does not support the video tag.
-//                 </video>
-//             </div>
-//         )
-//     }
-// }

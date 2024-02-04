@@ -62,13 +62,13 @@ const LandingPage = () => {
                                 Register Your College →
                                 </button>
                             </div>
-                            <div className='text-white underline mt-5'>
+                            {/* <div className='text-white underline mt-5'>
                                 <button className='bg-transparent'
                                 onClick={()=>{Navigate('signup')}}
                                 >
                                 Register As Studnet →
                                 </button>
-                            </div>
+                            </div> */}
                         </div>
 
                     </div>

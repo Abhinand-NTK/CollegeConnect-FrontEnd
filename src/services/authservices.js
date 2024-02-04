@@ -190,6 +190,15 @@ export const userService = {
     const token = localStorage.getItem('Token');
     const data_user = jwtDecode(token);
     return data_user.user_id;
+  },
+  VerifySubscriptionDetails: async () => {
+    const id = 0
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}superadmin/subscription/${id}/`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
   }
 
 };
@@ -197,7 +206,14 @@ export const userService = {
 
 export const CollgeAdminServices = {
 
-
+  Subscribe : async()=>{
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}payment/payments/`,{id:1})
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
   AddCourse: async (formData) => {
     try {
       const response = await axiosInstance.post(`${BASE_URL}collegeadmin/addcourse/`, formData);
@@ -731,4 +747,33 @@ export const StudentUserServices = {
     }
   }
 
+}
+
+
+export const MessageService = {
+  Messaging: async (data) => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}messages/message/`, data)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  GetMessaging: async (reciver_id) => {
+    const params = reciver_id ? { reciver_id } : {};
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}messages/message/`, { params });
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  Connections: async () => {
+    try {
+      const response = axiosInstance.get(`${BASE_URL}messages/connections/`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }

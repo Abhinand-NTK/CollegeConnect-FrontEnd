@@ -38,7 +38,9 @@ import ChatComponent from './BlogPost/ChatComponet'
 import LeaveRequestForm from './Components/LeaveReqeust/LeaveRequest'
 import AttendanceTable from './ClassRoom/AttendanceTable'
 import LeaveRequestApprovel from './Components/LeaveReqeust/LeaveRequestApprovel'
-LeaveRequestApprovel
+import PublicRoute from './Routes/PublicRoutes'
+import NotFound from './Components/NotFoundPage/NotFound'
+
 
 
 
@@ -51,43 +53,138 @@ function App() {
     <>
       <Provider store={store}>
         <Routes>
-          <Route path='/' element={<LandingPage/>}></Route>
-          <Route path='/signin/' element={<Login />}></Route>
-          <Route path='/signup' element={<Register />}></Route>
+          {/* Public Routes in can access the commen users */}
+          <Route path='/' element={<PublicRoute element={<LandingPage />} />} />
+          <Route path='/signin/' element={<PublicRoute element={<Login />} />} />
+          <Route path='/admin' element={<PublicRoute element={<AdminLogin />} />}></Route>
+          <Route path='/signup' element={<PublicRoute element={<Register />} />}></Route>
+          <Route path='/collegregister' element={<PublicRoute element={<RegisterCollege />} />} ></Route>
+
+          {/* <Route path='/'>
+            <PublicRoute element={LandingPage} />
+          </Route> */}
+          {/* <Route element={<PublicRoute />}>
+            <Route path='/' element={<LandingPage />} />
+          </Route> */}
+          {/* <Route path='/' element={<LandingPage />}></Route> */}
+          {/* <Route element={<PublicRoute />}>
+            <Route path='/signin/' element={<Login />} />
+          </Route> */}
+
+          {/* <Route path='/signin/' element={<Login />}></Route> */}
+          {/* <Route path='/dashboard' element={<DashBoard />}></Route> */}
+          {/* <Route path='/manage' element={<UsersDashboard />}></Route> */}
+          {/* <Route path='/users/profilecard' element={<UserProfileCard />}></Route> */}
+          {/* <Route path='/users/profilecard/:id' element={<StaffStudentBasicInfo />}></Route> */}
+          {/* <Route path='/users/usersdata' element={<UsersDataList />}></Route> */}
+          {/* <Route path='/users/otpverification' element={<OtpVerification />}></Route> */}
+          {/* <Route path='/users/checkout' element={<Intiate />}></Route> */}
+
+
+          <Route path='*' element={<NotFound />}></Route>
+
           <Route path='/role' element={<Role />}></Route>
-          <Route path='/collegregister' element={<RegisterCollege />}></Route>
-          <Route path='/admin' element={<AdminLogin />}></Route>
+
           <Route path='/menu' element={<Menu />}></Route>
-          <Route path='/dashboard' element={<DashBoard />}></Route>
-          <Route path='/manage' element={<UsersDashboard />}></Route>
-          <Route path='/users/profilecard' element={<UserProfileCard />}></Route>
-          <Route path='/users/profilecard/:id' element={<StaffStudentBasicInfo />}></Route>
-          <Route path='/users/usersdata' element={<UsersDataList />}></Route>
-          <Route path='/users/otpverification' element={<OtpVerification />}></Route>
-          <Route path='/users/checkout' element={<Intiate />}></Route>
-          <Route path='/users/admin/addcourse' element={<CousreAdding/>}></Route>
-          <Route path='/users/admin/addstaff' element={<AddStaff/>}></Route>
-          <Route path='/users/admin/addstudent' element={<AddStudnet/>}></Route>
-          <Route path='/users/admin/addsubject' element={<AddSubject/>}></Route>
-          <Route path='/users/admin/addsession' element={<AddSession/>}></Route>
-          <Route path='/users/subjects' element={<Subjects/>}></Route>
-          <Route path='/users/staff/subjects/modules/:id__' element={<Modules/>}></Route>
-          <Route path='/users/staff/subjects/modules/videoplayer/:id____/:M_no' element={<ModulesVideoPlayer/>}></Route>
-          <Route path='/users/staff/classrooms' element={<ClassRoom/>}></Route>
-          <Route path='/users/staffs/classrooms' element={<ClassRoomForTeachers/>}></Route>
-          <Route path='/users/staff/classroomspecs/:id' element={<ClassRoomSpecs/>}></Route>
-          <Route path='/users/staffs/attendence/:id_' element={<Attendance/>}></Route>
-          <Route path='/users/blogpost' element={<BlogPost/>}></Route>
-          <Route path='/users/message' element={<ChatComponent/>}></Route>
-          <Route path='/users/leaverequest' element={<LeaveRequestForm/>}></Route>
-          <Route path='/users/attendance' element={<AttendanceTable/>}></Route>
-          <Route path='/users/leaverequestapprovel' element={<LeaveRequestApprovel/>}></Route>
+          <Route element={<PrivateRoute />}>
+            <Route path='/dashboard' element={<DashBoard />} />
+          </Route>
+          <Route element={<PrivateRoute role={[1,2,3]} />}>
+            <Route path='/manage' element={<UsersDashboard />} />
+          </Route>
+          <Route element={<PrivateRoute role={[2,3]} />}>
+            <Route path='/users/profilecard' element={<UserProfileCard />}></Route>
+          </Route>
+          <Route element={<PrivateRoute />}>
+            <Route path='/users/profilecard/:id' element={<StaffStudentBasicInfo />}></Route>
+          </Route>
+          <Route element={<PrivateRoute />}>
+            <Route path='/users/usersdata' element={<UsersDataList />}></Route>
+          </Route>
+          <Route element={<PrivateRoute role={[1]} />}>
+            <Route path='/users/admin/addcourse' element={<CousreAdding />}></Route>
+          </Route>
+          <Route element={<PrivateRoute role={[1]} />}>
+            <Route path='/users/admin/addstaff' element={<AddStaff />}></Route>
+          </Route>
+          <Route element={<PrivateRoute role={[1]} />}>
+            <Route path='/users/admin/addstudent' element={<AddStudnet />}></Route>
+          </Route>
+          <Route element={<PrivateRoute role={[1]} />}>
+            <Route path='/users/admin/addsubject' element={<AddSubject />}></Route>
+          </Route>
+          <Route element={<PrivateRoute role={[1]} />}>
+            <Route path='/users/admin/addsession' element={<AddSession />}></Route>
+          </Route>
+          <Route element={<PrivateRoute role={[2,3]} />}>
+            <Route path='/users/subjects' element={<Subjects />}></Route>
+          </Route>
+          <Route element={<PrivateRoute />}>
+            <Route path='/users/staff/subjects/modules/:id__' element={<Modules />}></Route>
+          </Route>
+          <Route element={<PrivateRoute />}>
+            <Route path='/users/staff/subjects/modules/videoplayer/:id____/:M_no' element={<ModulesVideoPlayer />}></Route>
+          </Route>
+          <Route element={<PrivateRoute role={[2]} hod={true} />}>
+            <Route path='/users/staff/classrooms' element={<ClassRoom />}></Route>
+          </Route>
+          <Route element={<PrivateRoute  role={[2]} />}>
+            <Route path='/users/staffs/classrooms' element={<ClassRoomForTeachers />}></Route>
+          </Route>
+          <Route element={<PrivateRoute />}>
+            <Route path='/users/staff/classroomspecs/:id' element={<ClassRoomSpecs />}></Route>
+          </Route>
+          <Route element={<PrivateRoute />}>
+            <Route path='/users/staffs/attendence/:id_' element={<Attendance />}></Route>
+          </Route>
+          <Route element={<PrivateRoute role={[2,3]} />}>
+            <Route path='/users/blogpost' element={<BlogPost />}></Route>
+          </Route>
+          <Route element={<PrivateRoute />}>
+            <Route path='/users/message' element={<ChatComponent />}></Route>
+          </Route>
+          <Route element={<PrivateRoute role={[2,3]}/>}>
+            <Route path='/users/leaverequest' element={<LeaveRequestForm />}></Route>
+          </Route>
+          <Route element={<PrivateRoute role={[3]} />}>
+            <Route path='/users/attendance' element={<AttendanceTable />}></Route>
+          </Route>
+          <Route element={<PrivateRoute role={[2]} hod={true} />}>
+            <Route path='/users/leaverequestapprovel' element={<LeaveRequestApprovel />}></Route>
+          </Route>
+          <Route element={<PrivateRoute />}>
+            <Route path='/users/messages/:re' element={<ChatComponent />}></Route>
+          </Route>
+          <Route element={<PrivateRoute />}>
+            <Route path='/users/messages/' element={<ChatComponent />}></Route>
+          </Route>
           <Route element={<PrivateRoute />}>
             <Route path='/admin/users' element={<AdminUsers />} />
           </Route>
-          <Route element={<PrivateRoute />}>
+          <Route element={<PrivateRoute role={[1]} />}>
             <Route path='/admin/landing' element={<CollegeAdminLandingPage />} />
-          </Route>  
+          </Route>
+
+          {/* <Route path='/users/admin/addcourse' element={<CousreAdding />}></Route> */}
+          {/* <Route path='/users/admin/addstaff' element={<AddStaff />}></Route> */}
+          {/* <Route path='/users/admin/addstudent' element={<AddStudnet />}></Route> */}
+          {/* <Route path='/users/admin/addsubject' element={<AddSubject />}></Route> */}
+          {/* <Route path='/users/admin/addsession' element={<AddSession />}></Route> */}
+          {/* <Route path='/users/subjects' element={<Subjects />}></Route> */}
+          {/* <Route path='/users/staff/subjects/modules/:id__' element={<Modules />}></Route> */}
+          {/* <Route path='/users/staff/subjects/modules/videoplayer/:id____/:M_no' element={<ModulesVideoPlayer />}></Route> */}
+          {/* <Route path='/users/staff/classrooms' element={<ClassRoom />}></Route> */}
+          {/* <Route path='/users/staffs/classrooms' element={<ClassRoomForTeachers />}></Route> */}
+          {/* <Route path='/users/staff/classroomspecs/:id' element={<ClassRoomSpecs />}></Route> */}
+          {/* <Route path='/users/staffs/attendence/:id_' element={<Attendance />}></Route> */}
+          {/* <Route path='/users/blogpost' element={<BlogPost />}></Route> */}
+          {/* <Route path='/users/message' element={<ChatComponent />}></Route> */}
+          {/* <Route path='/users/leaverequest' element={<LeaveRequestForm />}></Route> */}
+          {/* <Route path='/users/attendance' element={<AttendanceTable />}></Route> */}
+          {/* <Route path='/users/leaverequestapprovel' element={<LeaveRequestApprovel />}></Route> */}
+          {/* <Route path='/users/messages/:re' element={<ChatComponent />}></Route> */}
+          {/* <Route path='/users/messages/' element={<ChatComponent />}></Route> */}
+
         </Routes>
       </Provider>
     </>

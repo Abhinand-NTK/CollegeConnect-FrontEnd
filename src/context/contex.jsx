@@ -7,8 +7,9 @@ export function Context({ children }) {
     const [editForm, setEditForm] = useState(false);
     const [classrooms, setClassrooms] = useState([])
     const [blogpost, setblogpost] = useState([])
+    const [receiver, setreceiver] = useState([])
     return (
-        <AuthContext.Provider value={{setblogpost,blogpost,showForm, setShowForm, editForm, setEditForm,classrooms,setClassrooms }}>
+        <AuthContext.Provider value={{receiver,setreceiver,setblogpost,blogpost,showForm, setShowForm, editForm, setEditForm,classrooms,setClassrooms }}>
             {children}
         </AuthContext.Provider>
     );

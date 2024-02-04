@@ -16,7 +16,6 @@ import { StaffUserServices } from '../../services/authservices'
 
 
 
-
 const UsersDashboard = () => {
     const [checkPermission, setCheckPermission] = useState(null)
     // const [studentUserWindows, setstudentUserWindows] = useState(['Profile', 'Subjects', 'Attendence', 'Assignments', 'Blog', 'Analysis', 'Video Meetings'])
@@ -54,7 +53,7 @@ const UsersDashboard = () => {
         [
             ['Profile', '/users/profilecard', <ImProfile />],
             ['ClassRoom', '/users/staff/classrooms', <SiGoogleclassroom />],
-            ['Subjects', '/users/admin/addstaff', <MdSubject />],
+            // ['Subjects', '/users/admin/addstaff', <MdSubject />],
             ['Blog/Connect', '/users/blogpost', <FaBlogger />],
             ['Staffs & Students Leave Requests', '/users/leaverequestapprovel', <HiMiniPresentationChartBar />],
             ['Leave Request', '/users/leaverequest', <FcLeave />],
