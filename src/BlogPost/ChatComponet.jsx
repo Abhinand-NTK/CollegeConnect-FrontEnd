@@ -6,7 +6,8 @@ import { jwtDecode } from 'jwt-decode';
 import { MessageService } from '../services/authservices';
 import { FiSend } from "react-icons/fi";
 import { useNavigate, useParams } from 'react-router-dom';
-
+import { RiMailSendFill } from "react-icons/ri";
+import { FcNext } from "react-icons/fc";
 
 
 const ChatComponent = () => {
@@ -20,10 +21,10 @@ const ChatComponent = () => {
     const [resmessage, setResMessage] = useState('');
     const { re } = useParams()
     const [messageData, setMessageData] = useState('');
-   
+
 
     const sendMessage = async () => {
-        
+
         const updatedMessageData = {
             sender: data_user.user_id,
             receiver: re,
@@ -37,7 +38,7 @@ const ChatComponent = () => {
 
 
         const response = await MessageService.Messaging(updatedMessageData);
-      
+
     };
 
     const getmessages = async () => {
@@ -135,12 +136,12 @@ const ChatComponent = () => {
             <Layout />
             <div className='flex ml-20'>
                 <div
-
-                    className='flex-1 scrollNone p-2 w-full sm:w-1/2  sm:p-6 overflow-y-scroll items-center border-4  flex flex-col h-screen'>
+                    className='flex-1 scrollNone p-2 w-full sm:w-1/2  sm:p-6 overflow-y-scroll 
+                    items-center border-4  flex flex-col h-screen'>
                     {connection && connection.map((item, index) => (
                         <div
                             onClick={() => (handleClick(item.id))}
-                            // style={}
+                            style={{cursor:'pointer'}}
                             className='w-full flex gap-5 text-center  p-4   shadow-md shadow-gray-600 rounded-sm '>
                             <img
                                 key={index}
@@ -155,7 +156,7 @@ const ChatComponent = () => {
                 </div>
 
                 <div className="flex-1 p-2 w-full sm:w-1/2 border-4 sm:p-6 justify-between  flex flex-col h-screen">
-                    <div className="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
+                    {/* <div className="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
                         <div className="relative flex items-center space-x-4">
                             <div className="relative">
                                 <span className="absolute text-green-500 right-0 bottom-0">
@@ -176,7 +177,7 @@ const ChatComponent = () => {
                                 <span className="text-lg text-gray-600">Junior Developer</span>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
 
                     <div className='overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch focus:outline-none focus:placeholder-gray-40'>
@@ -198,6 +199,27 @@ const ChatComponent = () => {
                         <div className="relative flex">
                             <input
                                 type="text"
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                placeholder="Write your message!"
+                                className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-3"
+                            />
+                            <div
+                                onClick={sendMessage}
+                                className="cursor-pointer h-12 w-12 items-center flex justify-center bg-red-300"
+
+                            >
+                                {/* <RiMailSendFill  /> */}
+                                <FcNext />
+                            </div>
+                            {/* You can add more components or options here */}
+                        </div>
+                    </div>
+
+                    {/* <div className="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
+                        <div className="relative flex">
+                            <input
+                                type="text"
                                 onChange={(e) => { setMessage(e.target.value) }}
                                 placeholder="Write your message!"
                                 className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-3"
@@ -210,7 +232,7 @@ const ChatComponent = () => {
                             <div className="absolute right-0 items-center inset-y-0 hidden sm:flex">
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
             </div>

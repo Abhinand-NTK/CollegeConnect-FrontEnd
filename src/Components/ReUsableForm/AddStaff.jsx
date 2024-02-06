@@ -61,29 +61,67 @@ const AddStaff = () => {
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
   const [value, setValue] = useState("")
+  const [email, setEmails] = useState([]);
+
+
+  const emails = async () => {
+    try {
+      const response = await CollgeAdminServices.usedEmails()
+      setEmails(response?.emails)
+      console.log('email', response)
+    } catch (error) {
+
+    }
+  }
+
+  useEffect(() => {
+    emails()
+  }, [])
+
+
 
   const handleFormSubmit = async (formData) => {
-    if (!value) {
-      try {
-        const response = await CollgeAdminServices.AddStaff(formData)
-        if (response.status === 201) {
-          closeModal()
-          fetchData()
+
+    console.log("onsubmitting", formData['email'])
+    if (!email.includes(formData['email'])) {
+      if (!value) {
+        try {
+          const response = await CollgeAdminServices.AddStaff(formData)
+          if (response.status === 201) {
+            closeModal()
+            fetchData()
+          }
         }
-      }
-      catch {
-        console.log("Error")
+        catch {
+          console.log("Error")
+        }
+      } else {
+        try {
+          const response = await CollgeAdminServices.editStaff(formData)
+          if (response.status === 200) {
+            closeModal()
+            fetchData()
+          }
+        }
+        catch (error) {
+          console.log(error)
+        }
       }
     } else {
-      try {
-        const response = await CollgeAdminServices.editStaff(formData)
-        if (response.status === 200) {
-          closeModal()
-          fetchData()
+      if (value) {
+        try {
+          const response = await CollgeAdminServices.editStaff(formData)
+          if (response.status === 200) {
+            closeModal()
+            fetchData()
+          }
+        }
+        catch (error) {
+          console.log(error)
         }
       }
-      catch (error) {
-        console.log(error)
+      else {
+        toast.error("The email is alredy exist !!")
       }
     }
   };
@@ -107,6 +145,8 @@ const AddStaff = () => {
       console.log(error)
     }
   };
+
+
 
 
   const handleClickCreateStudentAccount = async (formData) => {

@@ -5,10 +5,12 @@ import Modal from '../Components/Modal/Modal';
 import ClassRoomForm from './ClassRoomForm';
 import { AuthContext } from '../context/contex';
 import { StaffUserServices } from '../services/authservices';
+import { FcDeleteDatabase } from "react-icons/fc";
+import toast from 'react-hot-toast';
 
-const   ClassRoom = () => {
+const ClassRoom = () => {
 
-    const { showForm, setShowForm, editForm, setEditForm,setClassrooms,classrooms } = useContext(AuthContext)
+    const { showForm, setShowForm, editForm, setEditForm, setClassrooms, classrooms } = useContext(AuthContext)
 
     const openModal = () => {
         setShowForm(true);
@@ -29,6 +31,19 @@ const   ClassRoom = () => {
 
         }
     }
+    const deletelclass = async (id) => {
+        try {
+            const response = await StaffUserServices.deleteClass(id)
+            if (response?.status == 204) {
+                toast.success("Deleted Sucessfully")
+                const updatedClassrooms = classrooms.filter(item => item.id !== id);
+                console.log(updatedClassrooms);
+                setClassrooms(updatedClassrooms)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(() => {
         fetechclassrooms()
@@ -46,7 +61,7 @@ const   ClassRoom = () => {
                 <div>
                     <Modal isOpen={showForm} onClose={closeModal}>
                         <div className='sm:w-[400px] md:w-[700px] h-96 overflow-y-scroll overflow-hidden scrollbar-hide'>
-                            <ClassRoomForm />
+                            <ClassRoomForm classroomss={fetechclassrooms} />
                         </div>
                     </Modal>
                 </div>
@@ -54,16 +69,24 @@ const   ClassRoom = () => {
                     {
                         classrooms.map((classroom, index) => {
                             return (
-                                <NavLink  to={`/users/staff/classroomspecs/${classroom.id}`}>
-                                    <div className=' transform transition-transform hover:scale-105 
-                                flex-shrink-0 flex flex-col font-bold text-lg items-center justify-center bg-gray-200 
-                                bg-opacity-70 text-black h-32'>
-                                        <div className='items-center text-center'>
-                                            <p className='font-semibold'>{classroom.name}</p>
-                                            <p className='text-sm'>{classroom.departments.map((dep)=>(dep.coursename))}</p>
+                                <div key={index}>
+                                    <NavLink to={`/users/staff/classroomspecs/${classroom.id}`}>
+                                        <div className=' transform transition-transform hover:scale-105 
+                                            flex-shrink-0 flex flex-col font-bold text-lg items-center justify-center bg-gray-200 
+                                            bg-opacity-70 text-black h-32'>
+                                            <div className='items-center text-center flex-col justify-center'>
+                                                <p className='font-semibold'>{classroom.name}</p>
+                                                <p className='text-sm'>{classroom.departments.map((dep) => (dep.coursename))}</p>
+                                            </div>
                                         </div>
+                                    </NavLink>
+                                    <div
+                                        onClick={() => { deletelclass(classroom.id) }}
+                                        style={{ cursor: 'pointer' }}
+                                        className='flex justify-center items-center h-7 bg-red-500'>
+                                        <FcDeleteDatabase />
                                     </div>
-                                </NavLink>
+                                </div>
                             )
                         })
                     }

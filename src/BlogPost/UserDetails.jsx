@@ -45,8 +45,8 @@ const UserDetails = () => {
     }
 
     return (
-        <div className='w-full lg:w-full rounded-xl ml-4 lg:ml-8 lg:flex lg:items-center'>
-            <div className='lg:flex w-50 lg:flex-col lg:items-center lg:text-center bg-white p-10 rounded-lg shadow-md'>
+        <div className='w-full lg:w-full rounded-xl  ml-4 lg:ml-8 lg:flex lg:items-center'>
+            <div className='lg:flex w-50 mt-24 lg:flex-col lg:items-center lg:text-center bg-white p-10 rounded-lg shadow-md'>
                 <img
                     src={userInfo.profilePic}
                     alt='Profile Pic'

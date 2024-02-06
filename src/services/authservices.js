@@ -159,6 +159,14 @@ export const userService = {
       throw error;
     }
   },
+  ExsitingEmails: async () => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}superadmin/register`)
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  },
   registerCollege: async (formData) => {
     try {
       const response = await axios.post(`${BASE_URL}superadmin/register/`, formData);
@@ -206,6 +214,14 @@ export const userService = {
 
 export const CollgeAdminServices = {
 
+  usedEmails: async () => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}collegeadmin/existemail/`)
+      return response?.data
+    } catch (error) {
+      console.log(error)
+    }
+  },
   Subscribe: async () => {
     try {
       const response = await axiosInstance.post(`${BASE_URL}payment/payments/`, { id: 1 })
@@ -396,6 +412,14 @@ export const CollgeAdminServices = {
 
 export const StaffUserServices = {
 
+  deleteClass: async (id) => {
+    try {
+      const response = await axiosInstance.delete(`${BASE_URL}staffuser/createclassroom/${id}/`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
   getCousers: async () => {
     try {
       const token = localStorage.getItem('Token');

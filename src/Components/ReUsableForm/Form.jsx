@@ -3,15 +3,20 @@
 import React, { useState, useEffect } from 'react';
 import { CollgeAdminServices, userService } from '../../services/authservices';
 import { selectuser } from '../../features/Login/AuthSlice';
+import toast from 'react-hot-toast';
 
 
 const ReUsableForm = ({ fieldNames, onSubmit, data, setdata }) => {
+
+  const [email, setEmails] = useState([]);
   const [formData, setFormData] = useState(
     fieldNames.reduce((acc, fieldName) => {
       acc[fieldName] = '';
       return acc;
     }, {})
   );
+
+  const [error, setError] = useState({ existemail: '' })
 
   //Get user id from the token
 
@@ -58,6 +63,13 @@ const ReUsableForm = ({ fieldNames, onSubmit, data, setdata }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    emails()
+    console.log(value)
+    if (name == 'email' && email.includes(value)) {
+      setError({ existemail: true });
+      e.preventDefault()
+      toast.error("The email is already in use. Please choose another one.")
+    }
 
     if (data) {
       setdata((prevData) => ({
@@ -76,10 +88,34 @@ const ReUsableForm = ({ fieldNames, onSubmit, data, setdata }) => {
   }; // <-- Missing closing brace
 
   const handleSubmit = (e) => {
+
+    const { name, value } = e.target;
+
+    if (name === 'email' && formData.email.includes(value)) {
+      setError({ existemail: true });
+      toast.error("The email is already in use. Please choose another one.");
+      // Additional logic or UI updates based on the error condition
+      return;
+    }
     e.preventDefault();
     onSubmit(formData);
   };
 
+
+
+  const emails = async () => {
+    try {
+      const response = await CollgeAdminServices.usedEmails()
+      setEmails(response?.emails)
+      console.log('email', response)
+    } catch (error) {
+
+    }
+  }
+
+  useEffect(() => {
+    emails()
+  }, [])
 
   return (
     <>

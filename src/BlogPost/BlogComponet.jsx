@@ -166,7 +166,7 @@ const BlogPostComponent = ({ title, content, id, data, setdata, item, setShowFor
         </div>
 
         {item?.image_url &&
-          <div className='h-60'>
+          <div className='h-60 mt-8'>
             <img
               src={item?.image_url}
               className="img-fluid rounded-top"
@@ -174,7 +174,7 @@ const BlogPostComponent = ({ title, content, id, data, setdata, item, setShowFor
             />
           </div>
         }
-        <div className="mt-4">
+        <div className="mt-32">
           <h2 className='text-2xl font-bold text-gray-800 mb-2'>{title}</h2>
           <p className='text-gray-700'>{content}</p>
         </div>

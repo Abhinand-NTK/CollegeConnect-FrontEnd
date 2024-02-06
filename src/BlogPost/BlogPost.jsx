@@ -52,6 +52,8 @@ const BlogPost = () => {
 
     const togglePostForm = () => {
         setShowForm(!showForm);
+        setSelectedImage(null)
+
     };
 
     let file = ''
@@ -138,6 +140,7 @@ const BlogPost = () => {
                     duration: 3000,
                 });
                 getAllPost()
+                setSelectedImage(null)
             }
             if (response?.status == 205) {
                 setShowForm(false)
@@ -252,7 +255,7 @@ const BlogPost = () => {
 
 
     return (
-        <section className='bg-white p-4 md:p-10 lg:p-16 mt-8 md:mt-24 h-auto md:h-[600px]'>
+        <section className='bg-white mt-20 h-auto md:h-[600px]'>
             <Layout />
             <div className='flex ml-12'>
                 <div className='lg:w-1/4 h-screen'>

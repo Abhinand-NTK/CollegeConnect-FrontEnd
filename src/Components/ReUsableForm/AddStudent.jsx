@@ -72,28 +72,77 @@ const AddStudnet = () => {
 
   const [value, setValue] = useState("")
 
+  // const handleFormSubmit = async (formData) => {
+  //   if (!value) {
+  //     try {
+  //       const response = await CollgeAdminServices.addStudent(formData)
+  //       if (response.status === 201) {
+  //         closeModal()
+  //         fetchData()
+  //       }
+  //     }
+  //     catch {
+  //       console.log("Error")
+  //     }
+  //   } else {
+  //     try {
+  //       const response = await CollgeAdminServices.editStudent(formData)
+  //       if (response.status === 200) {
+  //         closeModal()
+  //         fetchData()
+  //       }
+  //     }
+  //     catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  // };
+
+  const [emails, setEmails] = useState([]);
+
+
   const handleFormSubmit = async (formData) => {
-    if (!value) {
-      try {
-        const response = await CollgeAdminServices.addStudent(formData)
-        if (response.status === 201) {
-          closeModal()
-          fetchData()
+
+    console.log("onsubmitting", formData['email'])
+    if (!emails.includes(formData['email'])) {
+      if (!value) {
+        try {
+          const response = await CollgeAdminServices.addStudent(formData)
+          if (response.status === 201) {
+            closeModal()
+            fetchData()
+          }
         }
-      }
-      catch {
-        console.log("Error")
+        catch {
+          console.log("Error")
+        }
+      } else {
+        try {
+          const response = await CollgeAdminServices.editStudent(formData)
+          if (response.status === 200) {
+            closeModal()
+            fetchData()
+          }
+        }
+        catch (error) {
+          console.log(error)
+        }
       }
     } else {
-      try {
-        const response = await CollgeAdminServices.editStudent(formData)
-        if (response.status === 200) {
-          closeModal()
-          fetchData()
+      if (value) {
+        try {
+          const response = await CollgeAdminServices.editStudent(formData)
+          if (response.status === 200) {
+            closeModal()
+            fetchData()
+          }
+        }
+        catch (error) {
+          console.log(error)
         }
       }
-      catch (error) {
-        console.log(error)
+      else {
+        toast.error("The email is alredy exist !!")
       }
     }
   };
@@ -103,6 +152,21 @@ const AddStudnet = () => {
     openModal()
 
   };
+
+  const emailss = async () => {
+    try {
+      const response = await CollgeAdminServices.usedEmails()
+      setEmails(response?.emails)
+      console.log('email', response)
+    } catch (error) {
+
+    }
+  }
+
+  useEffect(() => {
+    emailss()
+  }, [])
+
 
   const handleDeleteClick = async (rowData) => {
     try {

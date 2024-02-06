@@ -21,10 +21,13 @@ const ChangePasswordForm = () => {
       if (response?.status == 200) {
         toast.success("otp send is sucessfully")
         localStorage.setItem('user_id', response.data.user_id);
+        setStep(2);
+      }
+      else if(response.status == 204){
+          toast.error("Email with the user does not exist")
       }
       console.log('Username form submitted with values:', values);
       // Assuming a successful validation, proceed to the next step
-      setStep(2);
     },
     validate: (values) => {
       const errors = {};

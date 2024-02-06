@@ -3,7 +3,7 @@ import { StaffUserServices } from '../services/authservices';
 import { AuthContext } from '../context/contex';
 import toast from 'react-hot-toast';
 
-const ClassRoomForm = () => {
+const ClassRoomForm = ({classroomss}) => {
 
     const { showForm, setShowForm, editForm, setEditForm,classrooms,setClassrooms } = useContext(AuthContext)
     const [courseOptions, setCourseOptions] = useState([]);
@@ -89,6 +89,7 @@ const ClassRoomForm = () => {
             const response = await StaffUserServices.createClassRoom(data)
 
             if (response.status == 201) {
+                classroomss()
                 setShowForm(false)
                 toast.success('The Class Room is Created Successfully', {
                     autoClose: 5000,
