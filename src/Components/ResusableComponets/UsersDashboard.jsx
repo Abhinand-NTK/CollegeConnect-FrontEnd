@@ -16,18 +16,14 @@ import { StaffUserServices } from '../../services/authservices'
 
 
 
-
 const UsersDashboard = () => {
     const [checkPermission, setCheckPermission] = useState(null)
-    // const [studentUserWindows, setstudentUserWindows] = useState(['Profile', 'Subjects', 'Attendence', 'Assignments', 'Blog', 'Analysis', 'Video Meetings'])
     const userdetails = async () => {
         try {
             const response = await StaffUserServices.UserDetails()
-            console.log(response)
             setCheckPermission(response?.is_hod)
             const token = localStorage.getItem('Token');
             const decoded = jwtDecode(token)
-            console.log(jwtDecode(token))
 
 
             if (decoded.user_type === "1") {
@@ -54,7 +50,7 @@ const UsersDashboard = () => {
         [
             ['Profile', '/users/profilecard', <ImProfile />],
             ['ClassRoom', '/users/staff/classrooms', <SiGoogleclassroom />],
-            ['Subjects', '/users/admin/addstaff', <MdSubject />],
+            // ['Subjects', '/users/admin/addstaff', <MdSubject />],
             ['Blog/Connect', '/users/blogpost', <FaBlogger />],
             ['Staffs & Students Leave Requests', '/users/leaverequestapprovel', <HiMiniPresentationChartBar />],
             ['Leave Request', '/users/leaverequest', <FcLeave />],
@@ -91,23 +87,6 @@ const UsersDashboard = () => {
 
     useEffect(() => {
         userdetails()
-        // const token = localStorage.getItem('Token');
-        // const decoded = jwtDecode(token)
-        // console.log(jwtDecode(token))
-
-
-        // if (decoded.user_type === "1") {
-        //     setMenu(adminUserWindows);
-        // }
-        // if (decoded.user_type === "2") {
-        //     checkPermission ? setMenu(teacherUserWindows) : setMenu(teacherUserWindows);
-        // }
-        // if(checkPermission && decoded.user_type === "2" ){
-        //     setMenu(HodsUserWindows)
-        // }
-        // if (decoded.user_type === "3") {
-        //     setMenu(studentUserWindows);
-        // }
     }, [adminUserWindows, teacherUserWindows, studentUserWindows]);
 
 

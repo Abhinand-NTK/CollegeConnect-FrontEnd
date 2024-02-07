@@ -8,9 +8,10 @@ import { CollgeAdminServices } from '../../services/authservices';
 
 
 
+
 const AddSubject = () => {
   const fieldNames = ['name', 'staff', 'semseter','course'];
-  const tableColumns = ['No', 'name', 'staff','semseter', 'course', 'Delete', 'Edit'];
+  const tableColumns = ['No', 'name', 'staff','semseter', 'course', 'Delete', 'Edit','Status'];
 
   const [tableData, setTableData] = useState([]);
 
@@ -23,8 +24,8 @@ const AddSubject = () => {
       const response = await CollgeAdminServices.getSubject();
       // Assuming the response contains an array of courses with 'id' and 'coursename' properties
       const subjects = response;
+      console.log('subjects::---',subjects)
       // Create table data dynamically based on the courses
-      console.log(subjects)
       const newTableData = subjects.map((subject, index) => ({
         no: index + 1,
         name: subject.name,
@@ -32,7 +33,9 @@ const AddSubject = () => {
         semseter: subject.semseter,
         course: subject.course_name,
         delete: subject.id,  // Set the 'id' as the delete value
-        edit: subject.id,    // Set the 'id' as the edit value
+        edit: subject.id,
+        status: subject.active,    // Set the 'id' as the edit value
+            // Set the 'id' as the edit value
       }));
 
       // Update the tableData state
@@ -58,7 +61,6 @@ const AddSubject = () => {
     if (!value) {
       try {
         const response = await CollgeAdminServices.addSubject(formData)
-        console.log("This is the post ", response)
         if (response.status === 201) {
           closeModal()
           fetchData()
@@ -70,7 +72,6 @@ const AddSubject = () => {
     } else {
       try {
         const response = await CollgeAdminServices.editSubject(formData)
-        console.log("This is the post ", response)
         if (response.status === 200) {
           closeModal()
           fetchData()
@@ -87,13 +88,11 @@ const AddSubject = () => {
   const handleEditClick = (rowData) => {
     setValue(rowData)
     openModal()
-    console.log('Edit button clicked for:', rowData.edit);
 
   };
 
 
   const handleDeleteClick = (rowData) => {
-    console.log('Delete button clicked for:', rowData);
   };
 
 

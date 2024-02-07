@@ -3,14 +3,26 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../Layout/Layout'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { CollgeAdminServices, userService } from '../../services/authservices';
 
 const CollegeAdminLandingPage = () => {
 
     const [message, setMessage] = useState("");
-
+    const [Check, setCheck] = useState("");
     // Use Effect is using for , Setting the Strip setup
 
+    const subscription = async () => {
+        try {
+            const check_sub = await userService.VerifySubscriptionDetails()
+            setCheck(check_sub?.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
+
+        subscription()
         // Check to see if this is a redirect back from Checkout
         // const query = new URLSearchParams(window.location.search);
         const query = new URLSearchParams(window.location.search);
@@ -27,19 +39,21 @@ const CollegeAdminLandingPage = () => {
     }, []);
 
 
+
+
     // Function to make the API call
     const handleSubscribeClick = async () => {
         try {
             // Make API call using Axios
-            const response = await axios.post('http://127.0.0.1:8000/api/payment/payments/', {
-                id:1
-                // Add any data usneeded for your API request
-            });
-
-            console.log("This is the url from the backend",response)
+            // const response = await axios.post('http://127.0.0.1:8000/api/payment/payments/', {
+            //     id: 1
+            //     // Add any data usneeded for your API request
+            // });
+            const response = await CollgeAdminServices.Subscribe()
 
             // Handle the response as needed
             if (response.status === 200) {
+                subscription()
                 // Redirect to the subscription page upon successful API response
                 window.location.href = response.data.url;
             } else {
@@ -51,7 +65,7 @@ const CollegeAdminLandingPage = () => {
         }
     };
 
-    const  Navigate = useNavigate() 
+    const Navigate = useNavigate()
 
     const links = [
         { name: 'Open roles', href: '#' },
@@ -66,9 +80,7 @@ const CollegeAdminLandingPage = () => {
         { name: 'Paid time off', value: 'Unlimited' },
     ]
 
-    // const handleSubscribeClick = ()=>{
-    //     Navigate('/users/checkout/')
-    // }
+
 
     return (
         <Layout title='Home | Admin | Welcome ' content=' Admin Landing page'>
@@ -117,18 +129,24 @@ const CollegeAdminLandingPage = () => {
                     <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
                         <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base font-semibold sm:text-xl leading-7 text-white sm:grid-cols-2 md:flex lg:gap-x-10">
                             Join us on this educational journey! Subscribe today and redefine student management. 🌐💻
+                            {!Check?.verified  &&
                             <button
                                 onClick={handleSubscribeClick}
                                 className="text-lg font-bold text-white underline hover:text-gray-300"
                             >
                                 Subscribe Now →
                             </button>
-                            <button
-                            onClick={()=>{Navigate('/manage')}}
-                                className="text-lg font-bold text-white underline hover:text-gray-300"
-                            >
-                                DashBoard →
-                            </button>
+                            }
+                            {
+                                Check?.verified &&
+                                <button
+                                    onClick={() => { Navigate('/manage') }}
+                                    className="text-lg font-bold text-white underline hover:text-gray-300"
+                                >
+                                    DashBoard →
+                                </button>
+                            }
+
                         </div>
                     </div>
                 </div>

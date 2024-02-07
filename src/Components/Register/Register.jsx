@@ -4,7 +4,6 @@ const Register = ({ content }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
     };
-    console.log("This is the props sending form the role pag",content)
     return (    
         <>
             <Layout title={`| Register | ${content}`} content={content} >

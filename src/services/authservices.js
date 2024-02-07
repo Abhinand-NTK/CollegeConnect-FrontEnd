@@ -159,6 +159,14 @@ export const userService = {
       throw error;
     }
   },
+  ExsitingEmails: async () => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}superadmin/register`)
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  },
   registerCollege: async (formData) => {
     try {
       const response = await axios.post(`${BASE_URL}superadmin/register/`, formData);
@@ -190,6 +198,15 @@ export const userService = {
     const token = localStorage.getItem('Token');
     const data_user = jwtDecode(token);
     return data_user.user_id;
+  },
+  VerifySubscriptionDetails: async () => {
+    const id = 0
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}superadmin/subscription/${id}/`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
   }
 
 };
@@ -197,7 +214,26 @@ export const userService = {
 
 export const CollgeAdminServices = {
 
-
+  BlockCourse: async (id) => {
+    const response = await axiosInstance.post(`${BASE_URL}collegeadmin/blockcoure/`,{'id':id})
+    return response
+  },
+  usedEmails: async () => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}collegeadmin/existemail/`)
+      return response?.data
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  Subscribe: async () => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}payment/payments/`, { id: 1 })
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
   AddCourse: async (formData) => {
     try {
       const response = await axiosInstance.post(`${BASE_URL}collegeadmin/addcourse/`, formData);
@@ -380,6 +416,22 @@ export const CollgeAdminServices = {
 
 export const StaffUserServices = {
 
+  editClassroomData: async (id, selectedStudents) => {
+    try {
+      const response = await axiosInstance.patch(`${BASE_URL}staffuser/createclassroom/${id}/`, { 'student_ids': selectedStudents })
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  deleteClass: async (id) => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}staffuser/blockclassroom/`,{'id':id})
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
   getCousers: async () => {
     try {
       const token = localStorage.getItem('Token');
@@ -447,6 +499,7 @@ export const StaffUserServices = {
     const token = localStorage.getItem('Token')
     const data_user = jwtDecode(token)
     try {
+      console.log("The users profile is this", formdata)
       const response = await axiosInstance.patch(`${BASE_URL}staffuser/getprofile/${data_user.user_id}/`, formdata)
       return response
     } catch (error) {
@@ -666,6 +719,8 @@ export const StudentUserServices = {
     }
   },
   CreateBlogPost: async (formdata) => {
+
+    console.log("This is the form data want to send for creating a blog post ::--", formdata)
     try {
       const response = await axiosInstance.post(`${BASE_URL}blogpost/blogpost/`, formdata)
       return response
@@ -731,4 +786,73 @@ export const StudentUserServices = {
     }
   }
 
+}
+
+
+export const MessageService = {
+  Messaging: async (data) => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}messages/message/`, data)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  GetMessaging: async (reciver_id) => {
+    const params = reciver_id ? { reciver_id } : {};
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}messages/message/`, { params });
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  Connections: async () => {
+    try {
+      const response = axiosInstance.get(`${BASE_URL}messages/connections/`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+
+export const PasswordManageSerive = {
+  Otpsend: async (data) => {
+    try {
+      const response = await axiosInstance.post(`${BASE_URL}superadmin/otpsend/`, { data })
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  VerifyOtp: async (data) => {
+    const userId = localStorage.getItem('user_id');
+    try {
+      const response = await axiosInstance.patch(`${BASE_URL}superadmin/otpsend/${userId}/`, { data })
+      return response
+    } catch (error) {
+      console.log(error)
+      return error
+    }
+  },
+  ResetPassword: async (data) => {
+    const userId = localStorage.getItem('user_id');
+    try {
+      const response = await axiosInstance.patch(`${BASE_URL}superadmin/resetpassword/${userId}/`, { data })
+      return response
+    } catch (error) {
+      console.log(error)
+      return error
+    }
+  },
+  SubscrptionStatus: async () => {
+    try {
+      const response = await axiosInstance.get(`${BASE_URL}superadmin/dashboard`)
+      return response?.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }

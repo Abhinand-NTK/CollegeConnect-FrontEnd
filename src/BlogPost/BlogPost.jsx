@@ -13,6 +13,12 @@ import toast from 'react-hot-toast';
 import { jwtDecode } from 'jwt-decode';
 import io from 'socket.io-client';
 import { GrSend } from "react-icons/gr";
+import { Link, useNavigate } from 'react-router-dom';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
+import { storage } from '../Firebase/config';
+
+
+
 
 const validationSchema = Yup.object({
     title: Yup.string().required('Title is required'),
@@ -24,13 +30,17 @@ const BlogPost = () => {
     const [showForm, setShowForm] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const [datas, setDatas] = useState(null);
-    const { setblogpost, blogpost } = useContext(AuthContext);
+    const { setblogpost, blogpost, setreceiver } = useContext(AuthContext);
     const [user_id, setUser_id] = useState(null);
     const [likeCount, setLikeCount] = useState(0);
     const [activeUsers, setActiveUsers] = useState([]);
 
 
-
+    // Create the file metadata for any video type
+    /** @type {any} */
+    const metadata = {
+        contentType: 'image/*'
+    };
 
     const contentAnimation = useSpring({
         opacity: showFirstDiv ? 1 : 0,
@@ -39,22 +49,31 @@ const BlogPost = () => {
 
 
 
+
     const togglePostForm = () => {
         setShowForm(!showForm);
+        setSelectedImage(null)
+
     };
 
+    let file = ''
     const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        setSelectedImage(URL.createObjectURL(file));
+
+        const selectedFile = event.target.files[0];
+        if (selectedFile) {
+            setSelectedImage(URL.createObjectURL(selectedFile));
+            formik.setFieldValue('image_url', selectedFile); // Set the image_url field value in Formik
+        }
     };
 
-    console.log("This is the data to edit parent", blogpost[0]?.title)
+
 
     const formik = useFormik({
         initialValues: {
-            title: blogpost[0]?.title || '',  // Use the values from blogpost if available, otherwise default to an empty string
+            title: blogpost[0]?.title || '',
             content: blogpost[0]?.content || '',
             id: blogpost[0]?.id || '',
+            image_url: blogpost[0]?.image_url || '',
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -65,35 +84,82 @@ const BlogPost = () => {
     });
 
     const submitPost = async (postData) => {
+        let storageRef;
+        let uploadTask;
+
+        // Use selectedFile from formik.values.image_url instead of selectedImage
+        storageRef = ref(storage, 'blogimages/' + postData.image_url.name);
+
+        // Use selectedFile from formik.values.image_url instead of selectedImage
+        uploadTask = uploadBytesResumable(storageRef, postData.image_url, metadata);
+
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+
+                switch (snapshot.state) {
+                    case 'paused':
+                        console.log('Upload is paused');
+                        break;
+                    case 'running':
+                        console.log('Upload is running');
+                        break;
+                }
+            },
+            (error) => {
+                switch (error.code) {
+                    case 'storage/unauthorized':
+                        break;
+                    case 'storage/canceled':
+                        break;
+                    case 'storage/unknown':
+                        break;
+                }
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    console.log('File available at', downloadURL);
+                    // Saveurl(downloadURL)
+                    savepost(postData, downloadURL)
+                });
+            }
+        );
+
+    };
+
+    const savepost = async (postData, url) => {
+        postData.image_url = url
         try {
             const response = await StudentUserServices.CreateBlogPost(postData);
+            // Rest of your code...
             if (response?.status == 201) {
                 setShowForm(false)
                 toast.success('This is a success toast message', {
                     position: 'top-right',
-                    duration: 3000, // Adjust the duration as needed (in milliseconds)
+                    duration: 3000,
                 });
                 getAllPost()
+                setSelectedImage(null)
             }
             if (response?.status == 205) {
                 setShowForm(false)
                 toast.success('Your Blog is Updated Sucessfully', {
                     position: 'top-right',
-                    duration: 3000, // Adjust the duration as needed (in milliseconds)
+                    duration: 3000,
                 });
                 getAllPost()
             }
-            console.log('This is the response:', response);
         } catch (error) {
             console.error('Error submitting post:', error);
         }
-    };
+    }
 
 
     const getAllPost = async () => {
         try {
             const response = await StudentUserServices.getBlogPost()
-            console.log('allposts are', response)
+
             setDatas(response?.data)
 
         } catch (error) {
@@ -116,7 +182,7 @@ const BlogPost = () => {
 
     const token = localStorage.getItem('Token')
     const data_user = jwtDecode(token)
-
+    const activeUserId = jwtDecode(token).user_id;
 
 
 
@@ -124,25 +190,28 @@ const BlogPost = () => {
         const socket = new WebSocket('ws://localhost:8000/ws/active_users/');
 
         socket.onmessage = (event) => {
-            console.log('Raw WebSocket message:', event.data);
+
+
 
             const data = JSON.parse(event.data);
             const newActiveUsers = data;
 
+
             const updatedActiveUsers = newActiveUsers.filter(newUser => (
-                !activeUsers.some(existingUser => existingUser.email == newUser.email)
+                !activeUsers.some(existingUser => existingUser.email == newUser.email && existingUser.id != activeUserId)
             ));
 
-            setActiveUsers(prevActiveUsers => [...prevActiveUsers, ...updatedActiveUsers]);
 
             const uniqueUsersByEmail = Array.from(new Set(activeUsers.map(user => user.email)))
-                .map(uniqueEmail => activeUsers.find(user => user.email == uniqueEmail));
+                .map(uniqueEmail => activeUsers.find(user => user.email == uniqueEmail))
+                .filter(user => user && user.id != activeUserId);
 
-            console.log("Unique users based on email:", uniqueUsersByEmail);
+
+            setActiveUsers(updatedActiveUsers);
 
         };
 
-        // Clean up the WebSocket connection when the component unmounts
+
         return () => {
             socket.close();
         };
@@ -158,11 +227,11 @@ const BlogPost = () => {
 
         ws.onmessage = (event) => {
             const notification = JSON.parse(event.data);
-            console.log('Received notification:', notification);
+
             const messageToDisplay = notification.notification;
             toast.success(messageToDisplay, {
                 position: 'top-right',
-                duration: 7000, // Adjust the duration as needed (in milliseconds)
+                duration: 7000,
             });
 
         };
@@ -171,17 +240,22 @@ const BlogPost = () => {
             console.log('WebSocket connection closed');
         };
 
-        // Remember to close the WebSocket connection when the component unmounts
+
         return () => {
             ws.close();
         };
     }, []);
 
+    const Navigate = useNavigate();
 
+    const handleClick = (id) => {
+        setreceiver(id)
+        Navigate(`/users/messages/${id}`);
+    };
 
 
     return (
-        <section className='bg-white p-4 md:p-10 lg:p-16 mt-8 md:mt-24 h-auto md:h-[600px]'>
+        <section className='bg-white mt-20 h-auto md:h-[600px]'>
             <Layout />
             <div className='flex ml-12'>
                 <div className='lg:w-1/4 h-screen'>
@@ -197,7 +271,9 @@ const BlogPost = () => {
                                             <p className="font-semibold">{item?.first_name}</p>
                                         </div>
                                         <div>
-                                            <button className="bg-indigo-500 text-white px-2 py-1 rounded">
+                                            <button
+                                                onClick={() => (handleClick(item.id))}
+                                                className="bg-indigo-500 text-white px-2 py-1 rounded">
                                                 <GrSend />
                                             </button>
                                         </div>
@@ -239,21 +315,46 @@ const BlogPost = () => {
                                 <span>Choose an Image</span>
                                 <input
                                     type="file"
-                                    accept="image/*"
+                                    // accept="image/*"
                                     id="imageInput"
                                     onChange={handleImageChange}
                                     style={{ display: 'none' }}
                                 />
                             </label>
-
-                            {selectedImage && (
+                            {/* 
+                            {selectedImage || blogpost[0].image_url && (
                                 <div className="mt-4">
-                                    <img src={selectedImage} alt="Selected" className="max-w-full items-center h-100" />
+                                    <img src={blogpost[0].image_url?blogpost[0].image_url:selectedImage}
+
+                                     alt="Selected" className="max-w-full items-center h-100" />
+                                </div>
+                            )} */}
+                            {(selectedImage || (blogpost[0] && blogpost[0].image_url)) && (
+                                <div className="mt-4">
+                                    <img
+                                        src={blogpost[0] && blogpost[0].image_url ? blogpost[0].image_url : selectedImage}  
+                                        alt="Selected"
+                                        className="max-w-full items-center h-100"
+                                    />
                                 </div>
                             )}
 
+
                             <div id="blogPostForm" className="mt-8 w-full ml-4 ">
-                                <form onSubmit={formik.handleSubmit} className=''>
+                                <form onSubmit={formik.handleSubmit} className='' >
+                                    {/* <label className="custom-file-input-label mb-4">
+
+                                        <span>Choose an Image</span>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            id="imageInput"
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            value={formik.values.image_url}
+                                            style={{ display: 'none' }}
+                                        />
+                                    </label> */}
                                     <textarea
                                         id="postTextarea"
                                         name="content"

@@ -27,11 +27,7 @@ const AddStaff = () => {
     try {
       const response = await CollgeAdminServices.getStaffDetails();
       // Assuming the response contains an array of courses with 'id' and 'coursename' properties
-      // const staffs = response;
-      console.log(response)
       const staffs = response.map((student) => student.staff_details);
-      console.log("Details", response[0].is_hod)
-
 
       // Create table data dynamically based on the courses
       const newTableData = response.map((staff, index) => ({
@@ -65,31 +61,67 @@ const AddStaff = () => {
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
   const [value, setValue] = useState("")
+  const [email, setEmails] = useState([]);
+
+
+  const emails = async () => {
+    try {
+      const response = await CollgeAdminServices.usedEmails()
+      setEmails(response?.emails)
+      console.log('email', response)
+    } catch (error) {
+
+    }
+  }
+
+  useEffect(() => {
+    emails()
+  }, [])
+
+
 
   const handleFormSubmit = async (formData) => {
-    if (!value) {
-      try {
-        const response = await CollgeAdminServices.AddStaff(formData)
-        console.log("This is the post ", response)
-        if (response.status === 201) {
-          closeModal()
-          fetchData()
+
+    console.log("onsubmitting", formData['email'])
+    if (!email.includes(formData['email'])) {
+      if (!value) {
+        try {
+          const response = await CollgeAdminServices.AddStaff(formData)
+          if (response.status === 201) {
+            closeModal()
+            fetchData()
+          }
         }
-      }
-      catch {
-        console.log("Error")
+        catch {
+          console.log("Error")
+        }
+      } else {
+        try {
+          const response = await CollgeAdminServices.editStaff(formData)
+          if (response.status === 200) {
+            closeModal()
+            fetchData()
+          }
+        }
+        catch (error) {
+          console.log(error)
+        }
       }
     } else {
-      try {
-        const response = await CollgeAdminServices.editStaff(formData)
-        console.log("This is the post ", response)
-        if (response.status === 200) {
-          closeModal()
-          fetchData()
+      if (value) {
+        try {
+          const response = await CollgeAdminServices.editStaff(formData)
+          if (response.status === 200) {
+            closeModal()
+            fetchData()
+          }
+        }
+        catch (error) {
+          console.log(error)
         }
       }
-      catch (error) {
-        console.log(error)
+      else {
+        toast.error("The email is alredy exist !!")
       }
     }
   };
@@ -99,13 +131,11 @@ const AddStaff = () => {
   const handleEditClick = (rowData) => {
     setValue(rowData)
     openModal()
-    console.log('Edit button clicked for:', rowData.edit);
 
   };
 
 
   const handleDeleteClick = async (rowData) => {
-    console.log('Delete button clicked for:', rowData);
     try {
       const response = await CollgeAdminServices.blockStaff(rowData.delete)
       if (response.status == 200) {
@@ -117,10 +147,11 @@ const AddStaff = () => {
   };
 
 
+
+
   const handleClickCreateStudentAccount = async (formData) => {
     try {
       const response = await CollgeAdminServices.createUser(formData)
-      console.log("This is the user data", response)
       if (response.status === 200) {
         // Show success toast message
         toast.success('Your College is registered Successfully', {

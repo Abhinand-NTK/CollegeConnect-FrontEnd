@@ -19,14 +19,10 @@ const ModulesVideoPlayer = () => {
     const { id____ } = useParams()
     const { M_no } = useParams()
     const [urlData, setDataUrl] = useState([])
-
-    console.log("Thi is hte id u have:--", id____)
-
     const Token = localStorage.getItem('Token')
 
     const decoded = jwtDecode(Token);
 
-    console.log("The User Type Is :---", decoded.user_type)
 
 
 
@@ -40,7 +36,6 @@ const ModulesVideoPlayer = () => {
     const GetdataOfModule = async () => {
         try {
             const response = await StaffUserServices.GetModuleVideo(M_no)
-            console.log("This is the response ::-----", response)
             setDataUrl(response.module_video_url)
         } catch (error) {
             console.log(error)
@@ -61,10 +56,6 @@ const ModulesVideoPlayer = () => {
         GetdataOfModule()
     }, [])
 
-    // console.log("this is the uploded file :--", selectedVideoname.name)
-
-
-    // Upload file and metadata to the object 'images/mountains.jpg'
     let storageRef;
     let uploadTask;
 
@@ -73,7 +64,6 @@ const ModulesVideoPlayer = () => {
 
     const handleUpload = () => {
         if (selectedVideoname) {
-            // console.log('This is the video name :--', selectedVideoname.name)
             storageRef = ref(storage, 'SubjectModuleVideos/' + selectedVideoname.name);
             uploadTask = uploadBytesResumable(storageRef, selectedVideoname, metadata);
 
@@ -164,7 +154,6 @@ const ModulesVideoPlayer = () => {
         const fileRef = ref(storage, filePath);
 
 
-        console.log("This is the reference to the file to me :--", fileRef)
 
         // Check if the file exists
         getDownloadURL(fileRef)
@@ -247,7 +236,6 @@ const ModulesVideoPlayer = () => {
                                 previewTabIndex={0}
 
                             />
-                            {/* <ReactPlayer controls={true} volume={true} playIcon={true} url='https://www.youtube.com/watch?v=LXb3EKWsInQ' /> */}
                         </div>
                     </div>
                     {/* Right Side - Options */}
@@ -324,19 +312,3 @@ const ModulesVideoPlayer = () => {
 };
 
 export default ModulesVideoPlayer;
-
-
-
-// {
-//     {
-//         selectedVideo && (
-//             <div>
-//                 <h2>Uploaded Video:</h2>
-//                 <video controls width="400" height="300">
-//                     <source src={selectedVideo} type="video/mp4" />
-//                     Your browser does not support the video tag.
-//                 </video>
-//             </div>
-//         )
-//     }
-// }

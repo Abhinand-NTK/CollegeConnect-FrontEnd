@@ -3,19 +3,13 @@ import { cloneElement, useEffect, useState } from "react";
 import Layout from "../Layout/Layout";
 import { userService } from "../../services/authservices";
 
-
-
 export function AdminUsers() {
 
   const [CollgesDetails, setCollgesDetails] = useState([]);
-
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await userService.getcollegedata();
-        console.log("Checking________",data)
         setCollgesDetails(data);
       } catch (error) {
         console.error(error);
@@ -32,7 +26,6 @@ export function AdminUsers() {
     try {
       const response = await userService.sendEmailForConfirmation(id);
       const data = await userService.getcollegedata();
-        console.log("Checking________",data)
         setCollgesDetails(data);
     } catch (error) {
       console.error(error);
@@ -44,8 +37,6 @@ export function AdminUsers() {
     try{
       const response = await userService.blockCollege(id);
       setCollgesDetails(response.data.data);
-      console.log(response.data.data)
-
     }
     catch(error){
       console.log(error)

@@ -1,17 +1,11 @@
-
 import React, { useState, useEffect, useContext } from 'react';
 import { StaffUserServices } from '../services/authservices';
 import { AuthContext } from '../context/contex';
 import toast from 'react-hot-toast';
 
-
-
-
-
-const ClassRoomForm = () => {
+const ClassRoomForm = ({classroomss}) => {
 
     const { showForm, setShowForm, editForm, setEditForm,classrooms,setClassrooms } = useContext(AuthContext)
-
     const [courseOptions, setCourseOptions] = useState([]);
     const [students, setStudents] = useState([]);
     const [selectedStudents, setSelectedStudents] = useState([]);
@@ -33,7 +27,10 @@ const ClassRoomForm = () => {
     const fetchCourses = async () => {
         try {
             const response = await StaffUserServices.getCousers();
-            setCourseOptions(response);
+            // const activeCourse = response?.map((item)=>item.active?item:'')
+            const activeCourse = response?.filter(item => item.active);
+            console.log(response)
+            setCourseOptions(activeCourse);
         } catch (error) {
             console.log(error);
         }
@@ -48,7 +45,6 @@ const ClassRoomForm = () => {
             setSelectedStudents(prevStudents => prevStudents.filter(id => id !== studentId));
         }
     };
-    console.log(selectedStudents)
 
     const fetchStudents = async () => {
         setLoading(true)
@@ -61,16 +57,12 @@ const ClassRoomForm = () => {
         }
 
         setTimeout(async () => {
-            console.log(formData.semseter, "semester");
-            console.log("This is the formdata", formData);
-
             try {
                 const response = await StaffUserServices.getStudents({
                     semseter: formData.semseter,
                     course: formData.course,
                 });
 
-                console.log(response)
 
                 const data = response.data.map((details) => ({
                     id: details.student_details.id,
@@ -86,17 +78,9 @@ const ClassRoomForm = () => {
         }, 1000);
     };
 
-
-
     useEffect(() => {
         fetchCourses();
-
-
     }, []);
-
-
-
-
 
     const handleSubmit = async () => {
         setData(prevData => ({
@@ -106,12 +90,11 @@ const ClassRoomForm = () => {
         }));
 
         try {
-
             const response = await StaffUserServices.createClassRoom(data)
 
             if (response.status == 201) {
+                classroomss()
                 setShowForm(false)
-                console.log(response.data)
                 toast.success('The Class Room is Created Successfully', {
                     autoClose: 5000,
                 });
@@ -166,28 +149,6 @@ const ClassRoomForm = () => {
                     Fetch Students
                 </button>
             </div>
-
-
-            <div className="flex items-center">
-                {/* <label className="text-gray-700">Course:</label>
-                <select
-                    value={formData.course}
-                    onChange={(e) => setFormData({ ...formData, course: e.target.value })}
-                    className="ml-2 p-2 border rounded-md"
-                >
-                    {courseOptions.map(courseOption => (
-                        <option key={courseOption.id} defaultValue={courseOption.id} value={courseOption.id}>{courseOption.coursename}</option>
-                    ))}
-                </select> */}
-            </div>
-
-            {/* <button
-                onClick={fetchStudents}
-                type="submit"
-                className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-700"
-            >
-                Fetch Students
-            </button> */}
 
             <div className="flex flex-col items-start">
                 <label className="text-gray-700 mb-2">Students:</label>

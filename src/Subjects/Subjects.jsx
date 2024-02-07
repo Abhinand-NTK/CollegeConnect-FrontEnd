@@ -17,7 +17,6 @@ const Subjects = () => {
             const response = await StudentUserServices.GetSubjectsStudents();
             setSubjects(response?.data?.subjects);
             setClassroom(response?.data?.classroom);
-            console.log("This is the response",response);
         } catch (error) {
             console.log(error);
         }
@@ -29,7 +28,6 @@ const Subjects = () => {
         // setlinks(null)
         try {
             const response =  await StudentUserServices.GetMedia(class_room_staff_id,sub_id)
-            console.log(response)
             setlinks(response.data)
         } catch (error) {
             console.log(error)

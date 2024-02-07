@@ -4,6 +4,7 @@ import ReUsableTable from '../ReUsableTable/ReUsableTable';
 import Layout from '../Layout/Layout';
 import Modal from '../Modal/Modal';
 import { userService, CollgeAdminServices } from '../../services/authservices';
+import toast from 'react-hot-toast';
 
 
 
@@ -11,7 +12,7 @@ const CousreAdding = () => {
 
 
   const fieldNames = ['coursename'];
-  const tableColumns = ['No', 'coursename', 'Delete', 'Edit'];
+  const tableColumns = ['No', 'coursename', 'Status', 'Edit'];
 
   // Logic for the modal openinig and closing
 
@@ -45,15 +46,13 @@ const CousreAdding = () => {
 
       // Assuming the response contains an array of courses with 'id' and 'coursename' properties
       const courses = response;
-
-      console.log("The course are", courses)
-
       // Create table data dynamically based on the courses
       const newTableData = courses.map((course, index) => ({
         no: index + 1,
         coursename: course.coursename,
         delete: course.id,  // Set the 'id' as the delete value
         edit: course.id,    // Set the 'id' as the edit value
+        status: course.active,    // Set the 'id' as the edit value
       }));
 
       // Update the tableData state
@@ -77,7 +76,6 @@ const CousreAdding = () => {
     if (!value) {
       try {
         const response = await CollgeAdminServices.AddCourse(formData)
-        console.log("This is the post ", response)
         if (response.status === 201) {
           closeModal()
           fetchData()
@@ -89,7 +87,6 @@ const CousreAdding = () => {
     } else {
       try {
         const response = await CollgeAdminServices.editCourse(formData)
-        console.log("This is the post ", response)
         if (response.status === 200) {
           closeModal()
           fetchData()
@@ -105,12 +102,18 @@ const CousreAdding = () => {
   const handleEditClick = (rowData) => {
     setValue(rowData)
     openModal()
-    console.log('Edit button clicked for:', rowData.edit);
 
   };
 
-  const handleDeleteClick = (rowData) => {
-    console.log('Delete button clicked for:', rowData);
+  const handleDeleteClick = async(rowData) => {
+    console.log(rowData.edit)
+    const response = await CollgeAdminServices.BlockCourse(rowData.edit)
+    if(response?.status == 200){
+      fetchData()
+      toast("Status Changed")
+      console.log("The status is changed")
+    }
+    console.log(response)
   };
 
 

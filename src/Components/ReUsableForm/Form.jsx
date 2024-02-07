@@ -3,15 +3,20 @@
 import React, { useState, useEffect } from 'react';
 import { CollgeAdminServices, userService } from '../../services/authservices';
 import { selectuser } from '../../features/Login/AuthSlice';
+import toast from 'react-hot-toast';
 
 
 const ReUsableForm = ({ fieldNames, onSubmit, data, setdata }) => {
+
+  const [email, setEmails] = useState([]);
   const [formData, setFormData] = useState(
     fieldNames.reduce((acc, fieldName) => {
       acc[fieldName] = '';
       return acc;
     }, {})
   );
+
+  const [error, setError] = useState({ existemail: '' })
 
   //Get user id from the token
 
@@ -22,17 +27,15 @@ const ReUsableForm = ({ fieldNames, onSubmit, data, setdata }) => {
   let [departments, setDepartments] = useState([]);
   const GetDepartments = async () => {
     const fetchedDepartments = await CollgeAdminServices.GetCourse();
-
-    setDepartments(fetchedDepartments);
+    const activeCourses = fetchedDepartments?.filter(course => course.active);
+    setDepartments(activeCourses);
   };
 
   let [staffs, setStaffs] = useState([]);
 
   const getStaffs = async () => {
     const fetchedStaffs = await CollgeAdminServices.getStaffDetails();
-    console.log(fetchedStaffs)
     const staffs = fetchedStaffs.map((student) => student.staff_details);
-    console.log(staffs.map((s) => s.id))
     setStaffs(staffs)
   }
 
@@ -60,6 +63,12 @@ const ReUsableForm = ({ fieldNames, onSubmit, data, setdata }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    emails()
+    if (name == 'email' && email.includes(value)) {
+      setError({ existemail: true });
+      e.preventDefault()
+      toast.error("The email is already in use. Please choose another one.")
+    }
 
     if (data) {
       setdata((prevData) => ({
@@ -78,10 +87,33 @@ const ReUsableForm = ({ fieldNames, onSubmit, data, setdata }) => {
   }; // <-- Missing closing brace
 
   const handleSubmit = (e) => {
+
+    const { name, value } = e.target;
+
+    if (name === 'email' && formData.email.includes(value)) {
+      setError({ existemail: true });
+      toast.error("The email is already in use. Please choose another one.");
+      // Additional logic or UI updates based on the error condition
+      return;
+    }
     e.preventDefault();
     onSubmit(formData);
   };
 
+
+
+  const emails = async () => {
+    try {
+      const response = await CollgeAdminServices.usedEmails()
+      setEmails(response?.emails)
+    } catch (error) {
+
+    }
+  }
+
+  useEffect(() => {
+    emails()
+  }, [])
 
   return (
     <>

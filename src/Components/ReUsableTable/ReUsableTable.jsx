@@ -3,6 +3,9 @@
 import React from 'react';
 
 const ReUsableTable = ({ columns, data, onEditClick, onDeleteClick, onCreateUserClick }) => {
+
+  console.log("data is this:::--",data)
+
   return (
     <div className='mt-16  overflow-x-auto'>
       <table className="min-w-full border text-center text-sm font-light dark:border-neutral-500">
@@ -20,7 +23,7 @@ const ReUsableTable = ({ columns, data, onEditClick, onDeleteClick, onCreateUser
             <tr key={rowIndex} className='border-b dark:border-neutral-500'>
               {columns.map((column, colIndex) => (
                 <td key={colIndex} className="border-r px-6 py-4">
-                  {/* {column === 'Edit' || column === 'Delete' || column === 'CreateAccount' || column === 'Block' ? (
+                  {column === 'Edit' || column === 'Status' || column === 'CreateAccount' || column === 'Block' ? (
                     // Conditionally render "Created" button if email_sent is true
                     item['email_sent'] && column === 'CreateAccount' ? (
                       <button
@@ -42,60 +45,15 @@ const ReUsableTable = ({ columns, data, onEditClick, onDeleteClick, onCreateUser
                         >
                           Edit
                         </button>
-                      )
-                        : column === 'block' ? (
-                          <button
-                            onClick={() => {
-                              onDeleteClick(item); // Call your delete function here
-                            }}
-                            className="bg-red-500 text-white px-4 py-2 rounded"
-                          >
-                            Delete
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => {
-                              onCreateUserClick(item); // Call your function here
-                            }}
-                            className="bg-blue-500 text-white px-4 py-2 rounded"
-                          >
-                            {column}
-                          </button>
-                        )
-                    )
-                  ) : (
-                    item[column.toLowerCase()]
-                  )} */}
-                  {column === 'Edit' || column === 'Delete' || column === 'CreateAccount' || column === 'Block' ? (
-                    // Conditionally render "Created" button if email_sent is true
-                    item['email_sent'] && column === 'CreateAccount' ? (
-                      <button
-                        onClick={() => {
-                          onCreateUserClick(item); // Call your function here
-                        }}
-                        className="bg-green-500 text-white px-4 py-2 rounded"
-                      >
-                        Created
-                      </button>
-                    ) : (
-                      // Render "Create Account" button if email_sent is false
-                      column === 'Edit' ? (
-                        <button
-                          onClick={() => {
-                            onEditClick(item); // Call your edit function here
-                          }}
-                          className="bg-yellow-500 text-white px-4 py-2 rounded"
-                        >
-                          Edit
-                        </button>
-                      ) : column === 'Delete' ? (
+                      ) : column === 'Status' ? (
                         <button
                           onClick={() => {
                             onDeleteClick(item); // Call your delete function here
                           }}
-                          className="bg-red-500 text-white px-4 py-2 rounded"
+                          // className="bg-red-500 text-white px-4 py-2 rounded"
+                          className={item.status ? 'bg-green-500 text-white px-4 py-2 rounded' : 'bg-red-500 text-white px-4 py-2 rounded'}
                         >
-                          Delete
+                          {item.status?'Active':'InActive'}
                         </button>
                       ) : column === 'Block' ? (
                         <button
