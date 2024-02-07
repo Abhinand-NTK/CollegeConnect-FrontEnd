@@ -27,7 +27,10 @@ const ClassRoomForm = ({classroomss}) => {
     const fetchCourses = async () => {
         try {
             const response = await StaffUserServices.getCousers();
-            setCourseOptions(response);
+            // const activeCourse = response?.map((item)=>item.active?item:'')
+            const activeCourse = response?.filter(item => item.active);
+            console.log(response)
+            setCourseOptions(activeCourse);
         } catch (error) {
             console.log(error);
         }
@@ -59,6 +62,7 @@ const ClassRoomForm = ({classroomss}) => {
                     semseter: formData.semseter,
                     course: formData.course,
                 });
+
 
                 const data = response.data.map((details) => ({
                     id: details.student_details.id,

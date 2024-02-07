@@ -27,8 +27,8 @@ const ReUsableForm = ({ fieldNames, onSubmit, data, setdata }) => {
   let [departments, setDepartments] = useState([]);
   const GetDepartments = async () => {
     const fetchedDepartments = await CollgeAdminServices.GetCourse();
-
-    setDepartments(fetchedDepartments);
+    const activeCourses = fetchedDepartments?.filter(course => course.active);
+    setDepartments(activeCourses);
   };
 
   let [staffs, setStaffs] = useState([]);
@@ -64,7 +64,6 @@ const ReUsableForm = ({ fieldNames, onSubmit, data, setdata }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     emails()
-    console.log(value)
     if (name == 'email' && email.includes(value)) {
       setError({ existemail: true });
       e.preventDefault()
@@ -107,7 +106,6 @@ const ReUsableForm = ({ fieldNames, onSubmit, data, setdata }) => {
     try {
       const response = await CollgeAdminServices.usedEmails()
       setEmails(response?.emails)
-      console.log('email', response)
     } catch (error) {
 
     }

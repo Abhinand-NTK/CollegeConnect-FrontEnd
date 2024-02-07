@@ -4,6 +4,7 @@ import ReUsableTable from '../ReUsableTable/ReUsableTable';
 import Layout from '../Layout/Layout';
 import Modal from '../Modal/Modal';
 import { userService, CollgeAdminServices } from '../../services/authservices';
+import toast from 'react-hot-toast';
 
 
 
@@ -11,7 +12,7 @@ const CousreAdding = () => {
 
 
   const fieldNames = ['coursename'];
-  const tableColumns = ['No', 'coursename', 'Delete', 'Edit'];
+  const tableColumns = ['No', 'coursename', 'Status', 'Edit'];
 
   // Logic for the modal openinig and closing
 
@@ -51,6 +52,7 @@ const CousreAdding = () => {
         coursename: course.coursename,
         delete: course.id,  // Set the 'id' as the delete value
         edit: course.id,    // Set the 'id' as the edit value
+        status: course.active,    // Set the 'id' as the edit value
       }));
 
       // Update the tableData state
@@ -103,7 +105,15 @@ const CousreAdding = () => {
 
   };
 
-  const handleDeleteClick = (rowData) => {
+  const handleDeleteClick = async(rowData) => {
+    console.log(rowData.edit)
+    const response = await CollgeAdminServices.BlockCourse(rowData.edit)
+    if(response?.status == 200){
+      fetchData()
+      toast("Status Changed")
+      console.log("The status is changed")
+    }
+    console.log(response)
   };
 
 

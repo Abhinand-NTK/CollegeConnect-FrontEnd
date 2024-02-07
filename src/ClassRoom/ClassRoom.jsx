@@ -7,11 +7,15 @@ import { AuthContext } from '../context/contex';
 import { StaffUserServices } from '../services/authservices';
 import { FcDeleteDatabase } from "react-icons/fc";
 import toast from 'react-hot-toast';
+import { FcEditImage } from "react-icons/fc";
+import EditClassroomForm from './EditClassroomForm';
+
 
 const ClassRoom = () => {
 
     const { showForm, setShowForm, editForm, setEditForm, setClassrooms, classrooms } = useContext(AuthContext)
-
+    const [editFromView, setEditFormView] = useState(false)
+    const [classId, setClassId] = useState('')
     const openModal = () => {
         setShowForm(true);
         setEditForm(true);
@@ -34,14 +38,37 @@ const ClassRoom = () => {
     const deletelclass = async (id) => {
         try {
             const response = await StaffUserServices.deleteClass(id)
-            if (response?.status == 204) {
-                toast.success("Deleted Sucessfully")
-                const updatedClassrooms = classrooms.filter(item => item.id !== id);
-                console.log(updatedClassrooms);
-                setClassrooms(updatedClassrooms)
+            if (response?.status == 200) {
+                toast.success("ClassRoom blocked Sucessfully")
+                // const updatedClassrooms = classrooms.filter(item => item.id != id);
+                // console.log(updatedClassrooms);
+                // setClassrooms(updatedClassrooms)
+                fetechclassrooms()
             }
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    const editclassroom = async (id) => {
+        try {
+            const response = await StaffUserServices.editClassroomData(id)
+            if (response?.status == 200) {
+                toast.success('ClassRoom Data Changed Sucessfully')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const Edit = (id) => {
+        try {
+            setEditFormView(!editFromView)
+            setClassId(id)
+            console.log('Classid', classId)
+            // classroom
+        } catch (error) {
+
         }
     }
 
@@ -64,6 +91,10 @@ const ClassRoom = () => {
                             <ClassRoomForm classroomss={fetechclassrooms} />
                         </div>
                     </Modal>
+                    {
+                        editFromView &&
+                        <EditClassroomForm classroomId={classId} />
+                    }
                 </div>
                 <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mt-8'>
                     {
@@ -80,11 +111,20 @@ const ClassRoom = () => {
                                             </div>
                                         </div>
                                     </NavLink>
-                                    <div
-                                        onClick={() => { deletelclass(classroom.id) }}
-                                        style={{ cursor: 'pointer' }}
-                                        className='flex justify-center items-center h-7 bg-red-500'>
-                                        <FcDeleteDatabase />
+                                    <div className='flex'>
+                                        <div
+                                            onClick={() => { Edit(classroom?.id) }}
+                                            style={{ cursor: 'pointer' }}
+                                            className='flex w-1/2 justify-center items-center h-7 bg-blue-500'>
+                                            <FcEditImage />
+                                        </div>
+                                        <div
+                                            onClick={() => { deletelclass(classroom.id) }}
+                                            style={{ cursor: 'pointer' }}
+                                            className={classroom?.active ? 'flex w-1/2 justify-center items-center h-7 bg-green-500' : 'flex w-1/2 justify-center items-center h-7 bg-red-500'}
+                                        >
+                                            <FcDeleteDatabase />
+                                        </div>
                                     </div>
                                 </div>
                             )

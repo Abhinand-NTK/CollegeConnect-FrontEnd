@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 
 const StaffStudentBasicInfo = () => {
+
     const [userDetails, setUserDetails] = useState({});
     const [sub_ids, setSub_ids] = useState([]);
     const [classrooms, setClassrooms] = useState([]);
@@ -23,7 +24,7 @@ const StaffStudentBasicInfo = () => {
     const error = useSelector(state => state.error);
 
     // Fetch user details
-    const getUserDetails = async () => {
+    const getUserDetails = async (id) => {
         try {
             const response = await StaffUserServices.getTeacherDetails(id);
             const id_s = response?.subject?.map(sub => sub.id) || [];
@@ -49,6 +50,8 @@ const StaffStudentBasicInfo = () => {
         try {
             const response = await StaffUserServices.AssignTeacherToClassRoom(data, id);
             if (response.status === 201) {
+                // getClassRoomsForTeacher(data?.sub_id)
+                getUserDetails(id)
                 toast.success('Staff is assigned for the class successfully', {
                     duration: 5000,
                     style: {
@@ -72,7 +75,12 @@ const StaffStudentBasicInfo = () => {
     // Delete assigned classroom for a teacher
     const deleteClassForTeacher = async (data) => {
         try {
-            const response = StaffUserServices.DeleleAssignedClassroomForTeacher(data);
+            const response = await StaffUserServices.DeleleAssignedClassroomForTeacher(data);
+            console.log("deleteresponse", response)
+            if (response.status == 204) {
+                getUserDetails(id)
+                toast.success("Revoking is scucced")
+            }
         } catch (error) {
             console.log(error);
         }
@@ -92,7 +100,7 @@ const StaffStudentBasicInfo = () => {
     };
 
     useEffect(() => {
-        getUserDetails();
+        getUserDetails(id);
     }, []);
 
     useEffect(() => {
@@ -149,7 +157,7 @@ const StaffStudentBasicInfo = () => {
                                                 <th class="p-2 text-white bg-indigo-950">Subjects in the classroom</th>
                                                 <th class="p-2 text-white bg-indigo-950">Semester</th>
                                                 <th class="p-2 text-white bg-indigo-950">Assigned Classrooms</th>
-                                                <th class="p-2 text-white bg-indigo-950">Delete Assigned Classrooms</th>
+                                                {/* <th class="p-2 text-white bg-indigo-950">Delete Assigned Classrooms</th> */}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -173,25 +181,15 @@ const StaffStudentBasicInfo = () => {
                                                                 </tr>
                                                             ))}
                                                         </td>
-                                                        <td class="border pl-2 md:pl-12 whitespace-nowrap">
+                                                        {/* <td class="border pl-2 md:pl-12 whitespace-nowrap">
                                                             {classrooms1[classItem.name]?.Subjects.map((item, subIndex) => (
                                                                 <tr key={subIndex} class="text-center border ">
                                                                     <td className='border p-2 md:p-6 text-center'>
-                                                                        <button
-                                                                            onClick={() => {
-                                                                                assignTeacherToClassRoom({
-                                                                                    class_id: classItem.id,
-                                                                                    staff_id: item.staff,
-                                                                                    sub_id: item.id,
-                                                                                }, currentId);
-                                                                            }}
-                                                                            class="bg-green-500 text-white px-2 md:px-4 py-1 md:py-2 mb-2 md:mb-0 rounded-md sm:px-3 sm:py-1">
-                                                                            Assign
-                                                                        </button>
+                                                                        
                                                                     </td>
                                                                 </tr>
                                                             ))}
-                                                        </td>
+                                                        </td> */}
                                                         <td class="border p-4 whitespace-nowrap">
                                                             {classrooms1[classItem.name]?.Subjects.map((item, subIndex) => (
                                                                 <tr key={subIndex} class="text-center">
@@ -214,7 +212,17 @@ const StaffStudentBasicInfo = () => {
                                                                                 Revoke
                                                                             </button>
                                                                         ) : (
-                                                                            "Not Assigned Yet"
+                                                                            <button
+                                                                                onClick={() => {
+                                                                                    assignTeacherToClassRoom({
+                                                                                        class_id: classItem.id,
+                                                                                        staff_id: item.staff,
+                                                                                        sub_id: item.id,
+                                                                                    }, currentId);
+                                                                                }}
+                                                                                class="bg-green-500 text-white px-2 md:px-4 py-1 md:py-2 mb-2 md:mb-0 rounded-md sm:px-3 sm:py-1">
+                                                                                Assign
+                                                                            </button>
                                                                         )}
                                                                     </td>
                                                                 </tr>

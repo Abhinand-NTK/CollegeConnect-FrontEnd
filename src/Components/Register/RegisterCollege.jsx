@@ -34,7 +34,7 @@ const RegisterCollege = () => {
     const selectState = async (state) => {
         const selectedState = state;
         setState(selectedState);
-        const collegesResponse = await axios.get(`http://localhost:3000/colleges/state/?states=${selectedState}`);
+        const collegesResponse = await axios.get(`https://collegedb.onrender.com/colleges/state/?states=${selectedState}`);
         console.log(collegesResponse?.data)
         setColleges(collegesResponse?.data);
     };
@@ -79,8 +79,10 @@ const RegisterCollege = () => {
     const fetchTotalColleges = async () => {
         try {
             setLoadingPage(true)
-            const statesResponse = await axios.get('http://localhost:3000/allstates');
-            const collegesResponse = await axios.get(`http://localhost:3000/colleges/state/?states=${state}`);
+            // const statesResponse = await axios.get('http://localhost:3000/allstates');
+            const statesResponse = await axios.get('https://collegedb.onrender.com/allstates');
+            // const collegesResponse = await axios.get(`http://localhost:3000/colleges/state/?states=${state}`);
+            const collegesResponse = await axios.get(`https://collegedb.onrender.com/colleges/state/?states=${state}`);
             setStates(statesResponse.data);
             setColleges(collegesResponse.data);
             if (statesResponse.status == 200) {

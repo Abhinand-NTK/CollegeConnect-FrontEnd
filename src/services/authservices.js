@@ -214,6 +214,10 @@ export const userService = {
 
 export const CollgeAdminServices = {
 
+  BlockCourse: async (id) => {
+    const response = await axiosInstance.post(`${BASE_URL}collegeadmin/blockcoure/`,{'id':id})
+    return response
+  },
   usedEmails: async () => {
     try {
       const response = await axiosInstance.get(`${BASE_URL}collegeadmin/existemail/`)
@@ -412,9 +416,17 @@ export const CollgeAdminServices = {
 
 export const StaffUserServices = {
 
+  editClassroomData: async (id, selectedStudents) => {
+    try {
+      const response = await axiosInstance.patch(`${BASE_URL}staffuser/createclassroom/${id}/`, { 'student_ids': selectedStudents })
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
   deleteClass: async (id) => {
     try {
-      const response = await axiosInstance.delete(`${BASE_URL}staffuser/createclassroom/${id}/`)
+      const response = await axiosInstance.post(`${BASE_URL}staffuser/blockclassroom/`,{'id':id})
       return response
     } catch (error) {
       console.log(error)

@@ -12,17 +12,14 @@ const PrivateRoute = ({ role, hods }) => {
   const navigate = useNavigate();
   const [showLoading, setShowLoading] = useState(true);
   const [hod, sethod] = useState('')
-  console.log("object", role)
+  
   let token = ''
   token = localStorage.getItem('Token')
   let decode_token = ''
   if (token) {
     decode_token = jwtDecode(token)
-    console.log(decode_token)
 
   }
-  console.log("The role of the users is ::---", role)
-  console.log("The role of user_type ::---", decode_token.user_type)
 
   const user = async () => {
     try {

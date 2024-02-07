@@ -72,31 +72,7 @@ const AddStudnet = () => {
 
   const [value, setValue] = useState("")
 
-  // const handleFormSubmit = async (formData) => {
-  //   if (!value) {
-  //     try {
-  //       const response = await CollgeAdminServices.addStudent(formData)
-  //       if (response.status === 201) {
-  //         closeModal()
-  //         fetchData()
-  //       }
-  //     }
-  //     catch {
-  //       console.log("Error")
-  //     }
-  //   } else {
-  //     try {
-  //       const response = await CollgeAdminServices.editStudent(formData)
-  //       if (response.status === 200) {
-  //         closeModal()
-  //         fetchData()
-  //       }
-  //     }
-  //     catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
-  // };
+
 
   const [emails, setEmails] = useState([]);
 
