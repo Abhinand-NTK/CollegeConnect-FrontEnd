@@ -1,9 +1,9 @@
 
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Layout from '../Components/Layout/Layout';
 import { StaffUserServices } from '../services/authservices';
-import { useParams } from 'react-router-dom';
+import { useFetcher, useParams } from 'react-router-dom';
 
 const Attendance = () => {
     const [id, setId] = useState(null);
@@ -19,7 +19,7 @@ const Attendance = () => {
         id: null,
         first_name: null,
         last_name: null,
-        present: false,
+        present: 'false',
     };
 
     const [originalStudents, setOriginalStudents] = useState([]);
@@ -27,8 +27,10 @@ const Attendance = () => {
     const userdetails = async () => {
         try {
             const response = await StaffUserServices.UserDetails();
-            
-            setId(response?.id);
+            if(response){
+                setId(response?.id);
+                fetchClassrooms(id)
+            }
         } catch (error) {
             console.error('Error fetching user details:', error);
         }
@@ -38,21 +40,22 @@ const Attendance = () => {
         try {
             if (id != null) {
                 const response = await StaffUserServices.GetClassroomsForTeachers(id);
-             
+
                 if (Array.isArray(response) && response.length > 0) {
                     response?.forEach((item) => {
                         if (item.id == id_) {
                             const firstClassroomStudents = item.students || [];
-                            const formattedStudents = firstClassroomStudents.map((student) => ({
+                            const formattedStudents = firstClassroomStudents?.map((student) => ({
                                 class_room_for_staff_id: item.id,
                                 id: student.id,
                                 first_name: student.first_name,
                                 last_name: student.last_name,
                                 present: false,
                             }));
-
-                            setStudents(formattedStudents);
-                            setOriginalStudents(formattedStudents);
+                            if (formattedStudents) {
+                                setStudents(formattedStudents);
+                                setOriginalStudents(formattedStudents);
+                            }
                         }
                     });
                 } else {
@@ -70,7 +73,7 @@ const Attendance = () => {
                 student.id === studentId ? { ...student, present: !student.present } : student
             )
         );
-        console.log("This is the students details i have :---",students)
+        console.log("This is the students details i have :---", students)
     };
 
     const handleSubmit = async () => {
@@ -87,7 +90,6 @@ const Attendance = () => {
             const response = await StaffUserServices.MarkAttendence(attendanceData);
 
             if (response.status == 201) {
-
                 // After submitting, update the attendance data in the table
                 getAttendance();
                 setSubmissionCompleted(true);
@@ -101,13 +103,7 @@ const Attendance = () => {
         }
     };
 
-    useEffect(() => {
-        if (id != null) {
-            fetchClassrooms();
-        }
-        userdetails();
-        getAttendance();
-    }, [id]);
+
 
     const getAttendance = async () => {
         try {
@@ -115,28 +111,37 @@ const Attendance = () => {
                 id_,
                 selectedDate.toISOString().split('T')[0]
             );
-
-            setStudents(response.map((item) => ({
-                ...item,
-                present: item.attendance_status == 'present',
-            })));
-
-
+            if (response) {
+                setStudents(response?.map((item) => ({
+                    ...item,
+                    present: item.attendance_status == 'present',
+                })));
+            }
             setIsButtonVisible(response.length === 0);
         } catch (error) {
             console.error('Error fetching attendance:', error);
         }
     };
 
-    console.log(students);
+    useEffect(() => {
+        // if (id != null) {
+        //     fetchClassrooms();
+        // }
+        userdetails();
+        getAttendance();
+    }, [id]);
+
+
+    console.log("Stdudets::--", students);
 
     useEffect(() => {
         getAttendance();
+        userdetails();
     }, [id_, selectedDate]);
 
     const handleEditAttendance = async () => {
         setIsButtonVisible(!isButtonVisible);
-        
+
     };
 
     return (
@@ -154,21 +159,21 @@ const Attendance = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {students.map((student, index) => (
+                            {students?.map((student, index) => (
                                 <tr key={student.id} className="bg-white">
                                     <td className="border p-2 text-center">{index + 1}</td>
-                                    <td className="border p-2 text-center">{`${student.first_name} ${student.last_name}`}</td>
+                                    <td className="border p-2 text-center">{`${student?.first_name} ${student?.last_name}`}</td>
                                     <td className="border p-2 text-center">
                                         <input
-                                            key={student.id}
+                                            key={student?.id}
                                             type="checkbox"
-                                            checked={student.present}
-                                            onChange={() => handleCheckboxChange(student.id)}
+                                            checked={student?.present}
+                                            onChange={() => handleCheckboxChange(student?.id)}
                                             disabled={!isButtonVisible}
-                                            className={`rounded-full h-5 w-5 transition-colors duration-300 ${student.present ? 'bg-green-500' : 'bg-red-500'}`}
+                                            className={`rounded-full h-5 w-5 transition-colors duration-300 ${student?.present ? 'bg-green-500' : 'bg-red-500'}`}
                                         />
                                     </td>
-                                    <td className="border p-2 text-center">{`${selectedDate.toLocaleDateString()} - ${student.present ? 'Present' : 'Absent'}`}</td>
+                                    <td className="border p-2 text-center">{`${selectedDate.toLocaleDateString()} - ${student?.present ? 'Present' : 'Absent'}`}</td>
                                 </tr>
                             ))}
                         </tbody>

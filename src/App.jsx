@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Login from './features/Login/login'
 import { Route, Routes } from 'react-router-dom'
 import store from './app/store'
 import { Provider } from 'react-redux'
@@ -42,7 +41,7 @@ import PublicRoute from './Routes/PublicRoutes'
 import NotFound from './Components/NotFoundPage/NotFound'
 import ChangePasswordForm from './Components/ForgotPassword/ChangePasswordForm'
 import { FcVideoCall } from "react-icons/fc";
-
+import Login from "./features/Login/Login"
 
 
 

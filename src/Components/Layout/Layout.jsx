@@ -1,10 +1,9 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import Navbar from '../NavBar/Navbar';
 import Menu from '../Menu/Menu';
 import { useLocation } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-
+import Navbar from "../NavBar/NavBar"
 
 
 
