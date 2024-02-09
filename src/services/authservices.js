@@ -5,7 +5,7 @@ import { clearErrorMessage, setErrorMessage } from '../features/Login/AuthSlice'
 
 // const BASE_URL = "http://localhost:8000/api/";
 // const BASE_URL = "http://ntkshope.online/api/";
-const BASE_URL = "http://13.51.47.182/api/";
+const BASE_URL = "https://13.51.47.182/api/";
 
 
 
