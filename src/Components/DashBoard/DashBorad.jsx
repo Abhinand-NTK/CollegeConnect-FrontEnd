@@ -80,9 +80,9 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="chart-container px-72  items-center">
+        {/* <div className="chart-container px-72  items-center">
           <canvas className='w-full' id="businessChart"></canvas>
-        </div>
+        </div> */}
       </div>
     </section>
   );
