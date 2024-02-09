@@ -3,8 +3,10 @@ import { jwtDecode } from 'jwt-decode';
 import { clearErrorMessage, setErrorMessage } from '../features/Login/AuthSlice';
 // import { ErrorResponseImpl } from '@remix-run/router/dist/utils';
 
-const BASE_URL = "http://localhost:8000/api/";
+// const BASE_URL = "http://localhost:8000/api/";
 // const BASE_URL = "http://ntkshope.online/api/";
+const BASE_URL = "http://13.51.47.182/api/";
+
 
 
 
