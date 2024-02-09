@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Chart from 'chart.js/auto';
+// import Chart from 'chart.js/auto';
 import Layout from '../Layout/Layout';
 import { PasswordManageSerive } from '../../services/authservices';
 // import './tailwind.css';
@@ -8,55 +8,60 @@ import { PasswordManageSerive } from '../../services/authservices';
 const Dashboard = () => {
   const [userCount, setUserCount] = useState(0);
   const [subscriptionCount, setSubscriptionCount] = useState(0);
-  const chartRef = useRef(null); // Ref to store the Chart instance
+  // const chartRef = useRef(null); // Ref to store the Chart instance
+
+  // useEffect(() => {
+  //   // Sample data
+
+  //   // Update state
+
+  //   // Destroy existing Chart instance if it exists
+  //   if (chartRef.current) {
+  //     chartRef.current.destroy();
+  //   }
+
+  // Create Chart.js doughnut chart
+  // const ctx = document.getElementById('businessChart').getContext('2d');
+  // chartRef.current = new Chart(ctx, {
+  //   type: 'doughnut',
+  //   data: {
+  //     labels: ['Subscribed', 'Not Subscribed'],
+  //     datasets: [{
+  //       data: [subscriptionCount && subscriptionCount, userCount && userCount - subscriptionCount ],
+  //       backgroundColor: ['#36A2EB', '#FF6384'],
+  //     }],
+  //   },
+  // });
+
+
+  // Clean up Chart instance on component unmount
+  // return () => {
+
+  //   subscription()
+  //   if (chartRef.current) {
+  //     chartRef.current.destroy();
+  //   }
+  // };
+  // }, []);
+  const subscription = async () => {
+    try {
+      const response = await PasswordManageSerive.SubscrptionStatus()
+      console.log(response)
+      setUserCount(response?.total_count);
+      setSubscriptionCount(response?.verified_colleges_count);
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
-    // Sample data
 
-    // Update state
+    subscription()
 
-    // Destroy existing Chart instance if it exists
-    if (chartRef.current) {
-      chartRef.current.destroy();
-    }
-
-    // Create Chart.js doughnut chart
-    const ctx = document.getElementById('businessChart').getContext('2d');
-    chartRef.current = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Subscribed', 'Not Subscribed'],
-        datasets: [{
-          data: [subscriptionCount && subscriptionCount, userCount && userCount - subscriptionCount ],
-          backgroundColor: ['#36A2EB', '#FF6384'],
-        }],
-      },
-    });
-    const subscription = async () => {
-      try {
-        const response = await PasswordManageSerive.SubscrptionStatus()
-        console.log(response)
-        setUserCount(response?.total_count);
-        setSubscriptionCount(response?.verified_colleges_count);
-      } catch (error) {
-        console.log(error)
-      }
-    }
-
-    // Clean up Chart instance on component unmount
-    return () => {
-
-      subscription()
-      if (chartRef.current) {
-        chartRef.current.destroy();
-      }
-    };
-  }, []);
+  }, [])
 
   return (
     <section className='bg-white p-4 md:p-10 lg:p-16 mt-8 md:mt-12 h-auto md:h-[600px]'>
-
-      {/* <section className="mt-40 md:mt-10 xl:mt-10 bg-gray-200 dark:bg-gray-900 background decoration-black"> */}
       <Layout />
       <div className="dashboard ml-12">
         <div className="counters w-full">
