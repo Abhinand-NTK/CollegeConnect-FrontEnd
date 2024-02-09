@@ -2,60 +2,60 @@ import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { MdSubject, MdAssignmentAdd } from 'react-icons/md';
 import { FaPhotoVideo } from 'react-icons/fa';
-import CanvasJSReact from '@canvasjs/react-charts';
+// import CanvasJSReact from '@canvasjs/react-charts';
 import { StudentUserServices } from '../services/authservices';
 import Layout from '../Components/Layout/Layout';
 import { GoFileSubmodule } from "react-icons/go";
-const CanvasJSChart = CanvasJSReact.CanvasJSChart;
+// const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 
 
 
 const DropDown = ({ item, index, GetMedia, cls, links }) => {
 
-    const chartOptions = {
-        width: (4.5 / 2.54) * 96,
-        height: (1.2) * 96,
-        animationEnabled: true,
-        title: {
-            text: "Attendence",
-            fontSize: 12,
-        },
-        subtitles: [
-            {
-                verticalAlign: "center",
-                fontSize: 10,
-                dockInsidePlotArea: true,
-            },
-        ],
-        legend: {
-            verticalAlign: "bottom",
-            horizontalAlign: "center",
-            fontFamily: "Arial",
-            fontSize: 10,
-            fontWeight: "bold",
-        },
-        backgroundColor: "#E5E7EB",
-        data: [
-            {
-                type: "doughnut",
-                showInLegend: true,
-                indexLabel: "{name}: {y}%",
-                yValueFormatString: "#,###'%'",
-                indexLabelFontFamily: "Arial",
-                indexLabelFontSize: 8,
-                indexLabelFontWeight: "bold",
-                indexLabelFontColor: "black",
-                indexLabelLineColor: "white",
-                dataPoints: [
-                    { name: "Critical", y: 10 },
-                    { name: "Withheld", y: 30 },
-                    { name: "Eligable", y: 60 },
-                ],
-            },
-        ],
-        theme: "light1",
-    };
+    // const chartOptions = {
+    //     width: (4.5 / 2.54) * 96,
+    //     height: (1.2) * 96,
+    //     animationEnabled: true,
+    //     title: {
+    //         text: "Attendence",
+    //         fontSize: 12,
+    //     },
+    //     subtitles: [
+    //         {
+    //             verticalAlign: "center",
+    //             fontSize: 10,
+    //             dockInsidePlotArea: true,
+    //         },
+    //     ],
+    //     legend: {
+    //         verticalAlign: "bottom",
+    //         horizontalAlign: "center",
+    //         fontFamily: "Arial",
+    //         fontSize: 10,
+    //         fontWeight: "bold",
+    //     },
+    //     backgroundColor: "#E5E7EB",
+    //     data: [
+    //         {
+    //             type: "doughnut",
+    //             showInLegend: true,
+    //             indexLabel: "{name}: {y}%",
+    //             yValueFormatString: "#,###'%'",
+    //             indexLabelFontFamily: "Arial",
+    //             indexLabelFontSize: 8,
+    //             indexLabelFontWeight: "bold",
+    //             indexLabelFontColor: "black",
+    //             indexLabelLineColor: "white",
+    //             dataPoints: [
+    //                 { name: "Critical", y: 10 },
+    //                 { name: "Withheld", y: 30 },
+    //                 { name: "Eligable", y: 60 },
+    //             ],
+    //         },
+    //     ],
+    //     theme: "light1",
+    // };
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [isDropdownOpen2, setDropdownOpen2] = useState(false);
 
@@ -91,9 +91,9 @@ const DropDown = ({ item, index, GetMedia, cls, links }) => {
                         </div>
                     </div>
                 </div>
-                <div className='mt-1 w-1/2 items-center'>
+                {/* <div className='mt-1 w-1/2 items-center'>
                     <CanvasJSChart options={chartOptions} />
-                </div>
+                </div> */}
 
             </div>
             <div>
