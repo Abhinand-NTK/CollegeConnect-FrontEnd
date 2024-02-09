@@ -101,8 +101,7 @@ const ChatComponent = () => {
         };
 
 
-    }, [data_user.
-        user_id]);
+    }, [data_user?.user_id]);
 
 
 
