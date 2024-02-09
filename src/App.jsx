@@ -7,7 +7,7 @@ import Role from './Components/SelectRole/Role'
 import RegisterCollege from './Components/Register/RegisterCollege'
 import AdminLogin from './features/Login/AdminLogin'
 import Menu from './Components/Menu/Menu'
-import DashBoard from './Components/DashBoard/DashBorad'
+// import DashBoard from './Components/DashBoard/DashBorad'
 import { AdminUsers } from './Components/AdminUsers/AdminUsers'
 import UsersDashboard from './Components/ResusableComponets/UsersDashboard'
 import UserProfileCard from './Components/ResusableComponets/UsersProfileCard'
@@ -73,7 +73,7 @@ function App() {
           </Route> */}
 
           {/* <Route path='/signin/' element={<Login />}></Route> */}
-          <Route path='/dashboard' element={<DashBoard />}></Route>
+          {/* <Route path='/dashboard' element={<DashBoard />}></Route> */}
           {/* <Route path='/manage' element={<UsersDashboard />}></Route> */}
           {/* <Route path='/users/profilecard' element={<UserProfileCard />}></Route> */}
           {/* <Route path='/users/profilecard/:id' element={<StaffStudentBasicInfo />}></Route> */}
