@@ -7,7 +7,7 @@ import Role from './Components/SelectRole/Role'
 import RegisterCollege from './Components/Register/RegisterCollege'
 import AdminLogin from './features/Login/AdminLogin'
 import Menu from './Components/Menu/Menu'
-// import DashBoard from './Components/DashBoard/DashBorad'
+import DashBoard from './Components/DashBoard/DashBorad'
 import { AdminUsers } from './Components/AdminUsers/AdminUsers'
 import UsersDashboard from './Components/ResusableComponets/UsersDashboard'
 import UserProfileCard from './Components/ResusableComponets/UsersProfileCard'
@@ -88,9 +88,9 @@ function App() {
           <Route path='/role' element={<Role />}></Route>
 
           <Route path='/menu' element={<Menu />}></Route>
-          {/* <Route element={<PrivateRoute />}>
+          <Route element={<PrivateRoute />}>
             <Route path='/dashboard' element={<DashBoard />} />
-          </Route> */}
+          </Route>
           <Route element={<PrivateRoute role={[1,2,3]} />}>
             <Route path='/manage' element={<UsersDashboard />} />
           </Route>
