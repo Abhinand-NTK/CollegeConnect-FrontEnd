@@ -187,7 +187,8 @@ const BlogPost = () => {
 
 
     useEffect(() => {
-        const socket = new WebSocket('ws://localhost:8000/ws/active_users/');
+        // const socket = new WebSocket('ws://localhost:8000/ws/active_users/');
+        const socket = new WebSocket('wss://studentconnect.tech/ws/active_users/');
 
         socket.onmessage = (event) => {
 
@@ -219,7 +220,8 @@ const BlogPost = () => {
 
 
     useEffect(() => {
-        const ws = new WebSocket(`ws://localhost:8000/ws/notifications/${data_user.user_id}/`);
+        // const ws = new WebSocket(`ws://localhost:8000/ws/notifications/${data_user.user_id}/`);
+        const ws = new WebSocket(`wss://studentconnect.tech/ws/notifications/${data_user.user_id}/`);
 
         ws.onopen = () => {
             console.log('WebSocket connection opened');

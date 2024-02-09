@@ -74,7 +74,8 @@ const ChatComponent = () => {
         getmessages()
         cconnections()
 
-        const socket = new WebSocket(`ws://127.0.0.1:8000/ws/chat/${data_user.user_id}/`);
+        // const socket = new WebSocket(`ws://127.0.0.1:8000/ws/chat/${data_user.user_id}/`);
+        const socket = new WebSocket(`wss://studentconnect.tech/ws/chat/${data_user.user_id}/`);
 
 
         socket.onopen = (event) => {

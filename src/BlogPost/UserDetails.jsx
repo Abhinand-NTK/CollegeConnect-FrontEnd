@@ -24,7 +24,8 @@ const UserDetails = () => {
 
             setUserInfo(prevUserInfo => ({
                 ...prevUserInfo,
-                profilePic: response?.staff?.user_image || `http://127.0.0.1:8000${response?.student?.user_image}`,
+                // profilePic: response?.staff?.user_image || `http://127.0.0.1:8000${response?.student?.user_image}`,
+                profilePic: response?.staff?.user_image || `http://studentconnect.tech${response?.student?.user_image}`,
                 username: `${response?.staff?.first_name || response?.student?.first_name} ${response?.staff?.last_name || response.student?.last_name}`,
                 email: response?.staff?.email || response?.student?.email,
                 CollegeName: response?.staff?.collge_id?.collegename || response?.student?.collge_id?.collegename
