@@ -42,6 +42,7 @@ import NotFound from './Components/NotFoundPage/NotFound'
 import ChangePasswordForm from './Components/ForgotPassword/ChangePasswordForm'
 import { FcVideoCall } from "react-icons/fc";
 import Login from "./features/Login/Login"
+import Footer from './Components/Footer/Footer'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -59,6 +60,7 @@ function App() {
           <Route path='*' element={<NotFound />}></Route>
           <Route path='/role' element={<Role />}></Route>
           <Route path='/menu' element={<Menu />}></Route>
+          <Route path='/test' element={<Footer />}></Route>
           <Route element={<PrivateRoute />}>
             <Route path='/dashboard' element={<DashBoard />} />
           </Route>
