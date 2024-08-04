@@ -3,9 +3,9 @@ import { jwtDecode } from 'jwt-decode';
 import { clearErrorMessage, setErrorMessage } from '../features/Login/AuthSlice';
 // import { ErrorResponseImpl } from '@remix-run/router/dist/utils';
 
-// const BASE_URL = "http://localhost:8000/api/";
+const BASE_URL = "http://localhost:8000/api/";
 // const BASE_URL = "http://ntkshope.online/api/";
-const BASE_URL = "https://studentconnect.tech/api/";
+// const BASE_URL = "https://studentconnect.tech/api/";
 
 
 
@@ -76,7 +76,6 @@ export const userService = {
       if (storedToken) {
         const decodedToken = jwtDecode(storedToken);
         id = decodedToken.user_id;
-        console.log(decodedToken, "This is the info frm token---");
 
       }
 
@@ -87,11 +86,9 @@ export const userService = {
         },
       });
 
-      console.log("This is the user details from the backend", response);
     } catch (error) {
       console.error(error);
 
-      // Handle 401 Unauthorized error
       if (error.response && error.response.status === 401) {
         try {
           const newAccessToken = await refreshAccessToken();

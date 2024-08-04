@@ -8,7 +8,6 @@ import Navbar from "../NavBar/NavBar"
 
 
 const Layout = ({ children, title, content }) => {
-  const location = useLocation()
   const token = localStorage.getItem('Token')
   let decodedToken = ''
   if (token){

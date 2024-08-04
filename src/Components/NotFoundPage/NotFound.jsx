@@ -20,7 +20,6 @@ const NotFound = () => {
     }
 
     return (
-        <Layout>
             <div className="flex flex-col items-center justify-center h-screen">
                 <h2 className="text-4xl font-bold text-gray-800 mb-4">404 - Not Found</h2>
                 <p className="text-lg text-gray-600 mb-8">
@@ -30,7 +29,6 @@ const NotFound = () => {
                     Go back to home
                 </Link>
             </div>
-        </Layout>
     );
 };
 
